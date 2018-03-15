@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -15,7 +16,9 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.Oauth2Client;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
+import seedu.address.commons.events.ui.ShowBrowserRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
@@ -169,6 +172,17 @@ public class MainWindow extends UiPart<Stage> {
         helpWindow.show();
     }
 
+    /**
+     * Opens the linkedin authentication window.
+     */
+    public void handleLinkedInAuthentication() {
+        try {
+            Oauth2Client.authenticateWithLinkedIn();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     void show() {
         primaryStage.show();
     }
@@ -187,6 +201,12 @@ public class MainWindow extends UiPart<Stage> {
 
     void releaseResources() {
         browserPanel.freeResources();
+    }
+
+    @Subscribe
+    private void handleLinkedInAuthenticationEvent(ShowBrowserRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        handleLinkedInAuthentication();
     }
 
     @Subscribe

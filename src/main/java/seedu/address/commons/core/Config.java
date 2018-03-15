@@ -14,6 +14,11 @@ public class Config {
     private String appTitle = "Address App";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
+    private String appId = "78ameftoz7yvk4";
+
+    public String getAppId() {
+        return appId;
+    }
 
     public String getAppTitle() {
         return appTitle;
@@ -66,6 +71,7 @@ public class Config {
         sb.append("App title : " + appTitle);
         sb.append("\nCurrent log level : " + logLevel);
         sb.append("\nPreference file Location : " + userPrefsFilePath);
+        sb.append("\nApp Id: " + appId);
         return sb.toString();
     }
 

@@ -158,8 +158,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (person instanceof Lead) {
             return new Lead(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
-        }
-        else {
+        } else {
             return new Contact(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
         }
