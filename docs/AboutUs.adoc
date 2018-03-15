@@ -11,7 +11,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 == Project Team
 
 === David Ten
-image::davidTen.jpg[width="150", align="left"]
+image::davidTen.png[width="150", align="left"]
 {empty}[https://github.com/davidten[github]]
 
 Role: Team Lead + Scheduling and Tracking + CRM Expert
@@ -29,7 +29,7 @@ Responsibilities: Smart Duplicate detection + Data Enrichment + UI
 '''
 
 === Woody Lau
-image::WoodyLau.jpg[width="150", align="left"]
+image::WoodyLau.png[width="150", align="left"]
 {empty}[http://github.com/WoodyLau[github]] [<<johndoe#, portfolio>>]
 
 Role: Developer + Git Expert + Integration
