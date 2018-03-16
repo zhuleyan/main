@@ -157,10 +157,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         if (person instanceof Lead) {
             return new Lead(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
+                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                    person.getRemark(), correctTagReferences);
         } else {
             return new Contact(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
+                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                    person.getRemark(), correctTagReferences);
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -19,6 +20,7 @@ public class Contact extends Person {
     private final Phone phone;
     private final Email email;
     private final Address address;
+    private final Remark remark;
     private final Type type;
 
     private final UniqueTagList tags;
@@ -26,12 +28,13 @@ public class Contact extends Person {
     /**
      * Every field must be present and not null.
      */
-    public Contact(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Contact(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.remark = remark;
         this.type = new Type("Contact");
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
@@ -51,6 +54,10 @@ public class Contact extends Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     public Type getType() {
