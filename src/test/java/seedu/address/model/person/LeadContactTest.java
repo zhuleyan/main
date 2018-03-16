@@ -23,7 +23,6 @@ public class LeadContactTest {
         Phone phone1 = test1.getPhone();
         Email email1 = test1.getEmail();
         Address address1 = test1.getAddress();
-        Remark remark1 = test1.getRemark();
         Set<Tag> tags1 = test1.getTags();
         Type type = test1.getType();
         String string1 = test1.toString();
@@ -34,7 +33,6 @@ public class LeadContactTest {
         Phone phone2 = test2.getPhone();
         Email email2 = test2.getEmail();
         Address address2 = test2.getAddress();
-        Remark remark2 = test2.getRemark();
         Set<Tag> tags2 = test2.getTags();
         Type type2 = test2.getType();
         String string2 = test2.toString();
