@@ -44,6 +44,7 @@ public class Person {
         this.phone = null;
         this.email = null;
         this.address = null;
+        this.remark = null;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList();
         this.type = null;
@@ -114,6 +115,8 @@ public class Person {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Remark: ")
+                .append(getRemark())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

@@ -126,4 +126,10 @@ public class PersonBuilder {
         }
     }
 
+    /**
+     * Builds the {@code Person}.
+     */
+    public Person buildRegardlessOfType() {
+        return new Person(name, phone, email, address, remark, tags);
+    }
 }
