@@ -36,3 +36,12 @@ Role: Developer + Git Expert + Integration
 Responsibilities: Lead, Contact and Account Objects. Calendar and Meeting Scheduling.
 
 '''
+
+=== ZHU Leyan
+image::zhuleyan.png[width="150", align="left"]
+{empty}[http://github.com/zhuleyan[github]] [<<johndoe#, portfolio>>]
+
+Role: Developer
+Responsibilities:
+
+'''
