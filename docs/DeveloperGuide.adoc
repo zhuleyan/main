@@ -789,21 +789,35 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-**Feature contributions**:
+=== Feature contributions:
 
-Umar:
+David Ten: +
+**Major Feature** : LinkedIn Synchronize
 
-* A major feature that I am doing is
-identifying different ways that a lead can be a duplicate.
-In the sales industry, the same lead may be stored in the CRM application in different forms.
+* Allows a Salesperson to connect his LinkedIn account to the application +
+* Allows Contacts to be connected to their respective LinkedIn account
+
+
+**Major Feature** : Alert for change of Account
+
+* Allows a Salesperson to be alerted when one of their Contacts move companies +
+* This allows them to sell to a new account using their old Contact.
+
+Umar: +
+**Major feature** : Duplicate Detection
+
+* identifying different ways that a lead can be a duplicate. +
+* In the sales industry, the same lead may be stored in the CRM application in different forms.
 (Example: A lead already in the CRM application is about to be entered into the CRM application
 in the form of last name-first name. The CRM application will not detect this duplicate
 and successfully store this lead. Now the CRM application has a duplicate.
 Other examples of duplicate detection include rejecting a lead as he/she has the same
 phone number as a lead/contact in the CRM application.
 
-* A minor feature that I am doing is ensuring that commands can be performed using its alias.
-In the sales industry, a person may type fast and would want to execute a command quickly.
+**Minor feature** : Command Alias
+
+* Ensures that commands can be performed using its alias. +
+* In the sales industry, a person may type fast and would want to execute a command quickly.
 Hence, doing a command using its alias will ensure he/she can do a certain command quicker.
 
 
