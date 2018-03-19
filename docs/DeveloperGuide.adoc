@@ -823,6 +823,19 @@ Hence, doing a command using its alias will ensure he/she can do a certain comma
 
 *Value proposition*: manage contacts faster than a typical mouse/GUI driven app
 
+ZHU Leyan: +
+**Major Feature** : Bulk Import of Leads
+
+* Allows a Salesperson to import a CSV file into the CRM +
+* Allows a Salesperson to import a large number of people into the CRM in one time.
+
+
+**Major Feature** : Remark Command
+
+* Allows a Salesperson to add/remove/edit a remark of a person in the CRM +
+* This allows them to record some special information of a customer.
+
+
 [appendix]
 == User Stories
 
