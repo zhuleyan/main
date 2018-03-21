@@ -863,7 +863,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |convert a Lead to a Contact|know who I have successfully sold to in the past
 
-|`* * *` |salesperson |remove duplicate leads, contacts and accounts|not have redundant data in my CRM
+|`* * *` |salesperson |identify duplicate leads, contacts and accounts|not have redundant data in my CRM
 
 |`* * *` |salesperson |login to LinkedIn|Sync my LinkedIn contacts
 
