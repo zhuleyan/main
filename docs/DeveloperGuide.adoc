@@ -358,6 +358,47 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
+
+// tag::remark[]
+=== Remark feature
+==== Current Implementation
+
+To record more detailed information of a person, a new command `RemarkCommand` is implemented.
+
+The `RemarkCommand` inherits from `UndoableCommands` since it is reasonable to make remark command execute in an _undoable_ way.
+
+`RemarkCommand` which is undoable is implemented this way:
+[source,java]
+----
+public class RemarkCommand extends UndoableCommand {
+    @Override
+    public CommandResult executeUndoableCommand() {
+        // ... remark logic ...
+    }
+}
+----
+
+The model `Person` is modified to have a new field `Remark`.
+
+The default value of the remark field of a person is an empty string.
+A user is not able to assign a remark to a person when adding the person. Therefore, all people in the CRM is originally without any remark by default.
+
+The implementation of this command is much like the `EditCommand`.
+For example, when a user type `remark 2 r\Likes to swim`. Then the remark field of the 2nd person in the current list will be changed to `Likes to swim`. It’s similar to editing a person’s phone number or address.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `RemarkCommand`
+
+* **Alternative 1 (current choice):** Add a new `remark` command
+** Pros: Treat it as a command may be easy to understand. Only a few people needs a remark.
+** Cons: Cannot add a person with remark.
+* **Alternative 2:** Just make it a part of `EditCommand` and `AddCommand`
+** Pros: Only need to add remark field to every related class. We can add a person with remark.
+** Cons: We may have to type too many things when adding a person. Also, some people don’t have any remark.
+// end::remark[]
+
+
 // tag::leadcontact[]
 === Leads and Contacts feature
 ==== Current Implementation
@@ -393,6 +434,7 @@ A new conversion command ConvertCommand has been added to convert Leads into Con
 ** Pros: User will only need to fix some mistakes in the conversion.
 ** Cons: Smart detection and conversion needs work to do.
 // end::leadcontact[]
+
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
