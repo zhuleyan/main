@@ -358,6 +358,42 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
+// tag::leadcontact[]
+=== Leads and Contacts feature
+==== Current Implementation
+
+People in the address book were stored under a single class with no options for differentiating between two types of classes.
+
+To implement a CRM, Leads and Contacts must be differentiated so that they can each hold different fields like a proper CRM. To do so, they currently extend the Person class so that all existing functionality associated with Persons will work with both Leads an Contacts. Unique fields will be given their own classes like the original generic fields like Name and Address.
+
+In a CRM, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
+
+Many existing commands like AddCommand have been modified to fit the new paradigm so that it only adds Leads.
+
+A new conversion command ConvertCommand has been added to convert Leads into Contacts
+
+==== Design Considerations
+
+===== Aspect: Implementation of Leads and Contacts
+
+* **Alternative 1 (current choice):** Extend the existing Person class
+** Pros: We will not lose any functionality associated with the Person class.
+** Cons: Declarations of Person variables may confuse new developers even as a general class for Leads an Contacts.
+* **Alternative 2:** Create two new classes Leads and Contacts
+** Pros: Clearly differentiates Leads and Contacts throughout the codebase.
+** Cons: We would have to rewrite most objects to take into account the two new classes.
+
+
+===== Aspect: How conversion will work
+
+* **Alternative 1:** Just convert the basic information. Let user fill in other fields themselves.
+** Pros: Easy to implement.
+** Cons: User must do extra work.
+* **Alternative 2:** Smartly detect which fields can be converted and then do so.
+** Pros: User will only need to fix some mistakes in the conversion.
+** Cons: Smart detection and conversion needs work to do.
+// end::leadcontact[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
