@@ -8,13 +8,13 @@ import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new EditCommand object
+ * Parses input arguments and creates a new ConvertCommand object
  */
 public class ConvertCommandParser implements Parser<ConvertCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the ConvertCommand
+     * and returns an ConvertCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
 

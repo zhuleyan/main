@@ -17,7 +17,6 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.person.exceptions.PersonWrongType;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -86,10 +85,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void convertPerson(Lead lead, Contact contact)
-            throws DuplicatePersonException, PersonNotFoundException, PersonWrongType {
+            throws DuplicatePersonException, PersonNotFoundException {
         requireAllNonNull(lead, contact);
 
-        addressBook.updatePerson(lead, contact);
+        addressBook.convertPerson(lead, contact);
         indicateAddressBookChanged();
     }
     //=========== Filtered Person List Accessors =============================================================

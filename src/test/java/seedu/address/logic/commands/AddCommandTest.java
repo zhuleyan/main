@@ -26,7 +26,6 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.person.exceptions.PersonWrongType;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -128,7 +127,7 @@ public class AddCommandTest {
 
         @Override
         public void convertPerson(Lead lead, Contact contact)
-                throws DuplicatePersonException, PersonNotFoundException, PersonWrongType {
+                throws DuplicatePersonException, PersonNotFoundException {
             fail("This method should not be called.");
         }
 

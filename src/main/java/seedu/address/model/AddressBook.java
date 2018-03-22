@@ -17,7 +17,6 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.person.exceptions.PersonWrongType;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -128,7 +127,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @see #syncWithMasterTagList(Person)
      */
     public void convertPerson(Lead target, Contact editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException, PersonWrongType {
+            throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
 
         Person syncedEditedPerson = syncWithMasterTagList(editedPerson);

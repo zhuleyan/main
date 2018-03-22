@@ -8,7 +8,6 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.person.exceptions.PersonWrongType;
 
 /**
  * The API of the Model component.
@@ -40,13 +39,12 @@ public interface Model {
             throws DuplicatePersonException, PersonNotFoundException;
 
     /**
-     * Replaces the given person {@code target} with {@code contact}.
+     * Replaces the given person {@code lead} with {@code contact}.
      *
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
-     * @throws PersonWrongType if {@code target} is not a lead
      */
     public void convertPerson(Lead lead, Contact contact)
-            throws DuplicatePersonException, PersonNotFoundException, PersonWrongType;
+            throws DuplicatePersonException, PersonNotFoundException;
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

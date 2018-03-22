@@ -44,7 +44,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
 * *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a Lead named `John Doe` to the Address Book.
 * **`delete`**`3` : deletes the 3rd contact shown in the current list
 * *`exit`* : exits the app
 
@@ -95,11 +95,11 @@ Updating from LinkedIn will synchronize your CRM Book with your LinkedIn Account
 
 === Adding a person: `a or add`
 
-Adds a person to the address book +
+Adds a Lead to the address book +
 Format: `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` or `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [TIP]
-A person can have any number of tags (including 0)
+A Lead can have any number of tags (including 0)
 
 Examples:
 
@@ -133,6 +133,20 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 * `e 2 p/99990000 e/johndoe@example.com` +
 Edits the phone number and email address of the 1st person to be `99990000` and `johndoe@example.com` respectively.
+
+=== Converting a person : `convert`
+
+Converts an existing Lead in the address book. +
+Format: `convert INDEX`
+
+****
+* Converts the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `convert 2` +
+Converts the second person in the list to a Contact.
 
 === Locating persons by name: `f or find` [in progress]
 
