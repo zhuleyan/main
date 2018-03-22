@@ -358,6 +358,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
+
 // tag::remark[]
 === Remark feature
 ==== Current Implementation
@@ -398,6 +399,43 @@ For example, when a user type `remark 2 r\Likes to swim`. Then the remark field 
 // end::remark[]
 
 
+// tag::leadcontact[]
+=== Leads and Contacts feature
+==== Current Implementation
+
+People in the address book were stored under a single class with no options for differentiating between two types of classes.
+
+To implement a CRM, Leads and Contacts must be differentiated so that they can each hold different fields like a proper CRM. To do so, they currently extend the Person class so that all existing functionality associated with Persons will work with both Leads an Contacts. Unique fields will be given their own classes like the original generic fields like Name and Address.
+
+In a CRM, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
+
+Many existing commands like AddCommand have been modified to fit the new paradigm so that it only adds Leads.
+
+A new conversion command ConvertCommand has been added to convert Leads into Contacts
+
+==== Design Considerations
+
+===== Aspect: Implementation of Leads and Contacts
+
+* **Alternative 1 (current choice):** Extend the existing Person class
+** Pros: We will not lose any functionality associated with the Person class.
+** Cons: Declarations of Person variables may confuse new developers even as a general class for Leads an Contacts.
+* **Alternative 2:** Create two new classes Leads and Contacts
+** Pros: Clearly differentiates Leads and Contacts throughout the codebase.
+** Cons: We would have to rewrite most objects to take into account the two new classes.
+
+
+===== Aspect: How conversion will work
+
+* **Alternative 1:** Just convert the basic information. Let user fill in other fields themselves.
+** Pros: Easy to implement.
+** Cons: User must do extra work.
+* **Alternative 2:** Smartly detect which fields can be converted and then do so.
+** Pros: User will only need to fix some mistakes in the conversion.
+** Cons: Smart detection and conversion needs work to do.
+// end::leadcontact[]
+
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
@@ -424,6 +462,42 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+
+=== Alias Commands feature [Currently for add, list, clear, and edit]
+
+==== Current Implementation
+
+A command can be performed by typing in its alias rather than the word. +
+
+The feature is implemented by adding the alias of the command into its respective java document, and updating the AddressBookParser java document. +
+The feature is implemented this way to utilise the command java documents that are available as opposed to creating a new java document for a certain alias. +
+
+This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
+
+=== Identifying a Duplicate Lead feature [Planning to add]
+
+==== Current Implementation
+The CRM application will ensure that every lead in the address book is unique. +
+
+The feature is implemented by checking the phone number and email address of a new lead with all of the phone numbers and email addresses of all leads and contacts in its respective hash sets in the add command. +
+
+The feature will be implemented on the add command because the current application detects duplicates at the add command. +
+
+The phone number and email address of a lead will be checked in two respective hash sets.
+If any of these hash sets contain either the phone number of email address of a lead,
+the CRM application will display a message that the lead is a duplicate and will reject this lead.
+The following action diagram shows how the operation of identifying a duplicate lead works:
+
+image::DetectDuplicateActivityDiagram.png[width="800"]
+
+==== Design Implementation
+===== How to implement identifying a duplicate
+* **Alternative 1 (current choice):** Save the phone numbers of all leads in in a hashset.
+** Pros: Search will be performed in constant time.
+** Cons: Nil.
+* **Alternative 2:** Save the phone numbers of all leads in in a list.
+** Pros: Phone numbers can be arranged in a certain order.
+** Cons: Search will be performed in linear time, which is longer than constant time.
 
 == Documentation
 
@@ -863,6 +937,30 @@ Hence, doing a command using its alias will ensure he/she can do a certain comma
 
 *Value proposition*: manage contacts faster than a typical mouse/GUI driven app
 
+ZHU Leyan: +
+**Major Feature** : Bulk Import of Leads
+
+* Allows a Salesperson to import a CSV file into the CRM +
+* Allows a Salesperson to import a large number of people into the CRM in one time.
+
+
+**Major Feature** : Remark Command
+
+* Allows a Salesperson to add/remove/edit a remark of a person in the CRM +
+* This allows them to record some special information of a customer.
+
+Woody Lau: +
+**Major Feature** : Lead and Contact Creation
+
+* Breaks apart the Person class into Leads and Contacts +
+* Each will have their own functions and fields
+
+
+**Major Feature** : Account Creation
+
+* Allows Contacts to belong to Accounts.
+
+
 [appendix]
 == User Stories
 
@@ -879,7 +977,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |convert a Lead to a Contact|know who I have successfully sold to in the past
 
-|`* * *` |salesperson |remove duplicate leads, contacts and accounts|not have redundant data in my CRM
+|`* * *` |salesperson |determine if a lead to be added is already a contact|not have redundant data in my CRM
+
+|`* * *` |salesperson |identify a duplicate lead based on email address|not have redundant data in my CRM
+
+|`* * *` |salesperson |identify a duplicate lead based on phone number|not have redundant data in my CRM
+
+|`* * *` |salesperson |identify a duplicate lead based on reverse ordering of name|not have redundant data in my CRM
 
 |`* * *` |salesperson |login to LinkedIn|Sync my LinkedIn contacts
 

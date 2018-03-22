@@ -18,7 +18,7 @@ public class LeadContactTest {
         tagTest.add(new Tag("friends"));
 
         Contact test1 = new Contact(new Name("test"), new Phone("12345678"),
-                new Email("what@gmail.com"), new Address("123 abc"), tagTest);
+                new Email("what@gmail.com"), new Address("123 abc"), new Remark(""), tagTest);
         Name name1 = test1.getName();
         Phone phone1 = test1.getPhone();
         Email email1 = test1.getEmail();
@@ -28,7 +28,7 @@ public class LeadContactTest {
         String string1 = test1.toString();
 
         Lead test2 = new Lead(new Name("test"), new Phone("12345678"),
-                new Email("what@gmail.com"), new Address("123 abc"), tagTest);
+                new Email("what@gmail.com"), new Address("123 abc"), new Remark(""), tagTest);
         Name name2 = test2.getName();
         Phone phone2 = test2.getPhone();
         Email email2 = test2.getEmail();

@@ -19,6 +19,7 @@ public class Person {
     protected Phone phone;
     protected Email email;
     protected Address address;
+    protected Remark remark;
     protected Type type;
 
     protected UniqueTagList tags;
@@ -26,12 +27,13 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.remark = remark;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
         this.type = null;
@@ -42,6 +44,7 @@ public class Person {
         this.phone = null;
         this.email = null;
         this.address = null;
+        this.remark = null;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList();
         this.type = null;
@@ -61,6 +64,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     public Type getType() {
@@ -108,6 +115,8 @@ public class Person {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Remark: ")
+                .append(getRemark())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
@@ -117,7 +126,7 @@ public class Person {
      * Returns a Lead with the same data as the Person.
      */
     public Lead toLead() {
-        Lead lead = new Lead(this.name, this.phone, this.email, this.address, this.getTags());
+        Lead lead = new Lead(this.name, this.phone, this.email, this.address, this.remark, this.getTags());
         return lead;
     }
 
@@ -125,7 +134,7 @@ public class Person {
      * Returns a Contact with the same data as the Person.
      */
     public Contact toContact() {
-        Contact contact = new Contact(this.name, this.phone, this.email, this.address, this.getTags());
+        Contact contact = new Contact(this.name, this.phone, this.email, this.address, this.remark, this.getTags());
         return contact;
     }
 }
