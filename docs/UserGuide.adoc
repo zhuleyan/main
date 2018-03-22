@@ -194,10 +194,10 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
-=== Listing entered commands : `history`
+=== Listing entered commands : `hist`, `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
-Format: `history`
+Format: `hist`, `history`
 
 [NOTE]
 ====
@@ -296,7 +296,7 @@ e.g. `find James Jake`
 * *Help* : `help`
 * *Select* : `select INDEX` +
 e.g.`select 2`
-* *History* : `history`
+* *History* : `hist`, `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
 * *Linkedin_login* : 'linkedin_login'
