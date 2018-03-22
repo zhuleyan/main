@@ -259,10 +259,10 @@ The `redo` command fails as there are no `undo` commands executed previously.
 Clears all entries from the address book. +
 Format: `c`, clear`
 
-=== Exiting the program : `exit`
+=== Exiting the program : `ex`, `exit`
 
 Exits the program. +
-Format: `exit`
+Format: `ex`, `exit`
 
 === Saving the data
 
