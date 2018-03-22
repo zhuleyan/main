@@ -26,6 +26,7 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Type;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -111,12 +112,13 @@ public class EditCommand extends UndoableCommand {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Type type = personToEdit.getType();
+        Remark updatedRemark = personToEdit.getRemark();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         if (type.value.equals("Lead")) {
-            return new Lead(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+            return new Lead(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTags);
         } else {
-            return new Contact(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+            return new Contact(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTags);
         }
     }
 

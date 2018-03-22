@@ -18,6 +18,7 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.person.exceptions.PersonWrongType;
@@ -92,9 +93,10 @@ public class ConvertCommand extends UndoableCommand {
         Phone updatedPhone = oldLead.getPhone();
         Email updatedEmail = oldLead.getEmail();
         Address updatedAddress = oldLead.getAddress();
+        Remark updatedRemark = oldLead.getRemark();
         Set<Tag> updatedTags = oldLead.getTags();
 
-        return new Contact(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Contact(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTags);
     }
 
     @Override

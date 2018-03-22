@@ -19,6 +19,7 @@ public class Lead extends Person {
     private final Phone phone;
     private final Email email;
     private final Address address;
+    private final Remark remark;
     private final Type type;
 
     private final UniqueTagList tags;
@@ -26,12 +27,13 @@ public class Lead extends Person {
     /**
      * Every field must be present and not null.
      */
-    public Lead(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Lead(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.remark = remark;
         this.type = new Type("Lead");
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
@@ -51,6 +53,10 @@ public class Lead extends Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     public Type getType() {

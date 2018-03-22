@@ -16,6 +16,7 @@ import seedu.address.model.person.Lead;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.Type;
 import seedu.address.model.tag.Tag;
 
@@ -34,6 +35,8 @@ public class XmlAdaptedPerson {
     private String email;
     @XmlElement(required = true)
     private String address;
+    @XmlElement(required = true)
+    private String remark;
     @XmlElement(required = true)
     private String type;
 
@@ -70,6 +73,7 @@ public class XmlAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
+        remark = source.getRemark().value;
         type = source.getType().value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
@@ -120,6 +124,8 @@ public class XmlAdaptedPerson {
         }
         final Address address = new Address(this.address);
 
+        final Remark remark = new Remark(this.remark);
+
         if (this.type == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Type.class.getSimpleName()));
         }
@@ -130,12 +136,12 @@ public class XmlAdaptedPerson {
 
         final Set<Tag> tags = new HashSet<>(personTags);
         if (type.value.equals("Lead")) {
-            return new Lead(name, phone, email, address, tags);
+            return new Lead(name, phone, email, address, remark, tags);
         }
         if (type.value.equals("Contact")) {
-            return new Contact(name, phone, email, address, tags);
+            return new Contact(name, phone, email, address, remark, tags);
         }
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, address, remark, tags);
     }
 
     @Override
