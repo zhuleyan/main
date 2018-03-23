@@ -52,9 +52,11 @@ public class AddressBookParser {
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
         case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_ALIAS:
             return new RemarkCommandParser().parse(arguments);
 
         case LinkedInLoginCommand.COMMAND_WORD:
+        case LinkedInLoginCommand.COMMAND_ALIAS:
             return new LinkedInLoginCommand();
 
         case AddCommand.COMMAND_WORD:
@@ -66,9 +68,11 @@ public class AddressBookParser {
             return new EditCommandParser().parse(arguments);
 
         case ConvertCommand.COMMAND_WORD:
+        case ConvertCommand.COMMAND_ALIAS:
             return new ConvertCommandParser().parse(arguments);
 
         case SelectCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_ALIAS:
             return new SelectCommandParser().parse(arguments);
 
         case DeleteCommand.COMMAND_WORD:
@@ -80,6 +84,7 @@ public class AddressBookParser {
             return new ClearCommand();
 
         case FindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_ALIAS:
             return new FindCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
@@ -95,12 +100,15 @@ public class AddressBookParser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
+        case HelpCommand.COMMAND_ALIAS:
             return new HelpCommand();
 
         case UndoCommand.COMMAND_WORD:
+        case UndoCommand.COMMAND_ALIAS:
             return new UndoCommand();
 
         case RedoCommand.COMMAND_WORD:
+        case RedoCommand.COMMAND_ALIAS:
             return new RedoCommand();
 
         default:
