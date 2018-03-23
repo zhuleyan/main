@@ -3,9 +3,9 @@ package seedu.address.commons.events.ui;
 import seedu.address.commons.events.BaseEvent;
 
 /**
- * An event requesting to view the browser.
+ * Event to respond to a request to hide browser
  */
-public class ShowBrowserRequestEvent extends BaseEvent {
+public class HideBrowserRequestEvent extends BaseEvent {
 
     @Override
     public String toString() {
