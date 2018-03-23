@@ -398,6 +398,27 @@ For example, when a user type `remark 2 r\Likes to swim`. Then the remark field 
 ** Cons: We may have to type too many things when adding a person. Also, some people don’t have any remark.
 // end::remark[]
 
+// tag::colortag[]
+=== Color Tag feature
+==== Current Implementation
+
+To allow easy identification of different tags, a color tag feature is introduced.
+
+A string array is declared in PersonCard.java to include all the different colors for tags. These colors are defined, with their backgroud color and text color spelled out, in the the DarkTheme.css file.
+
+A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
+
+==== Design Considerations
+
+===== Aspect: Implementation of color tags
+
+* **Alternative 1 (current choice):** Assign a color from a predefined list based on tag name
+** Pros: No additional commands are needed to generate a color for the tags.
+** Cons: User cannot choose a color for the tag.
+* **Alternative 2:** Allow user to set a color for the tag
+** Pros: Allows more freedom for user customization.
+** Cons: Takes more time to implement color tags.
+// end::remark[]
 
 // tag::leadcontact[]
 === Leads and Contacts feature
