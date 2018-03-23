@@ -55,7 +55,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.2: Able to add leads into CRM book and convert leads into contacts. Able to do some smart deduplication detection. Completion of edit command alias. Able to start process of LinkedIn Integration
 
-* In v 1.3: Introduce calander for meetings. Smarter deduplication detection. Able to fully authenticate linkedIn, and link contacts to linkedIn. At least two alias commands will be completed.
+* In v 1.3: Introduce calander for meetings. Duplicate detection based on phone number. Able to fully authenticate linkedIn, and link contacts to linkedIn. At least two alias commands will be completed.
 
 * In v 1.4: Able to book meetings using the calander. Deduplication becomes even smarter. CRM Book will alert you if a contact switches companies. At least two alias commands will be completed.
 
@@ -75,13 +75,13 @@ Example: Leads from Skype and Nokia can be categorised under a group called Micr
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `help`
+=== Viewing help : `h`, `help`
 
-Format: `help`
+Format: `h`, `help`
 
-=== Log in to LinkedIn : 'linkedin_login' (Half implemented)
+=== Log in to LinkedIn : 'llog', 'linkedin_login' (Half implemented)
 
-Format: 'linkedin_login'
+Format: 'llog', 'linkedin_login'
 
 [TIP]
 A LinkedIn Login is required if you want to synchronize your CRM Book with your LinkedIn Account. If this is your first login, a synchronization will also take place.
@@ -93,10 +93,10 @@ Format: 'updateLinkedIn'
 [TIP]
 Updating from LinkedIn will synchronize your CRM Book with your LinkedIn Account and highlight all changes since the last synchonization
 
-=== Adding a person: `a or add`
+=== Adding a person: `a`, `add`
 
 Adds a Lead to the address book +
-Format: `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` or `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`, `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [TIP]
 A Lead can have any number of tags (including 0)
@@ -107,15 +107,15 @@ Examples:
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 * `a n/Jake Tan t/friend e/jaketan@example.com a/Simei Street 1, block 999, #09-09 p/1234567`
 
-=== Listing all persons : `l or list`
+=== Listing all persons : `l`, `list`
 
 Shows a list of all persons in the address book. +
-Format: `list`, `l`
+Format: `l`, `list`
 
-=== Editing a person : `e or edit`
+=== Editing a person : `e`, `edit`
 
 Edits an existing person in the address book. +
-Format: `e INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...` or `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+Format: `e INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -134,10 +134,10 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 * `e 2 p/99990000 e/johndoe@example.com` +
 Edits the phone number and email address of the 1st person to be `99990000` and `johndoe@example.com` respectively.
 
-=== Converting a person : `convert`
+=== Converting a person : `con`, `convert`
 
 Converts an existing Lead in the address book. +
-Format: `convert INDEX`
+Format: `con INDEX`, `convert INDEX`
 
 ****
 * Converts the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -146,12 +146,15 @@ Format: `convert INDEX`
 Examples:
 
 * `convert 2` +
-Converts the second person in the list to a Contact.
+Converts the 2nd person in the list to a Contact.
 
-=== Locating persons by name: `f or find` [in progress]
+* `con 2` +
+Converts the 4th person in the list to a Contact.
+
+=== Locating persons by name: `f`, `find`
 
 Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
@@ -168,10 +171,10 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-=== Deleting a person : `delete`
+=== Deleting a person : `d`, `delete`
 
 Deletes the specified person from the address book. +
-Format: `delete INDEX`
+Format: `d INDEX`, `delete INDEX`
 
 ****
 * Deletes the person at the specified `INDEX`.
@@ -183,15 +186,18 @@ Examples:
 
 * `list` +
 `delete 2` +
-Deletes the 2nd person in the address book.
+Deletes the 2nd person in the CRM.
+* `list` +
+`d 4` +
+Deletes the 4th person in the CRM
 * `find Betsy` +
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Selecting a person : `select`
+=== Selecting a person : `s`, `select`
 
-Selects the person identified by the index number used in the last person listing. +
-Format: `select INDEX`
+Selects the person identified by the index number used in the last leads/contacts listing. +
+Format: `s INDEX`, `select INDEX`
 
 ****
 * Selects the person and loads the Google search page the person at the specified `INDEX`.
@@ -204,6 +210,9 @@ Examples:
 * `list` +
 `select 2` +
 Selects the 2nd person in the address book.
+* `list` +
+`select 4` +
+Selects the 4th person in the address book.
 * `find Betsy` +
 `select 1` +
 Selects the 1st person in the results of the `find` command.
@@ -219,10 +228,10 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 ====
 
 // tag::undoredo[]
-=== Undoing previous command : `undo`
+=== Undoing previous command : `u`, `undo`
 
 Restores the address book to the state before the previous _undoable_ command was executed. +
-Format: `undo`
+Format: `u`, `undo`
 
 [NOTE]
 ====
@@ -240,15 +249,20 @@ Examples:
 `undo` +
 The `undo` command fails as there are no undoable commands executed previously.
 
+* `select 1` +
+`l` +
+`u` +
+The `undo` command fails as there are no undoable commands executed previously.
+
 * `delete 1` +
 `clear` +
 `undo` (reverses the `clear` command) +
 `undo` (reverses the `delete 1` command) +
 
-=== Redoing the previously undone command : `redo`
+=== Redoing the previously undone command : `r`, `redo`
 
 Reverses the most recent `undo` command. +
-Format: `redo`
+Format: `r`, `redo`
 
 Examples:
 
@@ -261,6 +275,10 @@ Examples:
 The `redo` command fails as there are no `undo` commands executed previously.
 
 * `delete 1` +
+`r` +
+The `redo` command fails as there are no `undo` commands executed previously.
+
+* `delete 1` +
 `clear` +
 `undo` (reverses the `clear` command) +
 `undo` (reverses the `delete 1` command) +
@@ -268,15 +286,32 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
-=== Clearing all entries : `c or clear`
+=== Clearing all entries : `c`, `clear`
 
-Clears all entries from the address book. +
+Clears all entries from the CRM. +
 Format: `c`, clear`
 
 === Exiting the program : `ex`, `exit`
 
 Exits the program. +
 Format: `ex`, `exit`
+
+=== Add or remove a remark to a lead or contact: `rem`, `remark`
+
+Adds or removes a remark to a particular lead or contact. +
+Format to add remark: `r [INDEX] r/[KEYWORD]`, `remark [INDEX] r/[KEYWORD]`
+Examples:
+
+* `r 1 r/Happy` +
+Adds the remark 'Happy' to the 1st lead or contact.
+
+Format to remove remark: `r [INDEX] r/`, `remark [INDEX] r/`
+Examples:
+
+* `r 4 r/` +
+Removes the remark of the 4th lead or contact.
+
+remark [INDEX] r/[KEYWORD]
 
 === Saving the data
 
@@ -292,25 +327,28 @@ _{explain how the user can enable/disable data encryption}_
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CRM folder.
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` or `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
+* *Add* `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`, `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/colleague`
-* *Clear* : `c` or `clear`
-* *Delete* : `d INDEX` or `delete INDEX` +
+* *Clear* : `c`, `clear`
+* *Convert* : `con`, `convert`
+* *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
-* *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` or `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
+* *Exit* : `ex`, `exit`
+* *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g: `e 1 n/John Tan e/johntan@example.com`
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
-* *List* : `list`, l`
-* *Help* : `help`
-* *Select* : `select INDEX` +
-e.g.`select 2`
+* *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +
+e.g. `f Chris`, `find James Jake`
+* *List* : `l`, `list`
+* *Help* : `h`, `help`
+* *Select* : `s INDEX`, `select INDEX` +
+e.g.`s 1`, `select 2`
 * *History* : `hist`, `history`
-* *Undo* : `undo`
-* *Redo* : `redo`
-* *Linkedin_login* : 'linkedin_login'
+* *Undo* : `u`, `undo`
+* *Redo* : `r`, `redo`
+* *Remark* : `rem`, `remark`
+* *Linkedin_login* : 'linklog', 'linkedin_login'

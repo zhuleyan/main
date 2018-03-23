@@ -48,24 +48,28 @@ public class BrowserWindow extends UiPart<Stage> {
     /**
      * Shows the help window.
      * @throws IllegalStateException
-     * <ul>
-     *     <li>
-     *         if this method is called on a thread other than the JavaFX Application Thread.
-     *     </li>
-     *     <li>
-     *         if this method is called during animation or layout processing.
-     *     </li>
-     *     <li>
-     *         if this method is called on the primary stage.
-     *     </li>
-     *     <li>
-     *         if {@code dialogStage} is already showing.
-     *     </li>
-     * </ul>
+     * If one of the following happens:
+     * 1) This method is called on a thread other than the JavaFX Application Thread.
+     * 2) This method is called during animation or layout processing.
+     * 3) This method is called on the primary stage.
+     * 4) if {@code dialogStage} is already showing
      */
     public void show() {
         logger.info("Opening a browser for the application.");
         getRoot().show();
+    }
+
+    /**
+     * Shows the help window.
+     * @throws IllegalStateException
+     * If one of the following happens:
+     * 1) This method is called on a thread other than the JavaFX Application Thread.
+     * 2) This method is called during animation or layout processing.
+     * 3) This method is called on the primary stage.
+     */
+    public void hide() {
+        logger.info("Closing a browser for the application.");
+        getRoot().close();
     }
 
 

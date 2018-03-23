@@ -456,13 +456,33 @@ A new conversion command ConvertCommand has been added to convert Leads into Con
 ** Cons: Smart detection and conversion needs work to do.
 // end::leadcontact[]
 
+// tag::linkedinlogin[]
+=== LinkedIn Login Feature
+==== Current Implementation
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
+The linkedInLogin mechanism is handled largely by the oAuth2Client interacting with the browser window, which the user will interact with in order to give LinkedIn their username, password, as well as granting the application permission for use.
 
-_{Explain here how the data encryption feature will be implemented}_
+When the `linkedIn_login` command is called, a `ShowBrowserRequestEvent` will be fired by `LinkedInLoginCommand(Class)` and picked up by the MainWindow. The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up the browser awaiting an authorization code from LinkedIn that will be sent after the user has successfully logged in and granted the CRM Book permission.
 
-// end::dataencryption[]
+Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
+
+The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
+
+After the CRM Book has received the authorization code and the app secret from the decrypter, they are sent back to LinkedIn to request for an AccessToken. Once the AccessToken has been received, the user is considered to be successfully logged in, and the accessToken can be used by the CRM Book to make requests to LinkedIn on behalf of the user.
+
+
+==== Design Considerations
+===== Aspect: Storing the LinkedIn App Secret
+
+* **Alternative 1 (current choice):** Slightly encrypting the App Secret
+** Pros: Easy to implement, not trivial for attackers to get by scanning the source code.
+** Cons: App secret can be derived if the attacker runs the source code
+* **Alternative 2:** Store the App Secret in another server, and requesting it with an authentication code
+** Pros: Higher security, app secret not stored on GitHub
+** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
+**Additional Info:** See comments on Decrypter class for full argument
+
+// end::linkedinlogin[]
 
 === Logging
 
