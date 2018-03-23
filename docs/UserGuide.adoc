@@ -351,4 +351,4 @@ e.g.`s 1`, `select 2`
 * *Undo* : `u`, `undo`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
-* *Linkedin_login* : 'llog', 'linkedin_login'
+* *Linkedin_login* : 'linklog', 'linkedin_login'
