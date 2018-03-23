@@ -960,6 +960,22 @@ Woody Lau: +
 
 * Allows Contacts to belong to Accounts.
 
+Liu Yiming: +
+**Major Feature** : Change Theme
+
+* Allows user to change color theme +
+* This allows user to read the CRM Book easily under different settings
+
+
+**Major Feature** : Auto Completion of commands
+
+* Allows user to key in commands more efficiently.
+
+**Minor feature** : Color tags
+
+*Each type of tag has a unique color +
+*Allows easy identification of different tags
+
 
 [appendix]
 == User Stories
