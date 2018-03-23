@@ -45,3 +45,12 @@ Role: Developer +
 Responsibilities: Remark Command + Bulk Import
 
 '''
+
+=== Liu Yiming
+image::LiuYiming.jpg[width="150", align="left"]
+{empty}[http://github.com/zhuleyan[github]]
+
+Role: Developer + UI designer +
+Responsibilities: Color tag + Auto Complete + Change Theme
+
+'''
