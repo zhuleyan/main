@@ -813,6 +813,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |sync with LinkedIn|Know which of my contacts has changed companies
 
+|`* * *` |busy salesperson |autocomplete my commands|use CRM Book more efficiently
+
+|`* *` |health-conscious salesperson |change the color theme|prevent eye fatigue
+
 |`* *` |new salesperson |bulk import leads|populate my CRM-Book
 
 |`* *` |salesperson |find a lead or contact by name |locate details of persons without having to go through the entire list
