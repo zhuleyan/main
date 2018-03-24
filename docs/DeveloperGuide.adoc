@@ -1048,6 +1048,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |busy salesperson |autocomplete my commands|use CRM Book more efficiently
 
+|`* * *` |busy salesperson |have different colors for my tags|identify the tags easily
+
 |`* *` |health-conscious salesperson |change the color theme|prevent eye fatigue
 
 |`* *` |new salesperson |bulk import leads|populate my CRM-Book
