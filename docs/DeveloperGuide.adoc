@@ -1036,9 +1036,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |determine if a lead to be added is already a contact|not have redundant data in my CRM
 
-|`* * *` |salesperson |identify a duplicate lead based on email address|not have redundant data in my CRM
+|`* * *` |salesperson |identify a duplicate Lead or Contact|not have redundant data in my CRM
 
-|`* * *` |salesperson |identify a duplicate lead based on phone number|not have redundant data in my CRM
+|`* * *` |salesperson |obtain list solely on either Leads or Contacts|identify who to promote an item to and who has bought an item from me
 
 |`* * *` |salesperson |identify a duplicate lead based on reverse ordering of name|not have redundant data in my CRM
 
@@ -1049,6 +1049,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |busy salesperson |autocomplete my commands|use CRM Book more efficiently
 
 |`* * *` |busy salesperson |have different colors for my tags|identify the tags easily
+
+|`* *` |salesperson |execute a command with as few types as possible|use my CRM Book quickly
 
 |`* *` |health-conscious salesperson |change the color theme|prevent eye fatigue
 
@@ -1078,10 +1080,10 @@ _{More to be added}_
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list of all Leads and Contacts
+2.  CRM Book shows a list of all Leads and Contacts
+3.  User requests to delete a specific Lead/Contact in the list
+4.  CRM Book deletes the person
 +
 Use case ends.
 
@@ -1095,11 +1097,62 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. CRM Book shows an error message.
 +
 Use case resumes at step 2.
 
-_{More to be added}_
+=== Use case: Detect a duplicate Lead or Contact
+
+*MSS*
+
+1. User enters a Lead to add
+2. CRM Book determines if Lead can be added
+3. CRM Book displays message on whether Lead entered can be added or is a duplicate
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User either entered Lead or add command incorrectly.
++
+[none]
+** 1a1. CRM displays error message.
++
+Use case ends.
+
+* 2a. Lead entered has a phone number or email address stored earlier.
+** 2a1. CRM displays message that a possible duplicate detected.
++
+Use case ends.
+
+* 2b. Lead entered does not have a phone number or email address stored earlier.
+** 2b1. CRM adds Lead.
+** 2b2. CRM displays message of successful addition of Lead.
++
+Use case ends.
+
+=== Use case: User seeks list of either Leads or Contacts
+
+*MSS*
+
+1. User enters command for list of either Lead or Contact.
+2. CRM retrieves Leads or Contacts.
+3. CRM displays list of Leads or Contacts.
+
+*Extensions*
+
+[none]
+* 1a. User enters command incorrectly.
+
+** 1a1. CRM displays error message.
++
+Use case ends.
++
+* 2a. Desired list is empty.
+** 2a1. CRM displays message that list is empty.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
