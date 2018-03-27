@@ -36,7 +36,7 @@ public class RemarkCommandTest {
     @Test
     public void execute_addRemarkUnfilteredList_success() throws Exception {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(firstPerson).withRemark(REMARK_EXAMPLE).buildRegardlessOfType();
+        Person editedPerson = new PersonBuilder(firstPerson).withRemark(REMARK_EXAMPLE).build();
 
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, editedPerson.getRemark().value);
 
@@ -51,7 +51,7 @@ public class RemarkCommandTest {
     @Test
     public void execute_deleteRemarkUnfilteredList_success() throws Exception {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(firstPerson).withRemark("").buildRegardlessOfType();
+        Person editedPerson = new PersonBuilder(firstPerson).withRemark("").build();
 
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, editedPerson.getRemark().toString());
 
@@ -69,7 +69,7 @@ public class RemarkCommandTest {
 
         Person firstPersonInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()))
-                .withRemark(REMARK_EXAMPLE).buildRegardlessOfType();
+                .withRemark(REMARK_EXAMPLE).build();
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON,
                 editedPerson.getRemark().value);
 
@@ -111,7 +111,7 @@ public class RemarkCommandTest {
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Person editedPerson = new PersonBuilder(personToEdit).withRemark(REMARK_EXAMPLE).buildRegardlessOfType();
+        Person editedPerson = new PersonBuilder(personToEdit).withRemark(REMARK_EXAMPLE).build();
         RemarkCommand remarkCommand = prepareCommand(INDEX_FIRST_PERSON, REMARK_EXAMPLE);
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
