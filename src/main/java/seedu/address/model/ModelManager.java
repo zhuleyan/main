@@ -91,6 +91,12 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.convertPerson(lead, contact);
         indicateAddressBookChanged();
     }
+
+    @Override
+    public void sortAllPersons() {
+        addressBook.sortPersons();
+        indicateAddressBookChanged();
+    }
     //=========== Filtered Person List Accessors =============================================================
 
     /**
