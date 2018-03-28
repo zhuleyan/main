@@ -37,7 +37,7 @@ public class ConvertCommand extends UndoableCommand {
 
     public static final String MESSAGE_CONVERT_PERSON_SUCCESS = "Converted Person: %1$s";
     public static final String MESSAGE_NOT_CONVERTED = "Person is already a Contact.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This Lead/Contact already exists in the CRM Book.";
 
     private final Index index;
 

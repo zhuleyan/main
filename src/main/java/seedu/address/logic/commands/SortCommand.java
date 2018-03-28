@@ -11,10 +11,10 @@ public class SortCommand extends Command {
     public static final String COMMAND_ALIAS = "st";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Sorts and lists all persons by name in alphabetical order.\n"
+            + ": Sorts and lists all Leads and Contacts by name in alphabetical order.\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String MESSAGE_SUCCESS = "Sorted all persons by name";
+    public static final String MESSAGE_SUCCESS = "Sorted all Leads or Contacts by name";
 
 
     @Override
