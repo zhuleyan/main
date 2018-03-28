@@ -59,10 +59,6 @@ public class HelpCommandSystemTest extends AddressBookSystemTest {
         executeCommand(HelpCommand.COMMAND_WORD);
         getMainWindowHandle().focus();
 
-        // open help window and give it focus using help alias
-        executeCommand(HelpCommand.COMMAND_ALIAS);
-        getMainWindowHandle().focus();
-
         // assert that while the help window is open the UI updates correctly for a command execution
         executeCommand(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals("", getCommandBox().getInput());

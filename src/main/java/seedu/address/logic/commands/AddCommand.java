@@ -18,6 +18,8 @@ public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
     public static final String COMMAND_ALIAS = "a";
+    public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
+            + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a Lead to the address book. "
             + "Parameters: "
@@ -34,8 +36,8 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New Lead added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This Lead or Contact is already in the CRM Book.";
 
     private final Lead toAdd;
 

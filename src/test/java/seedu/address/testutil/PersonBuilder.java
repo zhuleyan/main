@@ -125,11 +125,4 @@ public class PersonBuilder {
             return new Contact(name, phone, email, address, remark, tags);
         }
     }
-
-    /**
-     * Builds the {@code Person}.
-     */
-    public Person buildRegardlessOfType() {
-        return new Person(name, phone, email, address, remark, tags);
-    }
 }

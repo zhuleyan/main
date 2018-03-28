@@ -348,6 +348,7 @@
     -fx-font-size: 11;
 }
 
+/*@@author Liu Yiming {A0155428B}*/
 #tags .blue {
     -fx-text-fill: white;
     -fx-background-color: blue;
