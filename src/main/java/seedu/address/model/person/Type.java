@@ -1,10 +1,11 @@
+//@@author WoodyLau
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Person's address in the address book.
+ * Represents a Person's Type in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidType(String)}
  */
 public class Type {
@@ -13,17 +14,16 @@ public class Type {
             "Types can only be Lead or Contact";
 
     /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
+     * Can only either be Lead or Contact.
      */
     public static final String TYPE_VALIDATION_REGEX = "Contact|Lead";
 
     public final String value;
 
     /**
-     * Constructs an {@code Address}.
+     * Constructs a {@code Type}.
      *
-     * @param type A valid address.
+     * @param type A valid type.
      */
     public Type(String type) {
         requireNonNull(type);
@@ -32,7 +32,7 @@ public class Type {
     }
 
     /**
-     * Returns true if a given string is a valid person email.
+     * Returns true if a given string is a valid type.
      */
     public static boolean isValidType(String test) {
         return test.matches(TYPE_VALIDATION_REGEX);

@@ -1,6 +1,6 @@
 package seedu.address.model.person;
 
-
+//@@author zhuleyan
 /**
  * Represents a Person's remark in the address book.
  * Guarantees: immutable; is valid
