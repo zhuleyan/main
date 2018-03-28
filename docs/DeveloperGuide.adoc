@@ -1160,6 +1160,37 @@ Use case ends.
 +
 Use case ends.
 
+=== Use case: User posts to LinkedIn
+
+*MSS*
+
+1. User enters command to login to LinkedIn
+2. CRM book opens browser for LinkedIn login
+3. User enters username and password
+4. CRM book completes oAuth2 process and gets api key
+5. User enters command to post to linkedIn
+6. Crm book prompts user to enter a post
+7. User enters post to share to LinkedIn
+8. CRM book posts post to user's LinkedIn
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User is already logged in.
+[none]
+** 1a1. CRM book tells user that he is already logged in
++
+Use case resumes at step 5.
+
+[none]
+* 3a. User enters invalid credentials.
+[none]
+** 3a1. CRM book tells user to reenter credentials
++
+Use case resumes at step 4.
+
 [appendix]
 == Non Functional Requirements
 
