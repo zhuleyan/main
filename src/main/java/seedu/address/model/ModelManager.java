@@ -83,6 +83,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author WoodyLau
     @Override
     public void convertPerson(Lead lead, Contact contact)
             throws DuplicatePersonException, PersonNotFoundException {
@@ -91,6 +92,7 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.convertPerson(lead, contact);
         indicateAddressBookChanged();
     }
+    //@@author
 
     @Override
     public void sortAllPersons() {
