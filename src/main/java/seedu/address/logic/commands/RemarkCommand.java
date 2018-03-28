@@ -81,8 +81,7 @@ public class RemarkCommand extends UndoableCommand {
         if (personToEdit.getType().value.equals("Lead")) {
             editedPerson = new Lead(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
                     personToEdit.getAddress(), remark, personToEdit.getTags());
-        }
-        else {
+        } else {
             editedPerson = new Contact(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
                     personToEdit.getAddress(), remark, personToEdit.getTags());
         }

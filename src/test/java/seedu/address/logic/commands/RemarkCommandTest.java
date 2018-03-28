@@ -34,7 +34,7 @@ public class RemarkCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void execute_addRemarkUnfilteredList_leadToLead_success() throws Exception {
+    public void execute_addRemarkUnfilteredList_lead_success() throws Exception {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person firstEditedPerson = new PersonBuilder(firstPerson).withRemark(REMARK_EXAMPLE).build();
 
@@ -49,7 +49,7 @@ public class RemarkCommandTest {
     }
 
     @Test
-    public void execute_addRemarkUnfilteredList_contactToContact_success() throws Exception {
+    public void execute_addRemarkUnfilteredList_contact_success() throws Exception {
         Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Person secondEditedPerson = new PersonBuilder(secondPerson).withRemark(REMARK_EXAMPLE).build();
 
@@ -64,7 +64,7 @@ public class RemarkCommandTest {
     }
 
     @Test
-    public void execute_deleteRemarkUnfilteredList_leadToLead_success() throws Exception {
+    public void execute_deleteRemarkUnfilteredList_lead_success() throws Exception {
         Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person firstEditedPerson = new PersonBuilder(firstPerson).withRemark("").build();
 
@@ -79,7 +79,7 @@ public class RemarkCommandTest {
     }
 
     @Test
-    public void execute_deleteRemarkUnfilteredList_contactToContact_success() throws Exception {
+    public void execute_deleteRemarkUnfilteredList_contact_success() throws Exception {
         Person secondPerson = model.getFilteredPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         Person secondEditedPerson = new PersonBuilder(secondPerson).withRemark("").build();
 
