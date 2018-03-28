@@ -1269,38 +1269,6 @@ Use case resumes at step 5.
 +
 Use case resumes at step 4.
 
-=== Use case: Convert a Lead to a Contact
-
-*MSS*
-
-1. User requests a list of Leads and Contacts
-2. CRM Book shows the requested list
-3. User finds and selects the Lead to convert
-4. CRM Book determines if Lead can be converted and converts if possible
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 1a. User entered the Lead information incorrectly.
-* 1b. User entered the add command incorrectly.
-+
-[none]
-** 1a1. CRM Book displays error message.
-+
-Use case ends.
-
-* 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM Book displays message that a possible duplicate detected.
-+
-Use case ends.
-
-* 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM Book adds Lead.
-** 2b2. CRM Book displays message of successful addition of Lead.
-+
-Use case ends.
 
 [appendix]
 == Non Functional Requirements
