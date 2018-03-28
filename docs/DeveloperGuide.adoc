@@ -140,7 +140,7 @@ The _Sequence Diagram_ below shows how the components interact for the scenario 
 image::SDforDeletePerson.png[width="800"]
 
 [NOTE]
-Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
+Note how the `Model` simply raises a `AddressBookChangedEvent` when the CRM Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
@@ -339,7 +339,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: Type of commands that can be undone/redone
 
-* **Alternative 1 (current choice):** Only include commands that modifies the address book (`add`, `clear`, `edit`).
+* **Alternative 1 (current choice):** Only include commands that modifies the CRM Book (`add`, `clear`, `edit`).
 ** Pros: We only revert changes that are hard to change back (the view can easily be re-modified as no data are * lost).
 ** Cons: User might think that undo also applies when the list is modified (undoing filtering for example), * only to realize that it does not do that, after executing `undo`.
 * **Alternative 2:** Include all commands.
@@ -381,7 +381,7 @@ public class RemarkCommand extends UndoableCommand {
 The model `Person` is modified to have a new field `Remark`.
 
 The default value of the remark field of a person is an empty string.
-A user is not able to assign a remark to a person when adding the person. Therefore, all people in the CRM is originally without any remark by default.
+A user is not able to assign a remark to a person when adding the person. Therefore, all people in the CRM Book is originally without any remark by default.
 
 The implementation of this command is much like the `EditCommand`.
 For example, when a user type `remark 2 r\Likes to swim`. Then the remark field of the 2nd person in the current list will be changed to `Likes to swim`. It’s similar to editing a person’s phone number or address.
@@ -404,7 +404,7 @@ For example, when a user type `remark 2 r\Likes to swim`. Then the remark field 
 
 To allow easy identification of different tags, a color tag feature is introduced.
 
-A string array is declared in PersonCard.java to include all the different colors for tags. These colors are defined, with their backgroud color and text color spelled out, in the the DarkTheme.css file.
+A string array is declared in PersonCard.java to include all the different colors for tags. These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
 
 A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
 
@@ -426,13 +426,13 @@ A hash code of the tag name is used to select a color for the tag such that it w
 
 People in the address book were stored under a single class with no options for differentiating between two types of classes.
 
-To implement a CRM, Leads and Contacts must be differentiated so that they can each hold different fields like a proper CRM. To do so, they currently extend the Person class so that all existing functionality associated with Persons will work with both Leads an Contacts. Unique fields will be given their own classes like the original generic fields like Name and Address.
+To implement a CRM Book, Leads and Contacts must be differentiated so that they can each hold different fields like a proper CRM Book. To do so, they currently extend the Person class so that all existing functionality associated with Persons will work with both Leads an Contacts. Unique fields will be given their own classes like the original generic fields like Name and Address.
 
-In a CRM, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
+In a CRM Book, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
 
 Many existing commands like AddCommand have been modified to fit the new paradigm so that it only adds Leads.
 
-A new conversion command ConvertCommand has been added to convert Leads into Contacts
+A new conversion command ConvertCommand has been added to convert Leads into Contacts.
 
 ==== Design Considerations
 
@@ -440,7 +440,7 @@ A new conversion command ConvertCommand has been added to convert Leads into Con
 
 * **Alternative 1 (current choice):** Extend the existing Person class
 ** Pros: We will not lose any functionality associated with the Person class.
-** Cons: Declarations of Person variables may confuse new developers even as a general class for Leads an Contacts.
+** Cons: Declarations of Person variables may confuse new developers even as a general class for Leads and Contacts.
 * **Alternative 2:** Create two new classes Leads and Contacts
 ** Pros: Clearly differentiates Leads and Contacts throughout the codebase.
 ** Cons: We would have to rewrite most objects to take into account the two new classes.
@@ -504,7 +504,7 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
-=== Alias Commands feature [Currently for add, list, clear, and edit]
+=== Alias Commands
 
 ==== Current Implementation
 
@@ -515,30 +515,27 @@ The feature is implemented this way to utilise the command java documents that a
 
 This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
 
-=== Identifying a Duplicate Lead feature [Planning to add]
+=== Identifying a Duplicate Lead feature
 
 ==== Current Implementation
-The CRM application will ensure that every lead in the address book is unique. +
+The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. +
 
-The feature is implemented by checking the phone number and email address of a new lead with all of the phone numbers and email addresses of all leads and contacts in its respective hash sets in the add command. +
+The feature is implemented by checking the phone number and email address of a new lead with all of the phone numbers and email addresses of all Leads and Contacts in its respective hash sets in the add command. +
 
 The feature will be implemented on the add command because the current application detects duplicates at the add command. +
 
-The phone number and email address of a lead will be checked in two respective hash sets.
-If any of these hash sets contain either the phone number of email address of a lead,
-the CRM application will display a message that the lead is a duplicate and will reject this lead.
+The phone number and email address of a lead will be checked the list of all Leads and Contacts.
+If either the phone number or email address of the Lead to be added is found in the list,
+the CRM Book will display a message that the lead is a duplicate and will reject this lead.
 The following action diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
 ==== Design Implementation
 ===== How to implement identifying a duplicate
-* **Alternative 1 (current choice):** Save the phone numbers of all leads in in a hashset.
-** Pros: Search will be performed in constant time.
-** Cons: Nil.
-* **Alternative 2:** Save the phone numbers of all leads in in a list.
-** Pros: Phone numbers can be arranged in a certain order.
-** Cons: Search will be performed in linear time, which is longer than constant time.
+* **Alternative 1 (current choice):** Traverse through the list containing all Leads and Contacts.
+** Pros: Search will be performed in liner time.
+** Cons: Not as fast as a search in constant time.
 
 == Documentation
 
@@ -959,15 +956,11 @@ David Ten: +
 * This allows them to sell to a new account using their old Contact.
 
 Umar: +
-**Major feature** : Duplicate Detection
+**Major feature** : Neat display of non-duplicate data
 
-* identifying different ways that a lead can be a duplicate. +
-* In the sales industry, the same lead may be stored in the CRM application in different forms.
-(Example: A lead already in the CRM application is about to be entered into the CRM application
-in the form of last name-first name. The CRM application will not detect this duplicate
-and successfully store this lead. Now the CRM application has a duplicate.
-Other examples of duplicate detection include rejecting a lead as he/she has the same
-phone number as a lead/contact in the CRM application.
+* Implement smarter duplicate detection by verifying the whether the phone number or email address of a Lead to be entered matches any of the phone numbers or email addresses
+currently stored in the CRM Book.
+* Implement the display of Leads list and Contacts list separately at the salesperson's request.
 
 **Minor feature** : Command Alias
 
@@ -981,13 +974,13 @@ Hence, doing a command using its alias will ensure he/she can do a certain comma
 ZHU Leyan: +
 **Major Feature** : Bulk Import of Leads
 
-* Allows a Salesperson to import a CSV file into the CRM +
+* Allows a Salesperson to import a CSV file into the CRM Book +
 * Allows a Salesperson to import a large number of people into the CRM in one time.
 
 
 **Major Feature** : Remark Command
 
-* Allows a Salesperson to add/remove/edit a remark of a person in the CRM +
+* Allows a salesperson to add/remove/edit a remark of a person in the CRM Book +
 * This allows them to record some special information of a customer.
 
 Woody Lau: +
@@ -1036,7 +1029,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |determine if a lead to be added is already a contact|not have redundant data in my CRM
 
-|`* * *` |salesperson |identify a duplicate Lead or Contact|not have redundant data in my CRM
+|`* * *` |salesperson |identify duplicates|not have redundant data in my CRM
 
 |`* * *` |salesperson |share posts to my LinkedIn feed|share more about my company's product
 
@@ -1070,13 +1063,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |salesperson |see my calendar |schedule meetings without conflicting
 
-|`* *` |salesperson |schedule a meeting using Google Hangouts |meet my leads online more efficiently
-
 |`* *` |salesperson |be reminded when a contract is expiring |contact my contact for renewal
 
 |`* *` |salesperson |add a remark to a Lead or Contact|record detailed information about them
 
 |`* *` |salesperson with many entries in the CRM|sort people by name|search for them easily
+
+|`* *` |salesperson |schedule a meeting using Google Hangouts |meet my leads online more efficiently
 
 |`*` |salesperson |see the type of marketing materials an account is interacting with |know what other materials to send to them
 
@@ -1085,7 +1078,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `CRM Book` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: Delete person
@@ -1126,21 +1119,22 @@ Use case ends.
 *Extensions*
 
 [none]
-* 1a. User either entered Lead or add command incorrectly.
+* 1a. User entered the Lead information incorrectly.
+* 1b. User entered the add command incorrectly.
 +
 [none]
-** 1a1. CRM displays error message.
+** 1a1. CRM Book displays error message.
 +
 Use case ends.
 
 * 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM displays message that a possible duplicate detected.
+** 2a1. CRM Book displays message that a possible duplicate detected.
 +
 Use case ends.
 
 * 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM adds Lead.
-** 2b2. CRM displays message of successful addition of Lead.
+** 2b1. CRM Book adds Lead.
+** 2b2. CRM Book displays message of successful addition of Lead.
 +
 Use case ends.
 
@@ -1157,12 +1151,12 @@ Use case ends.
 [none]
 * 1a. User enters command incorrectly.
 
-** 1a1. CRM displays error message.
+** 1a1. CRM Book displays error message.
 +
 Use case ends.
 +
 * 2a. Desired list is empty.
-** 2a1. CRM displays message that list is empty.
+** 2a1. CRM Book displays message that list is empty.
 +
 Use case ends.
 
@@ -1185,9 +1179,6 @@ Windows, Linux, Unix, OS-X
 
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
-
-[[zoom]] Zoom::
-A digital conferencing platform
 
 [appendix]
 == Product Survey

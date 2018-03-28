@@ -18,7 +18,7 @@ By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 CRM Book application aims to assist salespeople in managing the information of leads and contacts
 more optimally for future sales decisions.
-Unique features of this application include identifying if a lead to be added in is a duplicate,
+Unique features of this application include identifying if a Lead to be added in is a duplicate,
 scheduling appointments with Leads through the Calander, converting a Lead to a Contact after a sales transaction, and integrating LinkedIn to allow
 a salesperson to know if one of their contacts changed companies.
 *More importantly, CRM Book is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
@@ -95,7 +95,7 @@ Updating from LinkedIn will synchronize your CRM Book with your LinkedIn Account
 
 === Adding a person: `a`, `add`
 
-Adds a Lead to the address book +
+Adds a Lead to the CRM +
 Format: `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`, `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [TIP]
@@ -109,7 +109,7 @@ Examples:
 
 === Listing all persons : `l`, `list`
 
-Shows a list of all persons in the address book. +
+Shows a list of all Leads and Contacts in the CRM. +
 Format: `l`, `list`
 
 === Editing a person : `e`, `edit`
@@ -186,13 +186,13 @@ Examples:
 
 * `list` +
 `delete 2` +
-Deletes the 2nd person in the CRM.
+Deletes the 2nd person in the CRM
 * `list` +
 `d 4` +
 Deletes the 4th person in the CRM
 * `find Betsy` +
 `delete 1` +
-Deletes the 1st person in the results of the `find` command.
+Deletes the 1st person in the results of the `find` command
 
 === Selecting a person : `s`, `select`
 
@@ -209,13 +209,13 @@ Examples:
 
 * `list` +
 `select 2` +
-Selects the 2nd person in the address book.
+Selects the 2nd person in the CRM Book
 * `list` +
 `select 4` +
-Selects the 4th person in the address book.
+Selects the 4th person in the CRM Book
 * `find Betsy` +
 `select 1` +
-Selects the 1st person in the results of the `find` command.
+Selects the 1st person in the results of the `find` command
 
 === Listing entered commands : `hist`, `history`
 
@@ -235,7 +235,7 @@ Format: `u`, `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
+Undoable commands: those commands that modify the CRM Book's content (`add`, `delete`, `edit` and `clear`).
 ====
 
 Examples:
@@ -298,18 +298,18 @@ Format: `ex`, `exit`
 
 === Add or remove a remark to a lead or contact: `rem`, `remark`
 
-Adds or removes a remark to a particular lead or contact. +
+Adds or removes a remark to a particular Lead or Contact. +
 Format to add remark: `r [INDEX] r/[KEYWORD]`, `remark [INDEX] r/[KEYWORD]`
 Examples:
 
 * `r 1 r/Happy` +
-Adds the remark 'Happy' to the 1st lead or contact.
+Adds the remark 'Happy' to the 1st Lead or Contact.
 
 Format to remove remark: `r [INDEX] r/`, `remark [INDEX] r/`
 Examples:
 
 * `r 4 r/` +
-Removes the remark of the 4th lead or contact.
+Removes the remark of the 4th Lead or Contact.
 
 remark [INDEX] r/[KEYWORD]
 
