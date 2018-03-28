@@ -985,10 +985,15 @@ ZHU Leyan: +
 * Allows a Salesperson to import a large number of people into the CRM in one time.
 
 
-**Major Feature** : Remark Command
+**Minor Feature** : Remark Command
 
 * Allows a Salesperson to add/remove/edit a remark of a person in the CRM +
 * This allows them to record some special information of a customer.
+
+**Minor Feature** : Sort Command
+
+* Allows a Salesperson to sort persons by name in the CRM +
+* This allows them to quickly locate a person easily.
 
 Woody Lau: +
 **Major Feature** : Lead and Contact Creation
