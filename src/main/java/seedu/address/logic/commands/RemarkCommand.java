@@ -9,6 +9,8 @@ import java.util.List;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.Contact;
+import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -76,8 +78,13 @@ public class RemarkCommand extends UndoableCommand {
         }
 
         personToEdit = lastShownList.get(index.getZeroBased());
-        editedPerson = new Person(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), remark, personToEdit.getTags());
+        if (personToEdit.getType().value.equals("Lead")) {
+            editedPerson = new Lead(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
+                    personToEdit.getAddress(), remark, personToEdit.getTags());
+        } else {
+            editedPerson = new Contact(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
+                    personToEdit.getAddress(), remark, personToEdit.getTags());
+        }
     }
 
     @Override
