@@ -1038,23 +1038,29 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |salesperson |identify a duplicate Lead or Contact|not have redundant data in my CRM
 
-|`* * *` |salesperson |obtain list solely on either Leads or Contacts|identify who to promote an item to and who has bought an item from me
+|`* * *` |salesperson |share posts to my LinkedIn feed|share more about my company's product
 
-|`* * *` |salesperson |identify a duplicate lead based on reverse ordering of name|not have redundant data in my CRM
-
-|`* * *` |salesperson |login to LinkedIn|Sync my LinkedIn contacts
-
-|`* * *` |salesperson |sync with LinkedIn|Know which of my contacts has changed companies
+|`* * *` |salesperson |schedule appointments with Leads via Google Calendar|sell to them
 
 |`* * *` |busy salesperson |autocomplete my commands|use CRM Book more efficiently
 
-|`* * *` |busy salesperson |have different colors for my tags|identify the tags easily
+|`* * *` |new salesperson |bulk import leads|quickly populate my CRM-Book
+
+|`* *` |salesperson |obtain list solely on either Leads or Contacts|identify who to promote an item to and who has bought an item from me
+
+|`* *` |salesperson |view commute directions to appointment location|know how to get there quickly
+
+|`* *` |salesperson |send emails from a standard email template|quickly cold-email for lead generation
+
+|`* *` |busy salesperson |have different colors for my tags|identify the tags easily
 
 |`* *` |salesperson |execute a command with as few types as possible|use my CRM Book quickly
 
 |`* *` |health-conscious salesperson |change the color theme|prevent eye fatigue
 
-|`* *` |new salesperson |bulk import leads|populate my CRM-Book
+|`* *` |salesperson |analyze a CSV file|know how much of that file is duplicated in my CRM
+
+|`* *` |salesperson |export a CSV file of an account with related leads and contacts|handover an account to a colleague
 
 |`* *` |salesperson |find a lead or contact by name |locate details of persons without having to go through the entire list
 
@@ -1062,13 +1068,19 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |salesperson |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`*` |salesperson |see my calendar |schedule meetings without conflicting
+|`* *` |salesperson |see my calendar |schedule meetings without conflicting
 
-|`*` |salesperson |schedule a meeting using zoom |schedule meetings easily and with a link other salespeople can use
+|`* *` |salesperson |schedule a meeting using Google Hangouts |meet my leads online more efficiently
+
+|`* *` |salesperson |be reminded when a contract is expiring |contact my contact for renewal
+
+|`* *` |salesperson |add a remark to a Lead or Contact|record detailed information about them
+
+|`* *` |salesperson with many entries in the CRM|sort people by name|search for them easily
+
+|`*` |salesperson |see the type of marketing materials an account is interacting with |know what other materials to send to them
 
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
