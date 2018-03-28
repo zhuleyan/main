@@ -148,8 +148,25 @@ Examples:
 * `convert 2` +
 Converts the 2nd person in the list to a Contact.
 
-* `con 2` +
+* `con 4` +
 Converts the 4th person in the list to a Contact.
+
+=== Adding an Account to a Contact : `account`
+
+'Coming in V1.4'
+
+Adds an Account to a Contact. +
+Format: `account INDEX an/ACCOUNTNAME`
+
+****
+* Adds an Account `ACCOUNTNAME` to the Contact at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* Contacts can only have one Account. If the Contact already has an Account, it will be replaced.
+****
+
+Examples:
+
+* `account 2 Macrosoft` +
+Adds the Account Macrosoft to the 2nd person in the list
 
 === Locating persons by name: `f`, `find`
 

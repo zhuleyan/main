@@ -358,7 +358,6 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-
 // tag::remark[]
 === Remark feature
 ==== Current Implementation
@@ -430,9 +429,29 @@ To implement a CRM Book, Leads and Contacts must be differentiated so that they 
 
 In a CRM Book, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
 
-Many existing commands like AddCommand have been modified to fit the new paradigm so that it only adds Leads.
+Many existing commands like `AddCommand` have been modified to fit the new paradigm so that it only adds Leads.
 
-A new conversion command ConvertCommand has been added to convert Leads into Contacts.
+A new conversion command `ConvertCommand` has been added to convert Leads into Contacts. The Sequence Diagram is shown:
+
+image::ConvertSequenceDiagram1.png[width="650"]
+
+When the user has selected a Contact instead of a Lead, an error is thrown with this code:
+
+[source,java]
+----
+public class ConvertCommand extends UndoableCommand {
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        // ... get list of Persons ...
+        try {
+            oldLead = (Lead) lastShownList.get(index.getZeroBased());
+        } catch (ClassCastException cce) {
+            throw new CommandException(MESSAGE_NOT_CONVERTED);
+        }
+        newContact = createContact(oldLead);
+    }
+}
+----
 
 ==== Design Considerations
 
@@ -987,7 +1006,8 @@ Woody Lau: +
 **Major Feature** : Lead and Contact Creation
 
 * Breaks apart the Person class into Leads and Contacts +
-* Each will have their own functions and fields
+* Each will have their own functions and fields +
+* Conversion between Leads and Contacts will be supported.
 
 
 **Major Feature** : Account Creation
@@ -1190,6 +1210,38 @@ Use case resumes at step 5.
 ** 3a1. CRM book tells user to reenter credentials
 +
 Use case resumes at step 4.
+
+=== Use case: Convert a Lead to a Contact
+
+*MSS*
+
+1. User requests a list of Leads and Contacts
+2. CRM Book shows the requested list
+3. User finds and selects the Lead to convert
+4. CRM Book determines if Lead can be converted and converts if possible
+
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. List is empty.
++
+Use case ends.
+
+* 3a. User selected a Contact, not a Lead.
++
+[none]
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
+
+* 3a. The given index is invalid.
++
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
 
 [appendix]
 == Non Functional Requirements
