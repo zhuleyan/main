@@ -1111,8 +1111,8 @@ Use case resumes at step 2.
 *MSS*
 
 1. User enters a Lead to add
-2. CRM Book determines if Lead can be added
-3. CRM Book displays message on whether Lead entered can be added or is a duplicate
+2. CRM Book executes the add command
+3. User is notified on whether CRM has added or rejected the Lead
 +
 Use case ends.
 
@@ -1128,13 +1128,13 @@ Use case ends.
 Use case ends.
 
 * 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM Book displays message that a possible duplicate detected.
+** 2a1. CRM Book displays message that a duplicate is detected and rejects Lead.
 +
 Use case ends.
 
 * 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM Book adds Lead.
-** 2b2. CRM Book displays message of successful addition of Lead.
+** 2b1. CRM Book adds the Lead.
+** 2b2. CRM Book displays message that the Lead has been added.
 +
 Use case ends.
 
@@ -1143,8 +1143,8 @@ Use case ends.
 *MSS*
 
 1. User enters command for list of either Lead or Contact.
-2. CRM retrieves Leads or Contacts.
-3. CRM displays list of Leads or Contacts.
+2. CRM retrieves the list of either Leads or Contacts.
+3. User sees the desired list.
 
 *Extensions*
 
@@ -1156,7 +1156,7 @@ Use case ends.
 Use case ends.
 +
 * 2a. Desired list is empty.
-** 2a1. CRM Book displays message that list is empty.
+** 2a1. CRM Book displays message that the desired list is empty.
 +
 Use case ends.
 
