@@ -377,7 +377,8 @@ public class RemarkCommand extends UndoableCommand {
 }
 ----
 The following diagram shows the inheritance diagram for `RemarkCommand`.
-image::RemarkCommandDiagram.png[width="800"]
+
+image::RemarkCommandDiagram.png[width="300"]
 
 The model `Person` is modified to have a new field `Remark`.
 
