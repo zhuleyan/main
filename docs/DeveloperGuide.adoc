@@ -1159,27 +1159,6 @@ Use case ends.
 +
 Use case resumes at step 2.
 
-=== Use case: Detect a duplicate Lead or Contact
-
-*MSS*
-
-1. User enters a Lead to add
-2. CRM Book executes the add command
-3. User is notified on whether CRM has added or rejected the Lead
-+
-Use case ends.
-
-*Extensions*
-* 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM Book displays message that a duplicate is detected.
-+
-Use case ends.
-
-* 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM Book adds the Lead.
-** 2b2. CRM Book displays message that the Lead has been added.
-+
-Use case ends.
 
 === Use case: User requests to import a CSV file to CRM Book
 
