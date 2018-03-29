@@ -306,29 +306,29 @@ The `redo` command fails as there are no `undo` commands executed previously.
 === Clearing all entries : `c`, `clear`
 
 Clears all entries from the CRM. +
-Format: `c`, clear`
+Format: `c`, `clear`
 
 === Exiting the program : `ex`, `exit`
 
 Exits the program. +
 Format: `ex`, `exit`
 
-=== Add or remove a remark to a lead or contact: `rem`, `remark`
+=== Add or remove a remark to a lead or contact: `rem`, `remark`  [since v1.2]
 
-Adds or removes a remark to a particular Lead or Contact. +
-Format to add remark: `r [INDEX] r/[KEYWORD]`, `remark [INDEX] r/[KEYWORD]`
+Adds or removes a remark to a particular lead or contact. +
+Format to add remark: `rem [INDEX] r/[KEYWORD]`, `remark [INDEX] r/[KEYWORD]`
 Examples:
 
-* `r 1 r/Happy` +
-Adds the remark 'Happy' to the 1st Lead or Contact.
+* `rem 1 r/Happy` +
+Adds the remark 'Happy' to the 1st lead or contact.
 
-Format to remove remark: `r [INDEX] r/`, `remark [INDEX] r/`
-Examples:
+* `remark 4 r/` +
+Removes the remark of the 4th lead or contact.
 
-* `r 4 r/` +
-Removes the remark of the 4th Lead or Contact.
+=== Sort persons by name in alphabetical order: `st`, `sort`  [since v1.3]
 
-remark [INDEX] r/[KEYWORD]
+Sorts all persons in CRM Book by name. +
+Format: `st`, `sort`
 
 === Saving the data
 

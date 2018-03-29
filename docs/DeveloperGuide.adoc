@@ -376,6 +376,8 @@ public class RemarkCommand extends UndoableCommand {
     }
 }
 ----
+The following diagram shows the inheritance diagram for `RemarkCommand`.
+image::RemarkCommandDiagram.png[width="800"]
 
 The model `Person` is modified to have a new field `Remark`.
 
@@ -558,8 +560,39 @@ After the CRM Book has received the authorization code and the app secret from t
 ** Pros: Higher security, app secret not stored on GitHub
 ** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
 **Additional Info:** See comments on Decrypter class for full argument
-
 // end::linkedinlogin[]
+
+// tag::bulkimport[]
+=== Bulk Import Feature
+==== Current Implementation
+
+To add a large number of persons to the CRM Book at the same time, a new command `ImportCommand` is implemented.
+
+The `ImportCommand` inherits from `Command`. It is implemented this way:
+[source, java]
+----
+public class ImportCommand extends Command {
+    @Override
+    public CommandResult execute() {
+        // … import logic …
+    }
+}
+----
+
+When an `ImportCommand` is called, the corresponding CSV file will be processed. Then persons will be added to CRM Book automatically like what a `AddCommand` can do but without manual typing.
+
+==== Design Considerations
+
+===== Aspect: CSV file format
+
+* **Alternative 1 (current choice):** Requires the CSV file to follow the given format
+** Pros: Easy to implement. No need to analyze too much about the file.
+** Cons: More work for users.
+* **Alternative 2:** Allow attributes not in order and allow different names for attributes
+** Pros: Hard to detect and implement.
+** Cons: More flexible to users. Can help users save time.
+// end::bulkimport[]
+
 
 === Logging
 
@@ -1051,11 +1084,11 @@ Hence, doing a command using its alias will ensure he/she can do a certain comma
 ZHU Leyan: +
 **Major Feature** : Bulk Import of Leads
 
-* Allows a Salesperson to import a CSV file into the CRM Book +
-* Allows a Salesperson to import a large number of people into the CRM in one time.
+* Allows a salesperson to import a CSV file into the CRM Book +
+* Allows a salesperson to sort all persons by name.
 
 
-**Major Feature** : Remark Command
+**Minor Feature** : Remark Command
 
 * Allows a salesperson to add/remove/edit a remark of a person in the CRM Book +
 * This allows them to record some special information of a customer.
@@ -1184,35 +1217,39 @@ Use case ends.
 +
 Use case resumes at step 2.
 
-=== Use case: Detect a duplicate Lead or Contact
+
+=== Use case: User requests to import a CSV file to CRM Book
 
 *MSS*
 
-1. User enters a Lead to add
-2. CRM Book executes the add command
-3. User is notified on whether CRM has added or rejected the Lead
+1.  User enters command for importing file.
+2.  CRM Book processes the corresponding CSV file and lists all persons including newly added ones.
+3.  User requests to sort all persons by name.
+3.  CRM sorts all persons and lists them.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. User entered the Lead information incorrectly.
-* 1b. User entered the add command incorrectly.
+* 1a. User enters an non-existent file.
 +
 [none]
 ** 1a1. CRM Book displays error message.
 +
 Use case ends.
-
-* 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM Book displays message that a duplicate is detected and rejects Lead.
++
+* 1b. The file is not a CSV file.
++
+[none]
+** 1b1. CRM Book displays error message.
 +
 Use case ends.
-
-* 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM Book adds the Lead.
-** 2b2. CRM Book displays message that the Lead has been added.
++
+* 3a. The CSV file is in wrong format.
++
+[none]
+** 3a1. CRM Book displays error message.
 +
 Use case ends.
 
