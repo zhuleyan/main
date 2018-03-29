@@ -405,10 +405,30 @@ For example, when a user type `remark 2 r\Likes to swim`. Then the remark field 
 
 To allow easy identification of different tags, a color tag feature is introduced.
 
-A string array is declared in PersonCard.java to include all the different colors for tags. These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
+A string array is declared in PersonCard.java to include a set of colors for tags.
+[source,java]
+----
+private static final String[] TAG_COLORS =
+        { "blue", "cyan", "green", "magenta", "orange", "pink", "red", "yellow", "teal", "brown" };
+----
+
+These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
 
 A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
+[source,java]
+----
+private String getTagColorFor(String tagName) {
+    return TAG_COLORS[Math.abs(tagName.hashCode()) % TAG_COLORS.length];
+}
 
+private void initTags(Person person) {
+    person.getTags().forEach(tag -> {
+        Label tagLabel = new Label(tag.tagName);
+        tagLabel.getStyleClass().add(getTagColorFor(tag.tagName));
+        tags.getChildren().add(tagLabel);
+    });
+}
+----
 ==== Design Considerations
 
 ===== Aspect: Implementation of color tags
@@ -419,7 +439,45 @@ A hash code of the tag name is used to select a color for the tag such that it w
 * **Alternative 2:** Allow user to set a color for the tag
 ** Pros: Allows more freedom for user customization.
 ** Cons: Takes more time to implement color tags.
-// end::remark[]
+// end::colortag[]
+
+// tag::autocomplete[]
+=== Auto-Complete feature
+==== Current Implementation
+
+To allow fast typing of commands, auto-complete of commands is implemented.
+
+Auto-complete is implemented through the TextFields feature of ControlsFX.
+[source,java]
+----
+TextFields.bindAutoCompletion(commandTextField, Messages.AUTOCOMPLETE_FIELD);
+----
+All the command words are included in the AUTOCOMPLETE_FIELD string.
+[source,java]
+----
+public static final String[] AUTOCOMPLETE_FIELD = { AddCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD,
+    ConvertCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD, EditCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
+    FindCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD,
+    LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
+    SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE};
+----
+In addition to all the command words, a COMMAND_AUTO_COMPLETE string, with both command word and prefixes, is also included for add command.
+[source,java]
+----
+public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
+        + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
+----
+==== Design Considerations
+
+===== Aspect: Implementation of Auto-complete
+
+* **Alternative 1 (current choice):** All the commands that contain the typed input are shown. ie. When "a" is typed, both "add" and "clear" will be shown.
+** Pros: Allow new user to quickly learn the different command words.
+** Cons: When there are a lot of commands, efficiency of auto-complete decreases as user would have too many options to choose from.
+* **Alternative 2:** Only commands with the same sequence as the typed input are shown. ie. When "a" is typed, only "add" will be shown.
+** Pros: Higher efficiency of auto-complete.
+** Cons: New user might find this difficult to use as they are unfamillar with the command words.
+// end::autocomplete[]
 
 // tag::leadcontact[]
 === Leads and Contacts feature
@@ -1226,7 +1284,7 @@ Use case ends.
 3. User enters username and password
 4. CRM book completes oAuth2 process and gets api key
 5. User enters command to post to linkedIn
-6. Crm book prompts user to enter a post
+6. CRM book prompts user to enter a post
 7. User enters post to share to LinkedIn
 8. CRM book posts post to user's LinkedIn
 +
@@ -1248,6 +1306,62 @@ Use case resumes at step 5.
 +
 Use case resumes at step 4.
 
+=== Use case: Auto-complete
+
+*MSS*
+
+1. User enters a letter.
+2. CRM book shows a drop down textfield with all the commands containing the typed letter.
+3. User selects the command he desires.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. No commands contain the typed letter.
++
+Use case ends.
+
+=== Use case: Convert a Lead to a Contact
+
+*MSS*
+
+1. User requests a list of Leads and Contacts
+2. CRM Book shows the requested list
+3. User finds and selects the Lead to convert
+4. CRM Book determines if Lead can be converted and converts if possible
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. List is empty.
++
+Use case ends.
+
+* 3a. User selected a Contact, not a Lead.
++
+[none]
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
+
+* 3a. The given index is invalid.
++
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
+
+=== Use case: Color tag
+
+*MSS*
+
+1. User request to add a lead with a tag.
+2. CRM book assign a color to the tag.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
