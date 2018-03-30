@@ -25,6 +25,12 @@ public class Lead extends Person {
 
     private final UniqueTagList tags;
 
+    private String company = null;
+    private String industry = null;
+    private int rating = 0;
+    private String title = null;
+    private String website = null;
+
     /**
      * Every field must be present and not null.
      */
@@ -62,6 +68,48 @@ public class Lead extends Person {
 
     public Type getType() {
         return type;
+    }
+
+    public void setCompany(String newCompany) {
+        this.company = newCompany;
+    }
+
+    public void setIndustry(String newIndustry) {
+        this.industry = newIndustry;
+    }
+
+    public void setRating(int newRating) {
+        if (newRating > 0 && newRating < 6) {
+            this.rating = newRating;
+        }
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getCompany() {
+        return this.company;
+    }
+
+    public String getIndustry() {
+        return this.industry;
+    }
+
+    public int getRating() {
+        return this.rating;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getWebsite() {
+        return this.website;
     }
 
     /**

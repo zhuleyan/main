@@ -162,13 +162,24 @@ public class AddressBook implements ReadOnlyAddressBook {
         final Set<Tag> correctTagReferences = new HashSet<>();
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         if (person instanceof Lead) {
-            return new Lead(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+            Lead lead = new Lead(
+                    person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                     person.getRemark(), correctTagReferences);
+            lead.setCompany(((Lead) person).getCompany());
+            lead.setIndustry(((Lead) person).getIndustry());
+            lead.setRating(((Lead) person).getRating());
+            lead.setTitle(((Lead) person).getTitle());
+            lead.setWebsite(((Lead) person).getWebsite());
+            return lead;
         } else {
-            return new Contact(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+            Contact contact = new Contact(
+                    person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                     person.getRemark(), correctTagReferences);
+            contact.setCompany(((Contact) person).getCompany());
+            contact.setDepartment(((Contact) person).getDepartment());
+            contact.setTitle(((Contact) person).getTitle());
+            contact.setConvertedDate(((Contact) person).getConvertedDate());
+            return contact;
         }
     }
 
