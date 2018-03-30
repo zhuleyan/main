@@ -167,6 +167,17 @@ public class ParserUtil {
         return tagSet;
     }
 
+    //@@author davidten
+    /**
+     * Parses a {@code String data}.
+     * Leading and trailing whitespaces will be trimmed.
+     * General String parser that can be used
+     */
+    public static String parseString(String data) {
+        requireNonNull(data);
+        return data.trim();
+    }
+
     //@@author WoodyLau
     /**
      * Parses a {@code String company}.
