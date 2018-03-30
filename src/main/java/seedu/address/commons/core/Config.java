@@ -15,6 +15,15 @@ public class Config {
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
     private String appId = "78ameftoz7yvk4";
+    private String appSecret;
+
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
 
     public String getAppId() {
         return appId;
@@ -72,6 +81,7 @@ public class Config {
         sb.append("\nCurrent log level : " + logLevel);
         sb.append("\nPreference file Location : " + userPrefsFilePath);
         sb.append("\nApp Id: " + appId);
+        sb.append("\nApp Secret: " + appSecret);
         return sb.toString();
     }
 
