@@ -23,7 +23,9 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 public class RemarkCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "remark";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "rem";
+    //@@author
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the remark of the Lead/Contact identified "
             + "by the index number used in the last Leads-Contacts listing. "
@@ -33,8 +35,10 @@ public class RemarkCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_REMARK + "Likes to drink coffee.";
 
+    //@@author Sheikh-Umar
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Added remark to Lead/Contact: %1$s";
     public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Removed remark from Lead/Contact: %1$s";
+    //@@author
 
     private final Index index;
     private final Remark remark;

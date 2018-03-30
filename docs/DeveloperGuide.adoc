@@ -626,27 +626,28 @@ The feature is implemented this way to utilise the command java documents that a
 
 This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
 
-=== Identifying a Duplicate Lead feature
+=== Identifying a Duplicate feature
 
 ==== Current Implementation
 The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. +
 
-The feature is implemented by checking the phone number and email address of a new lead with all of the phone numbers and email addresses of all Leads and Contacts in its respective hash sets in the add command. +
+The feature is implemented by checking the phone number and email address of a new Lead with all of the phone numbers and email addresses of all leads and contacts currently in the CRM-Book. +
 
 The feature will be implemented on the add command because the current application detects duplicates at the add command. +
 
-The phone number and email address of a lead will be checked the list of all Leads and Contacts.
-If either the phone number or email address of the Lead to be added is found in the list,
-the CRM Book will display a message that the lead is a duplicate and will reject this lead.
+The phone number and email address of a Lead will be checked in the list of all Leads and Contacts.
+If either the phone number of email address of the Lead to be added is found in the list,
+the CRM application will display a message that the lead is a duplicate and will reject this lead.
+
 The following action diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
 ==== Design Implementation
 ===== How to implement identifying a duplicate
-* **Alternative 1 (current choice):** Traverse through the list containing all Leads and Contacts.
-** Pros: Search will be performed in liner time.
-** Cons: Not as fast as a search in constant time.
+
+* **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
+** Pros: Search will be performed in linear time.
 
 == Documentation
 
@@ -1167,6 +1168,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |salesperson |export a CSV file of an account with related leads and contacts|handover an account to a colleague
 
+|`* *` |new salesperson |bulk import leads|populate my CRM-Book
+
 |`* *` |salesperson |find a lead or contact by name |locate details of persons without having to go through the entire list
 
 |`* *` |salesperson |find an account by name |locate details of accounts without having to go through the entire list
@@ -1425,7 +1428,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a Lead or Contact
 
 . Deleting a person while all persons are listed
 

@@ -8,6 +8,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
  */
 public class SortCommand extends Command {
     public static final String COMMAND_WORD = "sort";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "st";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -15,7 +16,7 @@ public class SortCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Sorted all Leads or Contacts by name";
-
+    //@@author
 
     @Override
     public CommandResult execute() {

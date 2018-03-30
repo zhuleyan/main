@@ -9,7 +9,9 @@ import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 public class HelpCommand extends Command {
 
     public static final String COMMAND_WORD = "help";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "h";
+    //@@author
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows program usage instructions.\n"
             + "Example: " + COMMAND_WORD;
