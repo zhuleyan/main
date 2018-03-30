@@ -166,7 +166,7 @@ public class MainWindow extends UiPart<Stage> {
         return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
                 (int) primaryStage.getX(), (int) primaryStage.getY());
     }
-
+    //@@author davidten
     /**
      * Opens the help window.
      */
@@ -202,7 +202,7 @@ public class MainWindow extends UiPart<Stage> {
         Oauth2Client.closeBrowser();
         Oauth2Client.getLinkedInS();
     }
-
+    //@@author
     void show() {
         primaryStage.show();
     }
@@ -222,7 +222,7 @@ public class MainWindow extends UiPart<Stage> {
     void releaseResources() {
         browserPanel.freeResources();
     }
-
+    //@@author davidten
     @Subscribe
     private void handleCloseBrowserEvent(HideBrowserRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
@@ -246,5 +246,6 @@ public class MainWindow extends UiPart<Stage> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         shareToLinkedIn();
     }
+    //@@author
 
 }

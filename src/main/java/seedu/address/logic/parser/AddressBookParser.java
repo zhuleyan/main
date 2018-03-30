@@ -57,7 +57,7 @@ public class AddressBookParser {
         case RemarkCommand.COMMAND_WORD:
         case RemarkCommand.COMMAND_ALIAS:
             return new RemarkCommandParser().parse(arguments);
-
+        //@@author davidten
         case ShareToLinkedInCommand.COMMAND_WORD:
         case ShareToLinkedInCommand.COMMAND_ALIAS:
             return new ShareToLinkedInCommandParser().parse(arguments);
@@ -65,7 +65,7 @@ public class AddressBookParser {
         case LinkedInLoginCommand.COMMAND_WORD:
         case LinkedInLoginCommand.COMMAND_ALIAS:
             return new LinkedInLoginCommand();
-
+        //@@author
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_ALIAS:
             return new AddCommandParser().parse(arguments);
