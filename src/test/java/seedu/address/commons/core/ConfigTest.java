@@ -17,9 +17,10 @@ public class ConfigTest {
         String defaultConfigAsString = "App title : CRM Book\n"
                 + "Current log level : INFO\n"
                 + "Preference file Location : preferences.json\n"
+                //@@author davidten
                 + "App Id: 78ameftoz7yvk4\n"
                 + "App Secret: null";
-
+        //@@author
         assertEquals(defaultConfigAsString, new Config().toString());
     }
 
