@@ -4,6 +4,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -96,7 +99,15 @@ public class ConvertCommand extends UndoableCommand {
         Remark updatedRemark = oldLead.getRemark();
         Set<Tag> updatedTags = oldLead.getTags();
 
-        return new Contact(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTags);
+        Contact contact = new Contact(updatedName, updatedPhone,
+                updatedEmail, updatedAddress, updatedRemark, updatedTags);
+
+        contact.setCompany(oldLead.getCompany());
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        contact.setConvertedDate(dateFormat.format(date));
+
+        return contact;
     }
 
     @Override

@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -165,4 +166,120 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    //@@author WoodyLau
+    /**
+     * Parses a {@code String company}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseCompany(String company) {
+        requireNonNull(company);
+        return company.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> company} into an {@code Optional<String>} if {@code company} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseCompany(Optional<String> company) {
+        requireNonNull(company);
+        return company.isPresent() ? Optional.of(parseCompany(company.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String industry}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseIndustry(String industry) {
+        requireNonNull(industry);
+        return industry.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> industry} into an {@code Optional<String>} if {@code industry} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseIndustry(Optional<String> industry) {
+        requireNonNull(industry);
+        return industry.isPresent() ? Optional.of(parseIndustry(industry.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String rating}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static int parseRating(String rating) throws IllegalValueException {
+        requireNonNull(rating);
+        int intRating = 0;
+        try {
+            intRating = Integer.parseInt(rating);
+        } catch (NumberFormatException nfe) {
+            throw new IllegalValueException("Rating was not an integer");
+        }
+        return intRating;
+    }
+
+    /**
+     * Parses a {@code Optional<String> rating} into an {@code OptionalInt} if {@code rating} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static OptionalInt parseRating(Optional<String> rating) throws IllegalValueException {
+        requireNonNull(rating);
+        return rating.isPresent() ? OptionalInt.of(parseRating(rating.get())) : OptionalInt.empty();
+    }
+
+    /**
+     * Parses a {@code String title}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseTitle(String title) {
+        requireNonNull(title);
+        return title.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> title} into an {@code Optional<String>} if {@code title} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseTitle(Optional<String> title) {
+        requireNonNull(title);
+        return title.isPresent() ? Optional.of(parseTitle(title.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String website}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseWebsite(String website) {
+        requireNonNull(website);
+        return website.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> website} into an {@code Optional<String>} if {@code website} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseWebsite(Optional<String> website) {
+        requireNonNull(website);
+        return website.isPresent() ? Optional.of(parseWebsite(website.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String department}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseDepartment(String department) {
+        requireNonNull(department);
+        return department.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> department} into an {@code Optional<String>} if {@code department} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseDepartment(Optional<String> department) {
+        requireNonNull(department);
+        return department.isPresent() ? Optional.of(parseDepartment(department.get())) : Optional.empty();
+    }
+    //@@author
 }
