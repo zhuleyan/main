@@ -1,3 +1,4 @@
+//@@author WoodyLau
 package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
@@ -23,6 +24,11 @@ public class Contact extends Person {
     private final Type type;
 
     private final UniqueTagList tags;
+
+    private String company = null;
+    private String department = null;
+    private String title = null;
+    private String convertedDate = null;
 
     /**
      * Every field must be present and not null.
@@ -61,6 +67,38 @@ public class Contact extends Person {
 
     public Type getType() {
         return type;
+    }
+
+    public void setCompany(String newCompany) {
+        this.company = newCompany;
+    }
+
+    public void setDepartment(String newDepartment) {
+        this.department = newDepartment;
+    }
+
+    public void setTitle(String newTitle) {
+        this.title = newTitle;
+    }
+
+    public void setConvertedDate(String newConvertedDate) {
+        this.convertedDate = newConvertedDate;
+    }
+
+    public String getCompany() {
+        return this.company;
+    }
+
+    public String getDepartment() {
+        return this.department;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getConvertedDate() {
+        return this.convertedDate;
     }
 
     /**

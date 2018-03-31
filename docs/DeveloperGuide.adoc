@@ -358,7 +358,6 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-
 // tag::remark[]
 === Remark feature
 ==== Current Implementation
@@ -377,6 +376,9 @@ public class RemarkCommand extends UndoableCommand {
     }
 }
 ----
+The following diagram shows the inheritance diagram for `RemarkCommand`.
+
+image::RemarkCommandDiagram.png[width="300"]
 
 The model `Person` is modified to have a new field `Remark`.
 
@@ -404,10 +406,30 @@ For example, when a user type `remark 2 r\Likes to swim`. Then the remark field 
 
 To allow easy identification of different tags, a color tag feature is introduced.
 
-A string array is declared in PersonCard.java to include all the different colors for tags. These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
+A string array is declared in PersonCard.java to include a set of colors for tags.
+[source,java]
+----
+private static final String[] TAG_COLORS =
+        { "blue", "cyan", "green", "magenta", "orange", "pink", "red", "yellow", "teal", "brown" };
+----
+
+These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
 
 A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
+[source,java]
+----
+private String getTagColorFor(String tagName) {
+    return TAG_COLORS[Math.abs(tagName.hashCode()) % TAG_COLORS.length];
+}
 
+private void initTags(Person person) {
+    person.getTags().forEach(tag -> {
+        Label tagLabel = new Label(tag.tagName);
+        tagLabel.getStyleClass().add(getTagColorFor(tag.tagName));
+        tags.getChildren().add(tagLabel);
+    });
+}
+----
 ==== Design Considerations
 
 ===== Aspect: Implementation of color tags
@@ -418,7 +440,45 @@ A hash code of the tag name is used to select a color for the tag such that it w
 * **Alternative 2:** Allow user to set a color for the tag
 ** Pros: Allows more freedom for user customization.
 ** Cons: Takes more time to implement color tags.
-// end::remark[]
+// end::colortag[]
+
+// tag::autocomplete[]
+=== Auto-Complete feature
+==== Current Implementation
+
+To allow fast typing of commands, auto-complete of commands is implemented.
+
+Auto-complete is implemented through the TextFields feature of ControlsFX.
+[source,java]
+----
+TextFields.bindAutoCompletion(commandTextField, Messages.AUTOCOMPLETE_FIELD);
+----
+All the command words are included in the AUTOCOMPLETE_FIELD string.
+[source,java]
+----
+public static final String[] AUTOCOMPLETE_FIELD = { AddCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD,
+    ConvertCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD, EditCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
+    FindCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD,
+    LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
+    SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE};
+----
+In addition to all the command words, a COMMAND_AUTO_COMPLETE string, with both command word and prefixes, is also included for add command.
+[source,java]
+----
+public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
+        + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
+----
+==== Design Considerations
+
+===== Aspect: Implementation of Auto-complete
+
+* **Alternative 1 (current choice):** All the commands that contain the typed input are shown. ie. When "a" is typed, both "add" and "clear" will be shown.
+** Pros: Allow new user to quickly learn the different command words.
+** Cons: When there are a lot of commands, efficiency of auto-complete decreases as user would have too many options to choose from.
+* **Alternative 2:** Only commands with the same sequence as the typed input are shown. ie. When "a" is typed, only "add" will be shown.
+** Pros: Higher efficiency of auto-complete.
+** Cons: New user might find this difficult to use as they are unfamillar with the command words.
+// end::autocomplete[]
 
 // tag::leadcontact[]
 === Leads and Contacts feature
@@ -430,9 +490,29 @@ To implement a CRM Book, Leads and Contacts must be differentiated so that they 
 
 In a CRM Book, users start by adding Leads, who are people they have not sold to yet. As they begin selling, the people who they have sold to become Contacts.
 
-Many existing commands like AddCommand have been modified to fit the new paradigm so that it only adds Leads.
+Many existing commands like `AddCommand` have been modified to fit the new paradigm so that it only adds Leads.
 
-A new conversion command ConvertCommand has been added to convert Leads into Contacts.
+A new conversion command `ConvertCommand` has been added to convert Leads into Contacts. The Sequence Diagram is shown:
+
+image::ConvertSequenceDiagram1.png[width="650"]
+
+When the user has selected a Contact instead of a Lead, an error is thrown with this code:
+
+[source,java]
+----
+public class ConvertCommand extends UndoableCommand {
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        // ... get list of Persons ...
+        try {
+            oldLead = (Lead) lastShownList.get(index.getZeroBased());
+        } catch (ClassCastException cce) {
+            throw new CommandException(MESSAGE_NOT_CONVERTED);
+        }
+        newContact = createContact(oldLead);
+    }
+}
+----
 
 ==== Design Considerations
 
@@ -462,14 +542,61 @@ A new conversion command ConvertCommand has been added to convert Leads into Con
 
 The linkedInLogin mechanism is handled largely by the oAuth2Client interacting with the browser window, which the user will interact with in order to give LinkedIn their username, password, as well as granting the application permission for use.
 
-When the `linkedIn_login` command is called, a `ShowBrowserRequestEvent` will be fired by `LinkedInLoginCommand(Class)` and picked up by the MainWindow. The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up the browser awaiting an authorization code from LinkedIn that will be sent after the user has successfully logged in and granted the CRM Book permission.
+When the `linkedIn_login` command is called, a `ShowBrowserRequestEvent` will be fired by `LinkedInLoginCommand(Class)` and picked up by the MainWindow.
+
+[source,java]
+@Override
+    public CommandResult execute() {
+        EventsCenter.getInstance().post(new ShowBrowserRequestEvent());
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up the browser awaiting an authorization code from LinkedIn that will be sent after the user has successfully logged in and granted the CRM Book permission.
+
+[source, java]
+@Subscribe
+    private void handleLinkedInAuthenticationEvent(ShowBrowserRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        handleLinkedInAuthentication();
+    }
+
+[source, java]
+public void handleLinkedInAuthentication() {
+    try {
+        Oauth2Client.authenticateWithLinkedIn(config);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+[source, java]
+public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+    ...
+    String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
+        + clientId + "&redirect_uri=" + redirectUri + "&state=...";
+    bWindow = new BrowserWindow(urlString);
+    bWindow.show();
+}
 
 Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
 
 The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
 
-After the CRM Book has received the authorization code and the app secret from the decrypter, they are sent back to LinkedIn to request for an AccessToken. Once the AccessToken has been received, the user is considered to be successfully logged in, and the accessToken can be used by the CRM Book to make requests to LinkedIn on behalf of the user.
+[source, java]
+public void handleHideBrowser() {
+    Oauth2Client.closeBrowser();
+    Oauth2Client.getLinkedInS();
+}
 
+After the CRM Book has received the authorization code and the app secret from the decrypter, they are sent back to LinkedIn to request for an AccessToken. Once the AccessToken has been received, the user is considered to be successfully logged in, and the accessToken can be used by the CRM Book to make requests to LinkedIn on behalf of the user. The accessToken is also stored in the config.json file for future usage.
+
+[source, java]
+config.setAppSecret(accessToken);
+ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+
+The following sequence diagram shows how the linkedIn_login feature works. As seen, it is an events-driven design.
+
+image::LinkedInLoginSequenceDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: Storing the LinkedIn App Secret
@@ -481,8 +608,39 @@ After the CRM Book has received the authorization code and the app secret from t
 ** Pros: Higher security, app secret not stored on GitHub
 ** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
 **Additional Info:** See comments on Decrypter class for full argument
-
 // end::linkedinlogin[]
+
+// tag::bulkimport[]
+=== Bulk Import Feature
+==== Current Implementation
+
+To add a large number of persons to the CRM Book at the same time, a new command `ImportCommand` is implemented.
+
+The `ImportCommand` inherits from `Command`. It is implemented this way:
+[source, java]
+----
+public class ImportCommand extends Command {
+    @Override
+    public CommandResult execute() {
+        // … import logic …
+    }
+}
+----
+
+When an `ImportCommand` is called, the corresponding CSV file will be processed. Then persons will be added to CRM Book automatically like what a `AddCommand` can do but without manual typing.
+
+==== Design Considerations
+
+===== Aspect: CSV file format
+
+* **Alternative 1 (current choice):** Requires the CSV file to follow the given format
+** Pros: Easy to implement. No need to analyze too much about the file.
+** Cons: More work for users.
+* **Alternative 2:** Allow attributes not in order and allow different names for attributes
+** Pros: Hard to detect and implement.
+** Cons: More flexible to users. Can help users save time.
+// end::bulkimport[]
+
 
 === Logging
 
@@ -515,27 +673,28 @@ The feature is implemented this way to utilise the command java documents that a
 
 This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
 
-=== Identifying a Duplicate Lead feature
+=== Identifying a Duplicate feature
 
 ==== Current Implementation
 The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. +
 
-The feature is implemented by checking the phone number and email address of a new lead with all of the phone numbers and email addresses of all Leads and Contacts in its respective hash sets in the add command. +
+The feature is implemented by checking the phone number and email address of a new Lead with all of the phone numbers and email addresses of all leads and contacts currently in the CRM-Book. +
 
 The feature will be implemented on the add command because the current application detects duplicates at the add command. +
 
-The phone number and email address of a lead will be checked the list of all Leads and Contacts.
-If either the phone number or email address of the Lead to be added is found in the list,
-the CRM Book will display a message that the lead is a duplicate and will reject this lead.
+The phone number and email address of a Lead will be checked in the list of all Leads and Contacts.
+If either the phone number of email address of the Lead to be added is found in the list,
+the CRM application will display a message that the lead is a duplicate and will reject this lead.
+
 The following action diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
 ==== Design Implementation
 ===== How to implement identifying a duplicate
-* **Alternative 1 (current choice):** Traverse through the list containing all Leads and Contacts.
-** Pros: Search will be performed in liner time.
-** Cons: Not as fast as a search in constant time.
+
+* **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
+** Pros: Search will be performed in linear time.
 
 == Documentation
 
@@ -974,11 +1133,11 @@ Hence, doing a command using its alias will ensure he/she can do a certain comma
 ZHU Leyan: +
 **Major Feature** : Bulk Import of Leads
 
-* Allows a Salesperson to import a CSV file into the CRM Book +
-* Allows a Salesperson to import a large number of people into the CRM in one time.
+* Allows a salesperson to import a CSV file into the CRM Book +
+* Allows a salesperson to sort all persons by name.
 
 
-**Major Feature** : Remark Command
+**Minor Feature** : Remark Command
 
 * Allows a salesperson to add/remove/edit a remark of a person in the CRM Book +
 * This allows them to record some special information of a customer.
@@ -987,7 +1146,8 @@ Woody Lau: +
 **Major Feature** : Lead and Contact Creation
 
 * Breaks apart the Person class into Leads and Contacts +
-* Each will have their own functions and fields
+* Each will have their own functions and fields +
+* Conversion between Leads and Contacts will be supported.
 
 
 **Major Feature** : Account Creation
@@ -1055,6 +1215,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |salesperson |export a CSV file of an account with related leads and contacts|handover an account to a colleague
 
+|`* *` |new salesperson |bulk import leads|populate my CRM-Book
+
 |`* *` |salesperson |find a lead or contact by name |locate details of persons without having to go through the entire list
 
 |`* *` |salesperson |find an account by name |locate details of accounts without having to go through the entire list
@@ -1106,35 +1268,39 @@ Use case ends.
 +
 Use case resumes at step 2.
 
-=== Use case: Detect a duplicate Lead or Contact
+
+=== Use case: User requests to import a CSV file to CRM Book
 
 *MSS*
 
-1. User enters a Lead to add
-2. CRM Book determines if Lead can be added
-3. CRM Book displays message on whether Lead entered can be added or is a duplicate
+1.  User enters command for importing file.
+2.  CRM Book processes the corresponding CSV file and lists all persons including newly added ones.
+3.  User requests to sort all persons by name.
+3.  CRM sorts all persons and lists them.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. User entered the Lead information incorrectly.
-* 1b. User entered the add command incorrectly.
+* 1a. User enters an non-existent file.
 +
 [none]
 ** 1a1. CRM Book displays error message.
 +
 Use case ends.
-
-* 2a. Lead entered has a phone number or email address stored earlier.
-** 2a1. CRM Book displays message that a possible duplicate detected.
++
+* 1b. The file is not a CSV file.
++
+[none]
+** 1b1. CRM Book displays error message.
 +
 Use case ends.
-
-* 2b. Lead entered does not have a phone number or email address stored earlier.
-** 2b1. CRM Book adds Lead.
-** 2b2. CRM Book displays message of successful addition of Lead.
++
+* 3a. The CSV file is in wrong format.
++
+[none]
+** 3a1. CRM Book displays error message.
 +
 Use case ends.
 
@@ -1143,8 +1309,8 @@ Use case ends.
 *MSS*
 
 1. User enters command for list of either Lead or Contact.
-2. CRM retrieves Leads or Contacts.
-3. CRM displays list of Leads or Contacts.
+2. CRM retrieves the list of either Leads or Contacts.
+3. User sees the desired list.
 
 *Extensions*
 
@@ -1156,7 +1322,7 @@ Use case ends.
 Use case ends.
 +
 * 2a. Desired list is empty.
-** 2a1. CRM Book displays message that list is empty.
+** 2a1. CRM Book displays message that the desired list is empty.
 +
 Use case ends.
 
@@ -1169,7 +1335,7 @@ Use case ends.
 3. User enters username and password
 4. CRM book completes oAuth2 process and gets api key
 5. User enters command to post to linkedIn
-6. Crm book prompts user to enter a post
+6. CRM book prompts user to enter a post
 7. User enters post to share to LinkedIn
 8. CRM book posts post to user's LinkedIn
 +
@@ -1190,6 +1356,63 @@ Use case resumes at step 5.
 ** 3a1. CRM book tells user to reenter credentials
 +
 Use case resumes at step 4.
+
+=== Use case: Auto-complete
+
+*MSS*
+
+1. User enters a letter.
+2. CRM book shows a drop down textfield with all the commands containing the typed letter.
+3. User selects the command he desires.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. No commands contain the typed letter.
++
+Use case ends.
+
+=== Use case: Convert a Lead to a Contact
+
+*MSS*
+
+1. User requests a list of Leads and Contacts
+2. CRM Book shows the requested list
+3. User finds and selects the Lead to convert
+4. CRM Book determines if Lead can be converted and converts if possible
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. List is empty.
++
+Use case ends.
+
+* 3a. User selected a Contact, not a Lead.
++
+[none]
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
+
+* 3a. The given index is invalid.
++
+** 3a1. CRM Book displays an error message.
++
+Use case resumes at step 2.
+
+=== Use case: Color tag
+
+*MSS*
+
+1. User request to add a lead with a tag.
+2. CRM book assign a color to the tag.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
@@ -1252,7 +1475,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a Lead or Contact
 
 . Deleting a person while all persons are listed
 

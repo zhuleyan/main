@@ -67,7 +67,9 @@
     <persons>
         <name>Martin Mueller</name>
         <phone isPrivate="false">8482131</phone>
-        <email isPrivate="false">hans@example.com</email>
+        //@@author Sheikh-Umar
+        <email isPrivate="false">martin@example.com</email>
+        //@@author
         <address isPrivate="false">chicago ave</address>
         <remark isPrivate="false"></remark>
         <type isPrivate="false">Lead</type>

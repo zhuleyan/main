@@ -14,12 +14,22 @@ public class Config {
     private String appTitle = "CRM Book";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
+    //@@author davidten
     private String appId = "78ameftoz7yvk4";
+    private String appSecret;
+
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
 
     public String getAppId() {
         return appId;
     }
-
+    //@@author
     public String getAppTitle() {
         return appTitle;
     }
@@ -71,7 +81,10 @@ public class Config {
         sb.append("App title : " + appTitle);
         sb.append("\nCurrent log level : " + logLevel);
         sb.append("\nPreference file Location : " + userPrefsFilePath);
+        //@@author davidten
         sb.append("\nApp Id: " + appId);
+        sb.append("\nApp Secret: " + appSecret);
+        //@@author
         return sb.toString();
     }
 

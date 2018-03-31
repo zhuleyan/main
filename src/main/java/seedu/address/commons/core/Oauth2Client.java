@@ -1,3 +1,4 @@
+//@@author davidten
 package seedu.address.commons.core;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -31,6 +33,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
+import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
 
@@ -46,18 +49,19 @@ public class Oauth2Client {
     private static String redirectUri = "http://127.0.0.1:13370/test";
     private static String clientId;
     private static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
+    private static Config config;
     /**
      * Called when user types Linkedin_login
      * starts a webserver and opens a browser for Linkedin Authorization
      */
-    public static void authenticateWithLinkedIn() throws IOException {
+    public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+        config = configuration;
         try {
             startServer();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Config config = new Config();
         clientId = config.getAppId();
 
         String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
@@ -138,7 +142,6 @@ public class Oauth2Client {
         if (entity != null) {
             InputStream instream = entity.getContent();
             try {
-                // do something useful
                 BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
                 StringBuilder responseStrBuilder = new StringBuilder();
 
@@ -146,8 +149,17 @@ public class Oauth2Client {
                 while ((inputStr = streamReader.readLine()) != null) {
                     responseStrBuilder.append(inputStr);
                 }
+
+
+                JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
+
+                String accessToken = jsonObj.getString("access_token");
+
                 logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
-                //Output is the access token
+                logger.info("Access Token is " + accessToken);
+                config.setAppSecret(accessToken);
+                ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+
                 //Login Successful
             } finally {
                 instream.close();

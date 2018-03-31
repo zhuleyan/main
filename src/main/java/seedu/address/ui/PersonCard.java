@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.model.person.Contact;
+import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 
 /**
@@ -49,7 +51,14 @@ public class PersonCard extends UiPart<Region> {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
+        if (person instanceof Lead && ((Lead) person).getTitle() != null) {
+            name.setText(((Lead) person).getTitle() + " " + person.getName().fullName);
+        } else if (person instanceof Contact && ((Contact) person).getTitle() != null) {
+            String text = ((Contact) person).getTitle() + " " + person.getName().fullName;
+            name.setText(text);
+        } else {
+            name.setText(person.getName().fullName);
+        }
         type.setText(person.getType().value);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
@@ -79,7 +88,7 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
-    //@author
+    //@@author
     @Override
     public boolean equals(Object other) {
         // short circuit if same object

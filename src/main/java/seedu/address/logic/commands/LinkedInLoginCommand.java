@@ -1,3 +1,4 @@
+//@@author davidten
 package seedu.address.logic.commands;
 
 import seedu.address.commons.core.EventsCenter;
@@ -8,7 +9,9 @@ import seedu.address.commons.events.ui.ShowBrowserRequestEvent;
  */
 public class LinkedInLoginCommand extends Command {
     public static final String COMMAND_WORD = "linkedin_login";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "linklog";
+    //@@author
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Logs in to your LinkedIn account ";
 
     public static final String MESSAGE_SUCCESS = "Browser Opened for LinkedIn Authentication";

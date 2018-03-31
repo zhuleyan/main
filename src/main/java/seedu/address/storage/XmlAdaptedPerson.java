@@ -39,6 +39,22 @@ public class XmlAdaptedPerson {
     private String remark;
     @XmlElement(required = true)
     private String type;
+    @XmlElement(required = false)
+    private String company;
+    @XmlElement(required = false)
+    private String title;
+    // Fields included for Leads
+    @XmlElement(required = false)
+    private String industry;
+    @XmlElement(required = false)
+    private int rating;
+    @XmlElement(required = false)
+    private String website;
+    // Fields included for Contacts
+    @XmlElement(required = false)
+    private String department;
+    @XmlElement(required = false)
+    private String convertedDate;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -78,6 +94,18 @@ public class XmlAdaptedPerson {
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
+        }
+        if (source instanceof Lead) {
+            company = ((Lead) source).getCompany();
+            industry = ((Lead) source).getIndustry();
+            rating = ((Lead) source).getRating();
+            title = ((Lead) source).getTitle();
+            website = ((Lead) source).getWebsite();
+        } else if (source instanceof Contact) {
+            company = ((Contact) source).getCompany();
+            department = ((Contact) source).getDepartment();
+            title = ((Contact) source).getTitle();
+            convertedDate = ((Contact) source).getConvertedDate();
         }
     }
 
@@ -136,10 +164,37 @@ public class XmlAdaptedPerson {
 
         final Set<Tag> tags = new HashSet<>(personTags);
         if (type.value.equals("Lead")) {
-            return new Lead(name, phone, email, address, remark, tags);
+            Lead lead = new Lead(name, phone, email, address, remark, tags);
+            if (this.company != null) {
+                lead.setCompany(this.company);
+            }
+            if (this.industry != null) {
+                lead.setIndustry(this.industry);
+            }
+            lead.setRating(this.rating);
+            if (this.title != null) {
+                lead.setTitle(this.title);
+            }
+            if (this.website != null) {
+                lead.setWebsite(this.website);
+            }
+            return lead;
         }
         if (type.value.equals("Contact")) {
-            return new Contact(name, phone, email, address, remark, tags);
+            Contact contact = new Contact(name, phone, email, address, remark, tags);
+            if (this.company != null) {
+                contact.setCompany(this.company);
+            }
+            if (this.department != null) {
+                contact.setDepartment(this.department);
+            }
+            if (this.title != null) {
+                contact.setTitle(this.title);
+            }
+            if (this.convertedDate != null) {
+                contact.setConvertedDate(this.convertedDate);
+            }
+            return contact;
         }
         return new Person(name, phone, email, address, remark, tags);
     }
