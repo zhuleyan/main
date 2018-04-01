@@ -313,6 +313,7 @@ Format: `c`, `clear`
 Exits the program. +
 Format: `ex`, `exit`
 
+// tag::remark[]
 === Add or remove a remark to a lead or contact: `rem`, `remark`  [since v1.2]
 
 Adds or removes a remark to a particular lead or contact. +
@@ -324,11 +325,14 @@ Adds the remark 'Happy' to the 1st lead or contact.
 
 * `remark 4 r/` +
 Removes the remark of the 4th lead or contact.
+// end::remark[]
 
+// tag::sort[]
 === Sort persons by name in alphabetical order: `st`, `sort`  [since v1.3]
 
 Sorts all persons in CRM Book by name. +
 Format: `st`, `sort`
+// end::sort[]
 
 === Saving the data
 
@@ -369,3 +373,4 @@ e.g.`s 1`, `select 2`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
 * *Linkedin_login* : `linklog`, `linkedin_login`
+* *Sort* : `st`, `sort`
