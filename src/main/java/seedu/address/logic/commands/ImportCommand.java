@@ -37,7 +37,7 @@ public class ImportCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
         try {
-            for(Lead lead:toAdd) {
+            for (Lead lead:toAdd) {
                 model.addPerson(lead);
             }
         } catch (DuplicatePersonException e) {

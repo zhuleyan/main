@@ -2,9 +2,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -13,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -35,14 +36,14 @@ public class ImportCommandParser {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ImportCommand parse(String args) throws ParseException {
-        if(args.isEmpty()) {
+        if (args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
         List<Lead> list = new ArrayList<>();
         try {
             Reader reader = Files.newBufferedReader(Paths.get(args.trim()));
-            CSVParser csvParser = new CSVParser(reader,CSVFormat.DEFAULT);
-            for(CSVRecord csvRecord : csvParser) {
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+            for (CSVRecord csvRecord : csvParser) {
                 Name name = new Name(csvRecord.get(0));
                 Phone phone = new Phone(csvRecord.get(1));
                 Email email = new Email(csvRecord.get(2));
