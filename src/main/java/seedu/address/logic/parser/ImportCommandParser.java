@@ -36,12 +36,16 @@ public class ImportCommandParser {
      * @throws ParseException if the user input does not conform the expected format
      */
     public ImportCommand parse(String args) throws ParseException {
+        args = args.trim();
         if (args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
         List<Lead> list = new ArrayList<>();
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(args.trim()));
+            Reader reader = Files.newBufferedReader(Paths.get(args));
+            if (!args.substring(args.length()-4,args.length()).equalsIgnoreCase(".csv")) {
+                throw new ParseException("not a csv file");
+            }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
                 Name name = new Name(csvRecord.get(0));
@@ -56,7 +60,7 @@ public class ImportCommandParser {
             }
             return new ImportCommand(list);
         } catch (IOException e) {
-            throw new ParseException(args);
+            throw new ParseException("invalid file path");
         }
     }
 }
