@@ -11,6 +11,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
+import seedu.address.model.Theme;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -68,6 +69,23 @@ public class ParserUtil {
         return name.isPresent() ? Optional.of(parseName(name.get())) : Optional.empty();
     }
 
+    //@@author A0155428B
+    /**
+     * Parses a {@code String name} into a {@code Name}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code name} is invalid.
+     */
+    public static Theme parseTheme(String theme) throws IllegalValueException {
+        requireNonNull(theme);
+        String trimmedTheme = theme.trim();
+        if (!Theme.isValidTheme(trimmedTheme)) {
+            throw new IllegalValueException(Theme.MESSAGE_THEME_CONSTRAINTS);
+        }
+        return new Theme(trimmedTheme);
+    }
+
+    //@@author
     /**
      * Parses a {@code String phone} into a {@code Phone}.
      * Leading and trailing whitespaces will be trimmed.

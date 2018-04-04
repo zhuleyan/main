@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.model.exception.InputThemeEqualsCurrentThemeException;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
@@ -27,6 +28,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Person> filteredPersons;
+    private UserPrefs userPrefs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -38,6 +40,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.userPrefs = userPrefs;
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
     }
 
@@ -134,4 +137,19 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
+    //@@author A0155428B
+    @Override
+    public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
+        if (theme.equals("light")) {
+            if (this.userPrefs.getMainWindowFile().equals("MainWindowLight.fxml")) {
+                throw new InputThemeEqualsCurrentThemeException();
+            }
+            this.userPrefs.setMainWindowFilePath("MainWindowLight.fxml");
+        } else {
+            if (this.userPrefs.getMainWindowFile().equals("MainWindow.fxml")) {
+                throw new InputThemeEqualsCurrentThemeException();
+            }
+            this.userPrefs.setMainWindowFilePath("MainWindow.fxml");
+        }
+    }
 }
