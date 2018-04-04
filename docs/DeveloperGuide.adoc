@@ -1276,7 +1276,7 @@ Use case resumes at step 2.
 1.  User enters command for importing file.
 2.  CRM Book processes the corresponding CSV file and lists all persons including newly added ones.
 3.  User requests to sort all persons by name.
-3.  CRM sorts all persons and lists them.
+4.  CRM sorts all persons and lists them.
 +
 Use case ends.
 
