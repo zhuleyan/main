@@ -43,7 +43,7 @@ public class ImportCommandParser {
         List<Lead> list = new ArrayList<>();
         try {
             Reader reader = Files.newBufferedReader(Paths.get(args));
-            if (!args.substring(args.length()-4,args.length()).equalsIgnoreCase(".csv")) {
+            if (!args.substring(args.length() - 4, args.length()).equalsIgnoreCase(".csv")) {
                 throw new ParseException("not a csv file");
             }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
