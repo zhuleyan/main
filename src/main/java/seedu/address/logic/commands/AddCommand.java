@@ -17,7 +17,10 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "a";
+    //@@author
+
     public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
             + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
 
@@ -36,8 +39,10 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
+    //@@author Sheikh-Umar
     public static final String MESSAGE_SUCCESS = "New Lead added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This Lead or Contact is already in the CRM Book.";
+    //@@author
 
     private final Lead toAdd;
 

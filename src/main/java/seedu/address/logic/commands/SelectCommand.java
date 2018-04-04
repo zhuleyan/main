@@ -15,14 +15,18 @@ import seedu.address.model.person.Person;
 public class SelectCommand extends Command {
 
     public static final String COMMAND_WORD = "select";
+    //@@author Sheikh-Umar
     public static final String COMMAND_ALIAS = "s";
+    //@@author
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Selects the Lead or Contact identified by the index number used in the last Leads-Contacts listing.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
+    //@@author Sheikh-Umar
     public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Lead or Contact: %1$s";
+    //@@author
 
     private final Index targetIndex;
 

@@ -20,10 +20,10 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class PersonBuilder {
 
-    public static final String DEFAULT_NAME = "Alice Pauline";
-    public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "alice@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_NAME = "Eric Johnson";
+    public static final String DEFAULT_PHONE = "97621110";
+    public static final String DEFAULT_EMAIL = "ericjohnson@gmail.com";
+    public static final String DEFAULT_ADDRESS = "123, Simei Street 6, #08-101";
     public static final String DEFAULT_TAGS = "friends";
     public static final String DEFAULT_REMARK = "";
     public static final String DEFAULT_TYPE = "Lead";
