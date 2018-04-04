@@ -57,7 +57,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.3: Introduce calander for meetings. Able to detect a duplicate based on a phone number. Able to fully authenticate linkedIn, and share posts to LinkedIn. All alias commands will be completed. Auto-Complete of commands enabled. Able to sort all persons in list by name alphabetically.
 
-* In v 1.4: Able to book meetings using the calender. Able to detect a duplicate based on a email address. Able to list out all Leads at user's request. CRM Book will alert you if a contact switches companies. At least two alias commands will be completed. Able to change theme statically. Able to bulk import a csv file.
+* In v 1.4: Able to book meetings using the calender. Able to detect a duplicate based on a email address. Able to list out all Leads at user's request. CRM Book will alert you if a contact switches companies. Able to change theme statically.
 
 * In v 1.5: Able to list out all Contacts at user's request. Able to change theme dynamically.
 
@@ -405,8 +405,8 @@ e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/
 * *Convert* : `con`, `convert`
 * *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
-* *Display* : `disp Lead`, `display Lead` +
-e.g. `disp Lead`, `display Lead`
+* *Display* : `disp KEYWORD`, `display KEYWORD` +
+e.g. `disp Lead`, `display Contact`
 * *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
