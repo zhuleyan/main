@@ -112,6 +112,16 @@ Examples:
 Shows a list of all Leads and Contacts in the CRM. +
 Format: `l`, `list`
 
+=== Displaying all Leads: `disp`, `display`
+
+Shows a list of either Leads or Contacts in the CRM. +
+Format: `disp Lead`, `display Lead`, `disp Contact`, `display Contact`
+
+****
+* The search is case insensitive. e.g `lead` will match `Lead`
+* Only a full word will be matched e.g. `Contact` will not match `Contacts`
+****
+
 === Editing a person : `e`, `edit`
 
 Edits an existing person in the address book. +
@@ -395,6 +405,8 @@ e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/
 * *Convert* : `con`, `convert`
 * *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
+* *Display* : `disp Lead`, `display Lead` +
+e.g. `disp Lead`, `display Lead`
 * *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +

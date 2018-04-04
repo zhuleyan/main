@@ -1304,13 +1304,13 @@ Use case ends.
 +
 Use case ends.
 
-=== Use case: User seeks list of either Leads or Contacts
+=== Use case: User seeks a list of either Leads or Contacts in the CRM
 
 *MSS*
 
-1. User enters command for list of either Lead or Contact.
+1. User enters command for a list of either Leads or Contacts.
 2. CRM retrieves the list of either Leads or Contacts.
-3. User sees the desired list.
+3. User sees the list of either Leads or Contacts.
 
 *Extensions*
 
@@ -1318,11 +1318,6 @@ Use case ends.
 * 1a. User enters command incorrectly.
 
 ** 1a1. CRM Book displays error message.
-+
-Use case ends.
-+
-* 2a. Desired list is empty.
-** 2a1. CRM Book displays message that the desired list is empty.
 +
 Use case ends.
 
