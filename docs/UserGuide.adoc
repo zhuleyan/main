@@ -21,7 +21,7 @@ more optimally for future sales decisions.
 Unique features of this application include identifying if a Lead to be added in is a duplicate,
 scheduling appointments with Leads through the Calander, converting a Lead to a Contact after a sales transaction, and integrating LinkedIn to allow
 a salesperson to know if one of their contacts changed companies.
-*More importantly, CRM Book is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
+*More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
 CRM Book can get your contact management tasks done faster than traditional GUI apps.
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
@@ -53,13 +53,13 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 [[Features]]
 == Features
 
-* In v 1.2: Able to add leads into CRM book and convert leads into contacts. All commands can be performed using its respective aliases. Able to start process of LinkedIn Integration. Able to generate a color for the tags added.
+* In v 1.2: Able to add leads into CRM book and convert leads into contacts. All commands can be performed using its respective aliases. Able to start process of LinkedIn Integration. Able to generate a color for the tags added. Able to add/remove/edit the remark of a person.
 
-* In v 1.3: Introduce calander for meetings. Able to detect a duplicate based on a phone number. Able to fully authenticate linkedIn, and link contacts to linkedIn. At least two alias commands will be completed. Auto-Complete of commands enabled.
+* In v 1.3: Introduce calander for meetings. Able to detect a duplicate based on a phone number. Able to fully authenticate linkedIn, and share posts to LinkedIn. All alias commands will be completed. Auto-Complete of commands enabled. Able to sort all persons in list by name alphabetically.
 
-* In v 1.4: Able to book meetings using the calender. Able to detect a duplicate based on a email address. Able to list out all Leads at user's request. CRM Book will alert you if a contact switches companies. At least two alias commands will be completed. Able to change theme statically.
+* In v 1.4: Able to book meetings using the calender. Able to detect a duplicate based on a email address. Able to list out all Leads and Contacts at user's request. CRM Book will alert you if a contact switches companies. Able to change theme statically. Able to bulk import a csv file.
 
-* In v 1.5: Able to list out all Contacts at user's request. Able to change theme dynamically.
+* In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
 * Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Full LinkedIn integration. Google Maps integration to show a salesperson how to get to a lead's office. There are multiple themes for user to choose from.
 
@@ -79,19 +79,19 @@ Example: Leads from Skype and Nokia can be categorised under a group called Micr
 
 Format: `h`, `help`
 
-=== Log in to LinkedIn : 'llog', 'linkedin_login' (Half implemented)
+=== Log in to LinkedIn : 'linklog', 'linkedin_login'
 
-Format: 'llog', 'linkedin_login'
-
-[TIP]
-A LinkedIn Login is required if you want to synchronize your CRM Book with your LinkedIn Account. If this is your first login, a synchronization will also take place.
-
-=== Update from LinkedIn : 'updateLinkedIn' (IN PROGRESS)
-
-Format: 'updateLinkedIn'
+Format: 'linklog', 'linkedin_login'
 
 [TIP]
-Updating from LinkedIn will synchronize your CRM Book with your LinkedIn Account and highlight all changes since the last synchonization
+A LinkedIn Login is required if you want to share posts to linkedIn. If this is your first login, you will also have to give permissions for CRM Book in LinkedIn via a pop up.
+
+=== Share a Post on LinkedIn : 'linkshare', 'linkedin_share'
+
+Format: 'linkshare [content]', 'linkedin_share [content]'
+
+[TIP]
+This command will allow you to share a post on LinkedIn to all your connections. This will allow you to share any interesting marketing materials your company may be involved in quickly.
 
 === Adding a person: `a`, `add`
 
@@ -111,6 +111,16 @@ Examples:
 
 Shows a list of all Leads and Contacts in the CRM. +
 Format: `l`, `list`
+
+=== Displaying all Leads: `disp`, `display`
+
+Shows a list of either Leads or Contacts in the CRM. +
+Format: `disp Lead`, `display Lead`, `disp Contact`, `display Contact`
+
+****
+* The search is case insensitive. e.g `lead` will match `Lead`
+* Only a full word will be matched e.g. `Contact` will not match `Contacts`
+****
 
 === Editing a person : `e`, `edit`
 
@@ -254,6 +264,23 @@ Selects the 4th person in the CRM Book
 `select 1` +
 Selects the 1st person in the results of the `find` command
 
+//tag::bulkimport[]
+=== Importing a CSV file : `i`, `import`
+
+Imports a CSV file to the CRM Book. +
+Format: `i PATH`, `import PATH`
+
+****
+* The path refers to the path of the file that the user wants to import.
+* The path must be a valid file path.
+****
+
+Examples:
+
+* `import ./sample.csv` +
+Imports the file `sample.csv` to the CRM Book
+//end::bulkimport[]
+
 === Listing entered commands : `hist`, `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
@@ -333,6 +360,7 @@ Format: `c`, `clear`
 Exits the program. +
 Format: `ex`, `exit`
 
+//tag::remark[]
 === Add or remove a remark to a lead or contact: `rem`, `remark`  [since v1.2]
 
 Adds or removes a remark to a particular lead or contact. +
@@ -344,11 +372,21 @@ Adds the remark 'Happy' to the 1st lead or contact.
 
 * `remark 4 r/` +
 Removes the remark of the 4th lead or contact.
+//end::remark[]
 
+//tag::sort[]
 === Sort persons by name in alphabetical order: `st`, `sort`  [since v1.3]
 
 Sorts all persons in CRM Book by name. +
 Format: `st`, `sort`
+//end::sort[]
+
+//tag::changetheme[]
+=== Change theme: `changetheme`  [since v1.4]
+
+Changes color theme of CRM Book to the user specified theme. +
+Format: `changetheme THEME`
+//end::changetheme[]
 
 === Saving the data
 
@@ -374,12 +412,18 @@ e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/
 * *Convert* : `con`, `convert`
 * *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
+* *Display* : `disp KEYWORD`, `display KEYWORD` +
+e.g. `disp Lead`, `display Contact`
 * *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
+* *EditDetails* :  For Leads: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
+For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `f Chris`, `find James Jake`
+* *Linkedin_login* : `linklog`, `linkedin_login`
+* *Linkedin_share* : `linkshare [content]`, `linkedin_share [content]`
 * *List* : `l`, `list`
 * *Help* : `h`, `help`
 * *Select* : `s INDEX`, `select INDEX` +
@@ -388,4 +432,6 @@ e.g.`s 1`, `select 2`
 * *Undo* : `u`, `undo`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
-* *Linkedin_login* : `linklog`, `linkedin_login`
+* *Import* : `i PATH`, `import PATH`
+* *Change Theme* : `changetheme THEME` +
+e.g. `changetheme dark`

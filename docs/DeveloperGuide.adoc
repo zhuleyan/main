@@ -542,14 +542,61 @@ public class ConvertCommand extends UndoableCommand {
 
 The linkedInLogin mechanism is handled largely by the oAuth2Client interacting with the browser window, which the user will interact with in order to give LinkedIn their username, password, as well as granting the application permission for use.
 
-When the `linkedIn_login` command is called, a `ShowBrowserRequestEvent` will be fired by `LinkedInLoginCommand(Class)` and picked up by the MainWindow. The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up the browser awaiting an authorization code from LinkedIn that will be sent after the user has successfully logged in and granted the CRM Book permission.
+When the `linkedIn_login` command is called, a `ShowBrowserRequestEvent` will be fired by `LinkedInLoginCommand(Class)` and picked up by the MainWindow.
+
+[source,java]
+@Override
+    public CommandResult execute() {
+        EventsCenter.getInstance().post(new ShowBrowserRequestEvent());
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up the browser awaiting an authorization code from LinkedIn that will be sent after the user has successfully logged in and granted the CRM Book permission.
+
+[source, java]
+@Subscribe
+    private void handleLinkedInAuthenticationEvent(ShowBrowserRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        handleLinkedInAuthentication();
+    }
+
+[source, java]
+public void handleLinkedInAuthentication() {
+    try {
+        Oauth2Client.authenticateWithLinkedIn(config);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+[source, java]
+public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+    ...
+    String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
+        + clientId + "&redirect_uri=" + redirectUri + "&state=...";
+    bWindow = new BrowserWindow(urlString);
+    bWindow.show();
+}
 
 Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
 
 The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
 
-After the CRM Book has received the authorization code and the app secret from the decrypter, they are sent back to LinkedIn to request for an AccessToken. Once the AccessToken has been received, the user is considered to be successfully logged in, and the accessToken can be used by the CRM Book to make requests to LinkedIn on behalf of the user.
+[source, java]
+public void handleHideBrowser() {
+    Oauth2Client.closeBrowser();
+    Oauth2Client.getLinkedInS();
+}
 
+After the CRM Book has received the authorization code and the app secret from the decrypter, they are sent back to LinkedIn to request for an AccessToken. Once the AccessToken has been received, the user is considered to be successfully logged in, and the accessToken can be used by the CRM Book to make requests to LinkedIn on behalf of the user. The accessToken is also stored in the config.json file for future usage.
+
+[source, java]
+config.setAppSecret(accessToken);
+ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+
+The following sequence diagram shows how the linkedIn_login feature works. As seen, it is an events-driven design.
+
+image::LinkedInLoginSequenceDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: Storing the LinkedIn App Secret
@@ -615,19 +662,43 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
-=== Alias Commands
-
+// tag::alias[]
+=== Alias Commands feature
 ==== Current Implementation
 
 A command can be performed by typing in its alias rather than the word. +
+The following is an example of implementing the alias command for the list command: +
+----
+public class ListCommand extends Command {
 
+    public static final String COMMAND_WORD = "list";
+    //@@author Sheikh-Umar
+    public static final String COMMAND_ALIAS = "l";
+    //@@author
+
+    public static final String MESSAGE_SUCCESS = "Listed all Leads and Contacts";
+
+
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+----
+
+The alias command for all other commands will follow a similar implementation. +
+
+==== Design Considerations
+===== Aspect: How to implement the alias command for all commands
 The feature is implemented by adding the alias of the command into its respective java document, and updating the AddressBookParser java document. +
 The feature is implemented this way to utilise the command java documents that are available as opposed to creating a new java document for a certain alias. +
 
 This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
+// end::alias[]
 
+// tag::duplicate[]
 === Identifying a Duplicate feature
-
 ==== Current Implementation
 The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. +
 
@@ -643,11 +714,113 @@ The following action diagram shows how the operation of identifying a duplicate 
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
-==== Design Implementation
-===== How to implement identifying a duplicate
-
+==== Design Considerations
+===== Aspect: How to implement identifying a duplicate
 * **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
 ** Pros: Search will be performed in linear time.
+// end::duplicate[]
+
+// tag::display[]
+=== Displaying Lead list and Contact list feature
+==== Current Implementation
+The CRM Book will be able to list out all Leads and Contacts separately.
+
+The feature is implemented by checking on the type of the persons already stored in the CRM, and displaying all persons that match the keyword (either Lead or Contact) that the user enters. +
+
+The feature is implemented through the DisplayCommand, which is based on FindCommand.
+Hence, the DisplayCommand will operate similarly as the FindCommand, with the only difference being the DisplayCommand searches for all Leads or Contacts already in the CRM Book. +
+
+The `DisplayCommand` inherits from `Command`. It is implemented this way:
+----
+public class DisplayCommand extends Command {
+    @Override
+    public CommandResult execute() {
+        // … import logic …
+    }
+}
+----
+
+The following action diagram shows how the operation of displaying the Leads or Contacts list works:
+
+image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
+
+==== Design Considerations
+===== Aspect: How displaying Lead list or Contact list works
+
+* **Alternative 1 (current choice):** Iterate through the CRM Book for persons that match the keyword that user entered just like the FindCommand.
+** Pros: Iteration will be performed in linear time, and utilises the functionality of the FindCommand.
+// end::display[]
+
+// tag::changeTheme[]
+=== Change Theme feature
+==== Reason for implementation
+CRM Book users are expected to spent long period of time on the software and under different light settings. Change theme allows users to switch between light and dark theme. This would prevent eye fatigue.
+
+==== Current implementation
+Currently, different themes are referenced in different FXML files which uses different CSS files.
+The following piece of code demonstrates how CSS files are referenced in FXML files:
+----
+//in MainWindow.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@DarkTheme.css" />
+    <URL value="@Extensions.css" />
+  </stylesheets>
+  ...
+----
+For example, the default dark theme uses "MainWindow.fxml" to config its main window while the light theme uses "MainWindowLight.fxml".
+In "MainWindow.fxml", "DarkTheme.css" and "Extensions.css" are referenced as the stylesheets of the scene.
+Similarly, "MainWindowLight.fxml" uses "LightTheme.css" and "Extensions.css" as shown below:
+----
+//in MainWindowLight.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@LightTheme.css" />
+    <URL value="@ExtensionsLight.css" />
+  </stylesheets>
+  ...
+----
+Since the main window FXML file path is stored in the UserPrefs class, we can get the file path in ModelManager class by
+UserPrefs::getMainWindowFile() method.
+In addition, UserPrefs::setMainWindowFilePath(String newFilePath) method will change the file path of the FXML file, and
+the "mainWindowFilePath" field in "preferences.json" will change accordingly.
+
+Users can use the command "changetheme THEME" where THEME can only be "light" and "dark" currently. More themes will be added in v2.0.
+The following piece of code shows how ChangeThemeCommand is implemented:
+----
+//in ChangeThemeCommand.java
+public CommandResult execute() {
+    requireNonNull(targetTheme);
+    try {
+        model.updateTheme(targetTheme.theme);
+    } catch (InputThemeEqualsCurrentThemeException e) {
+        return new CommandResult(String.format(MESSAGE_CHANGE_THEME_FAIL, targetTheme));
+    }
+    return new CommandResult(String.format(MESSAGE_CHANGE_THEME_SUCCESS, targetTheme));
+}
+----
+For example, when the command "changetheme light" is triggered, it checks whether the input theme is the same as the current theme.
+If they are equal, the message of command failure is returned. The code below shows how updateTheme(String newTheme) is implemented.
+----
+//in ModelManager.java
+public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
+    if (theme.equals("light")) {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindowLight.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindowLight.fxml");
+    } else {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindow.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindow.fxml");
+    }
+}
+----
+Upon command success, users have to restart the app in order to see the change in theme.
+This is because the current implementation cannot dynamically change the settings of the main window.
+
+// end::changeTheme[]
 
 == Documentation
 
@@ -1229,7 +1402,7 @@ Use case resumes at step 2.
 1.  User enters command for importing file.
 2.  CRM Book processes the corresponding CSV file and lists all persons including newly added ones.
 3.  User requests to sort all persons by name.
-3.  CRM sorts all persons and lists them.
+4.  CRM sorts all persons and lists them.
 +
 Use case ends.
 
@@ -1257,25 +1430,20 @@ Use case ends.
 +
 Use case ends.
 
-=== Use case: User seeks list of either Leads or Contacts
+=== Use case: User seeks Lead list or Contact list
 
 *MSS*
 
-1. User enters command for list of either Lead or Contact.
-2. CRM retrieves the list of either Leads or Contacts.
-3. User sees the desired list.
+1. User enters command for Lead list or Contact list.
+2. CRM retrieves the Lead list or Contact list.
+3. User sees the Lead list or Contact list.
 
 *Extensions*
 
 [none]
-* 1a. User enters command incorrectly.
+* 1a. User enters a keyword that is neither Lead nor Contact.
 
-** 1a1. CRM Book displays error message.
-+
-Use case ends.
-+
-* 2a. Desired list is empty.
-** 2a1. CRM Book displays message that the desired list is empty.
+** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
 
@@ -1366,6 +1534,26 @@ Use case resumes at step 2.
 2. CRM book assign a color to the tag.
 +
 Use case ends.
+
+=== Use case: Change theme
+
+*MSS*
+
+1.  User requests to change theme
+2.  CRM Book changes theme setting
+3.  User restart CRM Book to effect the change
++
+Use case ends.
+
+*Extensions*
+
+* 2a. The input theme is same as current theme.
++
+[none]
+** 2a1. CRM Book shows an error message.
++
+Use case ends.
+
 
 [appendix]
 == Non Functional Requirements

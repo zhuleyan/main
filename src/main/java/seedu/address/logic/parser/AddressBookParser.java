@@ -8,16 +8,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DisplayCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditDetailsCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.LinkedInLoginCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
@@ -26,6 +29,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.UndoCommand;
+
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -89,6 +93,9 @@ public class AddressBookParser {
         case DeleteCommand.COMMAND_ALIAS:
             return new DeleteCommandParser().parse(arguments);
 
+        case ChangeThemeCommand.COMMAND_WORD:
+            return new ChangeThemeCommandParser().parse(arguments);
+
         case ClearCommand.COMMAND_WORD:
         case ClearCommand.COMMAND_ALIAS:
             return new ClearCommand();
@@ -100,6 +107,12 @@ public class AddressBookParser {
         case ListCommand.COMMAND_WORD:
         case ListCommand.COMMAND_ALIAS:
             return new ListCommand();
+
+        //@@author Sheikh-Umar
+        case DisplayCommand.COMMAND_WORD:
+        case DisplayCommand.COMMAND_ALIAS:
+            return new DisplayCommandParser().parse(arguments);
+        //@@author
 
         case HistoryCommand.COMMAND_WORD:
         case HistoryCommand.COMMAND_ALIAS:
@@ -124,6 +137,10 @@ public class AddressBookParser {
         case SortCommand.COMMAND_WORD:
         case SortCommand.COMMAND_ALIAS:
             return new SortCommand();
+
+        case ImportCommand.COMMAND_WORD:
+        case ImportCommand.COMMAND_ALIAS:
+            return new ImportCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
