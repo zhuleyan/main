@@ -20,10 +20,10 @@ Responsibilities: LinkedIn Integration
 
 === Sheikh Umar
 image::sheikh-umar.png[width="150", align="left"]
-{empty}[https://github.com/Sheikh-Umar[github]] [<<johndoe#, portfolio>>]
+{empty}[https://github.com/Sheikh-Umar[github]]
 
 Role: Documentation + Deliverables and deadlines +
-Responsibilities: Smart Duplicate detection + Data Enrichment + UI
+Responsibilities: Smart Duplicate detection + Command Aliases + Retrieval of Lead list and Contact list
 
 '''
 
