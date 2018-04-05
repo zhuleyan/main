@@ -24,7 +24,7 @@ public class AddCommand extends UndoableCommand {
     public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
             + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a Lead to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a Lead to the CRM Book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
