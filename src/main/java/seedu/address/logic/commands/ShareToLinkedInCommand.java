@@ -38,7 +38,7 @@ public class ShareToLinkedInCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Post shared to your linkedIn account";
     private static String post;
-
+    private static boolean postSuccess = false;
     /**
      * Default constructor
      */
@@ -58,7 +58,13 @@ public class ShareToLinkedInCommand extends Command {
         //send event To Main to obtain the configuration file.
         EventsCenter.getInstance().post(new ShareToLinkedInEvent());
         //post success
-        return new CommandResult(MESSAGE_SUCCESS);
+        if (postSuccess) {
+            return new CommandResult(MESSAGE_SUCCESS);
+        } else {
+            return new CommandResult("Failed to post to LinkedIn");
+        }
+
+
     }
 
     /**
@@ -66,9 +72,13 @@ public class ShareToLinkedInCommand extends Command {
      * This method posts the post to LinkedIn.
      */
     public static void postToLinkedIn(Config config) {
+        postSuccess = false;
         Logger logger = LogsCenter.getLogger(Oauth2Client.class);
         String accessToken = config.getAppSecret();
-
+        if (accessToken == null || accessToken.length() == 0) {
+            //was unable to share..
+            return;
+        }
         //use the linkedin api to send to linkedin
         HttpClient httpclient = HttpClients.custom()
                                 .setDefaultRequestConfig(RequestConfig.custom()
@@ -99,9 +109,8 @@ public class ShareToLinkedInCommand extends Command {
             // Read the contents of an entity and return it as a String.
             String content = EntityUtils.toString(entity);
 
-
-
             logger.info("RECEIVED A RESPONSE FROM THE SERVER: " + content);
+            postSuccess = true;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

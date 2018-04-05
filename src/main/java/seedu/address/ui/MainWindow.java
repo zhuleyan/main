@@ -14,11 +14,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Oauth2Client;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
+import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.events.ui.ShareToLinkedInEvent;
 import seedu.address.commons.events.ui.ShowBrowserRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
@@ -225,8 +227,13 @@ public class MainWindow extends UiPart<Stage> {
     //@@author davidten
     @Subscribe
     private void handleCloseBrowserEvent(HideBrowserRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        handleHideBrowser();
+        try {
+            logger.info(LogsCenter.getEventHandlingLogMessage(event));
+            handleHideBrowser();
+        } catch (Exception e) {
+            logger.info(e.toString());
+            EventsCenter.getInstance().post(new NewResultAvailableEvent("Login Failed."));
+        }
     }
 
     @Subscribe
