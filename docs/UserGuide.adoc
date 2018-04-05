@@ -381,6 +381,13 @@ Sorts all persons in CRM Book by name. +
 Format: `st`, `sort`
 //end::sort[]
 
+//tag::changetheme[]
+=== Change theme: `changetheme`  [since v1.4]
+
+Changes color theme of CRM Book to the user specified theme. +
+Format: `changetheme THEME`
+//end::changetheme[]
+
 === Saving the data
 
 Address book data are saved in the hard disk automatically after any command that changes the data. +
@@ -426,3 +433,5 @@ e.g.`s 1`, `select 2`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
 * *Import* : `i PATH`, `import PATH`
+* *Change Theme* : `changetheme THEME` +
+e.g. `changetheme dark`
