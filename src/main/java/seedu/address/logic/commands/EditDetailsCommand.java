@@ -18,6 +18,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.account.Account;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
@@ -110,7 +111,8 @@ public class EditDetailsCommand extends UndoableCommand {
                 throw new CommandException(MESSAGE_NOT_EDITED_FOR_CONTACT);
             }
             Contact editedPerson = (Contact) personToEdit;
-            editedPerson.setCompany(editContactDescriptor.getCompany().orElse(((Contact) personToEdit).getCompany()));
+            editedPerson.setCompany(editContactDescriptor.getCompany()
+                    .orElse(((Contact) personToEdit).getCompany()));
             editedPerson.setDepartment(editContactDescriptor.getDepartment()
                             .orElse(((Contact) personToEdit).getDepartment()));
             editedPerson.setTitle(editContactDescriptor.getTitle().orElse(((Contact) personToEdit).getTitle()));
@@ -258,7 +260,7 @@ public class EditDetailsCommand extends UndoableCommand {
      * corresponding field value of the person.
      */
     public static class EditContactDescriptor {
-        private String company = null;
+        private Account company = null;
         private String department = null;
         private String title = null;
 
@@ -282,10 +284,14 @@ public class EditDetailsCommand extends UndoableCommand {
         }
 
         public void setCompany(String company) {
+            this.company = new Account(company);
+        }
+
+        public void setCompany(Account company) {
             this.company = company;
         }
 
-        public Optional<String> getCompany() {
+        public Optional<Account> getCompany() {
             return Optional.ofNullable(company);
         }
 
