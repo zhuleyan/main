@@ -29,10 +29,10 @@ Responsibilities: Smart Duplicate detection + Command Aliases + Retrieval of Lea
 
 === Woody Lau
 image::WoodyLau.png[width="150", align="left"]
-{empty}[http://github.com/WoodyLau[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/WoodyLau[github]]
 
 Role: Developer + Git Expert + Integration +
-Responsibilities: Lead, Contact and Account Objects. Calendar and Meeting Scheduling.
+Responsibilities: Lead, Contact and Account objects.
 
 '''
 
