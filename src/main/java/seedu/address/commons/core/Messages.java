@@ -1,6 +1,7 @@
 package seedu.address.commons.core;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteCommand;
@@ -37,5 +38,5 @@ public class Messages {
         LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE,
         ImportCommand.COMMAND_WORD, RemarkCommand.COMMAND_WORD, EditDetailsCommand.COMMAND_WORD,
-        DisplayCommand.COMMAND_WORD, ShareToLinkedInCommand.COMMAND_WORD};
+        DisplayCommand.COMMAND_WORD, ShareToLinkedInCommand.COMMAND_WORD, ChangeThemeCommand.COMMAND_WORD};
 }
