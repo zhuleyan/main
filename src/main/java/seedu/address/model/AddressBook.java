@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.account.Account;
+import seedu.address.model.account.UniqueAccountList;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
@@ -28,6 +30,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueTagList tags;
+    private final UniqueAccountList accounts;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -39,6 +42,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         tags = new UniqueTagList();
+        accounts = new UniqueAccountList();
     }
 
     public AddressBook() {}
@@ -61,12 +65,17 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts.setAccounts(accounts);
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
+        setAccounts(new HashSet<>(newData.getAccountList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
@@ -117,6 +126,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        if (syncedEditedPerson instanceof Contact && ((Contact) syncedEditedPerson).getCompany() != null) {
+            syncWithMasterAccountList((Contact) syncedEditedPerson);
+        }
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
@@ -138,6 +150,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        if (((Contact) syncedEditedPerson).getCompany() != null) {
+            syncWithMasterAccountList((Contact) syncedEditedPerson);
+        }
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
@@ -183,6 +198,26 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author WoodyLau
+    /**
+     *  Updates the master account list to include account in {@code person} that is not in the list.
+     *  Updates the person to point to an Account object in the master list.
+     */
+    private void syncWithMasterAccountList(Contact person) {
+        final UniqueAccountList personAccounts = new UniqueAccountList(person.getCompany());
+        accounts.mergeFrom(personAccounts);
+
+        // Create map with values = tag object references in the master list
+        // used for checking person tag references
+        final Map<Account, Account> masterAccountObjects = new HashMap<>();
+        accounts.forEach(account -> masterAccountObjects.put(account, account));
+
+        // Rebuild the list of person tags to point to the relevant tags in the master tag list.
+        final Account correctAccountReferences = masterAccountObjects.get(person.getCompany());
+        person.setCompany(correctAccountReferences);
+    }
+    //@@author
+
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
@@ -201,11 +236,18 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.add(t);
     }
 
+    //// account-level operations
+
+    public void addAccount(Account a) throws UniqueAccountList.DuplicateAccountException {
+        accounts.add(a);
+    }
+
     //// util methods
 
     @Override
     public String toString() {
-        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags";
+        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags, "
+                + accounts.asObservableList().size() +  " accounts";
         // TODO: refine later
     }
 
@@ -217,6 +259,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Account> getAccountList() {
+        return accounts.asObservableList();
     }
 
     @Override
