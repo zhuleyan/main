@@ -1,4 +1,55 @@
 # WoodyLau
+###### /java/seedu/address/ui/PersonCard.java
+``` java
+    private void setLead(Lead person) {
+        department.setVisible(false);
+        department.setManaged(false);
+
+        if (person.getCompany() == null) {
+            company.setText("Company: Not Given");
+        } else {
+            company.setText("Company: " + person.getCompany());
+        }
+        if (person.getIndustry() == null) {
+            industry.setVisible(false);
+            industry.setManaged(false);
+        } else {
+            industry.setText("Industry: " + person.getIndustry());
+        }
+        if (person.getRating() == 0) {
+            rating.setText("Rating: Not Given");
+        } else {
+            rating.setText("Rating: " + person.getRating() + "/5");
+        }
+        if (person.getWebsite() == null) {
+            website.setVisible(false);
+            website.setManaged(false);
+        } else {
+            website.setText("Website: " + person.getWebsite());
+        }
+    }
+
+    private void setContact(Contact person) {
+        industry.setVisible(false);
+        industry.setManaged(false);
+        rating.setVisible(false);
+        rating.setManaged(false);
+        website.setVisible(false);
+        website.setManaged(false);
+
+        if (person.getCompany() == null) {
+            company.setText("Company: Not Given");
+        } else {
+            company.setText("Company: " + person.getCompany());
+        }
+        if (person.getDepartment() == null) {
+            department.setText("Department: Not Given");
+        } else {
+            department.setText("Department: " + person.getDepartment());
+        }
+    }
+
+```
 ###### /java/seedu/address/logic/parser/EditDetailsCommandParser.java
 ``` java
 package seedu.address.logic.parser;
