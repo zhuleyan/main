@@ -91,7 +91,7 @@ public class GuiTestAssert {
                         actualCard.getTagColorClasses(tag)));
     }
 
-    //@@author 
+    //@@author
     /**
      * Asserts that the list in {@code personListPanelHandle} displays the details of {@code persons} correctly and
      * in the correct order.
