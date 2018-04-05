@@ -751,6 +751,77 @@ image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
 ** Pros: Iteration will be performed in linear time, and utilises the functionality of the FindCommand.
 // end::display[]
 
+// tag::changeTheme[]
+=== Change Theme feature
+==== Reason for implementation
+CRM Book users are expected to spent long period of time on the software and under different light settings. Change theme allows users to switch between light and dark theme. This would prevent eye fatigue.
+
+==== Current implementation
+Currently, different themes are referenced in different FXML files which uses different CSS files.
+The following piece of code demonstrates how CSS files are referenced in FXML files:
+----
+//in MainWindow.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@DarkTheme.css" />
+    <URL value="@Extensions.css" />
+  </stylesheets>
+  ...
+----
+For example, the default dark theme uses "MainWindow.fxml" to config its main window while the light theme uses "MainWindowLight.fxml".
+In "MainWindow.fxml", "DarkTheme.css" and "Extensions.css" are referenced as the stylesheets of the scene.
+Similarly, "MainWindowLight.fxml" uses "LightTheme.css" and "Extensions.css" as shown below:
+----
+//in MainWindowLight.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@LightTheme.css" />
+    <URL value="@ExtensionsLight.css" />
+  </stylesheets>
+  ...
+----
+Since the main window FXML file path is stored in the UserPrefs class, we can get the file path in ModelManager class by
+UserPrefs::getMainWindowFile() method.
+In addition, UserPrefs::setMainWindowFilePath(String newFilePath) method will change the file path of the FXML file, and
+the "mainWindowFilePath" field in "preferences.json" will change accordingly.
+
+Users can use the command "changetheme THEME" where THEME can only be "light" and "dark" currently. More themes will be added in v2.0.
+The following piece of code shows how ChangeThemeCommand is implemented:
+----
+//in ChangeThemeCommand.java
+public CommandResult execute() {
+    requireNonNull(targetTheme);
+    try {
+        model.updateTheme(targetTheme.theme);
+    } catch (InputThemeEqualsCurrentThemeException e) {
+        return new CommandResult(String.format(MESSAGE_CHANGE_THEME_FAIL, targetTheme));
+    }
+    return new CommandResult(String.format(MESSAGE_CHANGE_THEME_SUCCESS, targetTheme));
+}
+----
+For example, when the command "changetheme light" is triggered, it checks whether the input theme is the same as the current theme.
+If they are equal, the message of command failure is returned. The code below shows how updateTheme(String newTheme) is implemented.
+----
+//in ModelManager.java
+public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
+    if (theme.equals("light")) {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindowLight.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindowLight.fxml");
+    } else {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindow.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindow.fxml");
+    }
+}
+----
+Upon command success, users have to restart the app in order to see the change in theme.
+This is because the current implementation cannot dynamically change the settings of the main window.
+
+// end::changeTheme[]
+
 == Documentation
 
 We use asciidoc for writing documentation.
@@ -1463,6 +1534,26 @@ Use case resumes at step 2.
 2. CRM book assign a color to the tag.
 +
 Use case ends.
+
+=== Use case: Change theme
+
+*MSS*
+
+1.  User requests to change theme
+2.  CRM Book changes theme setting
+3.  User restart CRM Book to effect the change
++
+Use case ends.
+
+*Extensions*
+
+* 2a. The input theme is same as current theme.
++
+[none]
+** 2a1. CRM Book shows an error message.
++
+Use case ends.
+
 
 [appendix]
 == Non Functional Requirements
