@@ -662,19 +662,43 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
-=== Alias Commands
-
+// tag::alias[]
+=== Alias Commands feature
 ==== Current Implementation
 
 A command can be performed by typing in its alias rather than the word. +
+The following is an example of implementing the alias command for the list command: +
+----
+public class ListCommand extends Command {
 
+    public static final String COMMAND_WORD = "list";
+    //@@author Sheikh-Umar
+    public static final String COMMAND_ALIAS = "l";
+    //@@author
+
+    public static final String MESSAGE_SUCCESS = "Listed all Leads and Contacts";
+
+
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+----
+
+The alias command for all other commands will follow a similar implementation. +
+
+==== Design Considerations
+===== Aspect: How to implement the alias command for all commands
 The feature is implemented by adding the alias of the command into its respective java document, and updating the AddressBookParser java document. +
 The feature is implemented this way to utilise the command java documents that are available as opposed to creating a new java document for a certain alias. +
 
 This feature is implemented to allow a user to enter a command without specifying the entire word of the command. +
+// end::alias[]
 
+// tag::duplicate[]
 === Identifying a Duplicate feature
-
 ==== Current Implementation
 The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. +
 
@@ -690,11 +714,42 @@ The following action diagram shows how the operation of identifying a duplicate 
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
-==== Design Implementation
-===== How to implement identifying a duplicate
-
+==== Design Considerations
+===== Aspect: How to implement identifying a duplicate
 * **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
 ** Pros: Search will be performed in linear time.
+// end::duplicate[]
+
+// tag::display[]
+=== Displaying Lead list and Contact list feature
+==== Current Implementation
+The CRM Book will be able to list out all Leads and Contacts separately.
+
+The feature is implemented by checking on the type of the persons already stored in the CRM, and displaying all persons that match the keyword (either Lead or Contact) that the user enters. +
+
+The feature is implemented through the DisplayCommand, which is based on FindCommand.
+Hence, the DisplayCommand will operate similarly as the FindCommand, with the only difference being the DisplayCommand searches for all Leads or Contacts already in the CRM Book. +
+
+The `DisplayCommand` inherits from `Command`. It is implemented this way:
+----
+public class DisplayCommand extends Command {
+    @Override
+    public CommandResult execute() {
+        // … import logic …
+    }
+}
+----
+
+The following action diagram shows how the operation of displaying the Leads or Contacts list works:
+
+image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
+
+==== Design Considerations
+===== Aspect: How displaying Lead list or Contact list works
+
+* **Alternative 1 (current choice):** Iterate through the CRM Book for persons that match the keyword that user entered just like the FindCommand.
+** Pros: Iteration will be performed in linear time, and utilises the functionality of the FindCommand.
+// end::display[]
 
 == Documentation
 
@@ -1304,20 +1359,20 @@ Use case ends.
 +
 Use case ends.
 
-=== Use case: User seeks a list of either Leads or Contacts in the CRM
+=== Use case: User seeks Lead list or Contact list
 
 *MSS*
 
-1. User enters command for a list of either Leads or Contacts.
-2. CRM retrieves the list of either Leads or Contacts.
-3. User sees the list of either Leads or Contacts.
+1. User enters command for Lead list or Contact list.
+2. CRM retrieves the Lead list or Contact list.
+3. User sees the Lead list or Contact list.
 
 *Extensions*
 
 [none]
-* 1a. User enters command incorrectly.
+* 1a. User enters a keyword that is neither Lead nor Contact.
 
-** 1a1. CRM Book displays error message.
+** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
 
