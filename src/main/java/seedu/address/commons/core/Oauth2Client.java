@@ -33,6 +33,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
+import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
@@ -56,11 +57,7 @@ public class Oauth2Client {
      */
     public static void authenticateWithLinkedIn(Config configuration) throws IOException {
         config = configuration;
-        try {
-            startServer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        startServer();
 
         clientId = config.getAppId();
 
@@ -75,12 +72,16 @@ public class Oauth2Client {
     /**
      * Starts a webserver and allows it to expect a response at the context specified
      */
-    public static void startServer() throws IOException {
-        int port = 13370;
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/test", new MyHandler());
-        server.setExecutor(null);
-        server.start();
+    public static void startServer() {
+        try {
+            int port = 13370;
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.createContext("/test", new MyHandler());
+            server.setExecutor(null);
+            server.start();
+        } catch (IOException e) {
+            logger.info("Server likely to have been started already " + e.toString());
+        }
     }
 
     /**
@@ -157,6 +158,7 @@ public class Oauth2Client {
 
                 logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
                 logger.info("Access Token is " + accessToken);
+                EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
                 ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
 

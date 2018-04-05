@@ -14,6 +14,7 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.account.Account;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Email;
@@ -106,7 +107,9 @@ public class ConvertCommand extends UndoableCommand {
         Contact contact = new Contact(updatedName, updatedPhone,
                 updatedEmail, updatedAddress, updatedRemark, updatedTags);
 
-        contact.setCompany(oldLead.getCompany());
+        if (oldLead.getCompany() != null) {
+            contact.setCompany(new Account(oldLead.getCompany()));
+        }
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         contact.setConvertedDate(dateFormat.format(date));
