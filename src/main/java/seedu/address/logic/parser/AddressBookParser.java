@@ -13,6 +13,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DisplayCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditDetailsCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -28,6 +29,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.UndoCommand;
+
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -105,6 +107,12 @@ public class AddressBookParser {
         case ListCommand.COMMAND_WORD:
         case ListCommand.COMMAND_ALIAS:
             return new ListCommand();
+
+        //@@author Sheikh-Umar
+        case DisplayCommand.COMMAND_WORD:
+        case DisplayCommand.COMMAND_ALIAS:
+            return new DisplayCommandParser().parse(arguments);
+        //@@author
 
         case HistoryCommand.COMMAND_WORD:
         case HistoryCommand.COMMAND_ALIAS:
