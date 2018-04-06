@@ -1,18 +1,24 @@
 package seedu.address.commons.core;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ConvertCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DisplayCommand;
 import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.EditDetailsCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.commands.LinkedInLoginCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.commands.UndoCommand;
 
 /**
@@ -30,6 +36,7 @@ public class Messages {
         ConvertCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD, EditCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
         FindCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD,
         LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
-        SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE};
-
+        SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE,
+        ImportCommand.COMMAND_WORD, RemarkCommand.COMMAND_WORD, EditDetailsCommand.COMMAND_WORD,
+        DisplayCommand.COMMAND_WORD, ShareToLinkedInCommand.COMMAND_WORD, ChangeThemeCommand.COMMAND_WORD};
 }

@@ -324,6 +324,7 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.account.Account;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Email;
@@ -364,6 +365,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.account.Account;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
@@ -456,7 +458,8 @@ public class EditDetailsCommand extends UndoableCommand {
                 throw new CommandException(MESSAGE_NOT_EDITED_FOR_CONTACT);
             }
             Contact editedPerson = (Contact) personToEdit;
-            editedPerson.setCompany(editContactDescriptor.getCompany().orElse(((Contact) personToEdit).getCompany()));
+            editedPerson.setCompany(editContactDescriptor.getCompany()
+                    .orElse(((Contact) personToEdit).getCompany()));
             editedPerson.setDepartment(editContactDescriptor.getDepartment()
                             .orElse(((Contact) personToEdit).getDepartment()));
             editedPerson.setTitle(editContactDescriptor.getTitle().orElse(((Contact) personToEdit).getTitle()));
@@ -604,7 +607,7 @@ public class EditDetailsCommand extends UndoableCommand {
      * corresponding field value of the person.
      */
     public static class EditContactDescriptor {
-        private String company = null;
+        private Account company = null;
         private String department = null;
         private String title = null;
 
@@ -628,10 +631,14 @@ public class EditDetailsCommand extends UndoableCommand {
         }
 
         public void setCompany(String company) {
+            this.company = new Account(company);
+        }
+
+        public void setCompany(Account company) {
             this.company = company;
         }
 
-        public Optional<String> getCompany() {
+        public Optional<Account> getCompany() {
             return Optional.ofNullable(company);
         }
 
@@ -670,6 +677,71 @@ public class EditDetailsCommand extends UndoableCommand {
                     && getDepartment().equals(e.getDepartment())
                     && getTitle().equals(e.getTitle());
         }
+    }
+}
+```
+###### /java/seedu/address/storage/XmlAdaptedAccount.java
+``` java
+package seedu.address.storage;
+
+import javax.xml.bind.annotation.XmlValue;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.account.Account;
+
+/**
+ * JAXB-friendly adapted version of the Account.
+ */
+public class XmlAdaptedAccount {
+
+    @XmlValue
+    private String accountName;
+
+    /**
+     * Constructs an XmlAdaptedAccount.
+     * This is the no-arg constructor that is required by JAXB.
+     */
+    public XmlAdaptedAccount() {}
+
+    /**
+     * Constructs a {@code XmlAdaptedAccount} with the given {@code accountName}.
+     */
+    public XmlAdaptedAccount(String accountName) {
+        this.accountName = accountName;
+    }
+
+    /**
+     * Converts a given Account into this class for JAXB use.
+     *
+     * @param source future changes to this will not affect the created
+     */
+    public XmlAdaptedAccount(Account source) {
+        accountName = source.accountName;
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted account object into the model's Account object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
+    public Account toModelType() throws IllegalValueException {
+        if (!Account.isValidAccountName(accountName)) {
+            throw new IllegalValueException(Account.MESSAGE_ACCOUNT_CONSTRAINTS);
+        }
+        return new Account(accountName);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof XmlAdaptedAccount)) {
+            return false;
+        }
+
+        return accountName.equals(((XmlAdaptedAccount) other).accountName);
     }
 }
 ```
@@ -743,6 +815,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.account.Account;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -761,7 +834,7 @@ public class Contact extends Person {
 
     private final UniqueTagList tags;
 
-    private String company = null;
+    private Account company = null;
     private String department = null;
     private String title = null;
     private String convertedDate = null;
@@ -805,8 +878,12 @@ public class Contact extends Person {
         return type;
     }
 
-    public void setCompany(String newCompany) {
+    public void setCompany(Account newCompany) {
         this.company = newCompany;
+    }
+
+    public void setCompany(String newCompany) {
+        this.company = new Account(newCompany);
     }
 
     public void setDepartment(String newDepartment) {
@@ -821,7 +898,7 @@ public class Contact extends Person {
         this.convertedDate = newConvertedDate;
     }
 
-    public String getCompany() {
+    public Account getCompany() {
         return this.company;
     }
 
@@ -1051,6 +1128,26 @@ public class Lead extends Person {
     }
 }
 ```
+###### /java/seedu/address/model/AddressBook.java
+``` java
+    /**
+     *  Updates the master account list to include account in {@code person} that is not in the list.
+     *  Updates the person to point to an Account object in the master list.
+     */
+    private void syncWithMasterAccountList(Contact person) {
+        final UniqueAccountList personAccounts = new UniqueAccountList(person.getCompany());
+        accounts.mergeFrom(personAccounts);
+
+        // Create map with values = tag object references in the master list
+        // used for checking person tag references
+        final Map<Account, Account> masterAccountObjects = new HashMap<>();
+        accounts.forEach(account -> masterAccountObjects.put(account, account));
+
+        // Rebuild the list of person tags to point to the relevant tags in the master tag list.
+        final Account correctAccountReferences = masterAccountObjects.get(person.getCompany());
+        person.setCompany(correctAccountReferences);
+    }
+```
 ###### /java/seedu/address/model/ModelManager.java
 ``` java
     @Override
@@ -1061,4 +1158,218 @@ public class Lead extends Person {
         addressBook.convertPerson(lead, contact);
         indicateAddressBookChanged();
     }
+```
+###### /java/seedu/address/model/account/UniqueAccountList.java
+``` java
+package seedu.address.model.account;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import seedu.address.commons.exceptions.DuplicateDataException;
+import seedu.address.commons.util.CollectionUtil;
+
+/**
+ * A list of accounts that enforces no nulls and uniqueness between its elements.
+ *
+ * Supports minimal set of list operations for the app's features.
+ *
+ * @see Account#equals(Object)
+ */
+public class UniqueAccountList implements Iterable<Account> {
+
+    private final ObservableList<Account> internalList = FXCollections.observableArrayList();
+
+    /**
+     * Constructs empty AccountList.
+     */
+    public UniqueAccountList() {}
+
+    /**
+     * Creates a UniqueAccountList using given account.
+     * Enforces no nulls.
+     */
+    public UniqueAccountList(Set<Account> accounts) {
+        requireAllNonNull(accounts);
+        internalList.addAll(accounts);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Creates a UniqueAccountList using given account.
+     * Enforces no nulls.
+     */
+    public UniqueAccountList(Account account) {
+        requireNonNull(account);
+        internalList.add(account);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Returns all accounts in this list as a Set.
+     * This set is mutable and change-insulated against the internal list.
+     */
+    public Set<Account> toSet() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return new HashSet<>(internalList);
+    }
+
+    /**
+     * Replaces the Accounts in this list with those in the argument account list.
+     */
+    public void setAccounts(Set<Account> accounts) {
+        requireAllNonNull(accounts);
+        internalList.setAll(accounts);
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Ensures every account in the argument list exists in this object.
+     */
+    public void mergeFrom(UniqueAccountList from) {
+        final Set<Account> alreadyInside = this.toSet();
+        from.internalList.stream()
+                .filter(account -> !alreadyInside.contains(account))
+                .forEach(internalList::add);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Returns true if the list contains an equivalent Account as the given argument.
+     */
+    public boolean contains(Account toCheck) {
+        requireNonNull(toCheck);
+        return internalList.contains(toCheck);
+    }
+
+    /**
+     * Adds a Account to the list.
+     *
+     * @throws DuplicateAccountException if the Account to add is a duplicate of an existing Account in the list.
+     */
+    public void add(Account toAdd) throws DuplicateAccountException {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicateAccountException();
+        }
+        internalList.add(toAdd);
+
+        assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    @Override
+    public Iterator<Account> iterator() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return internalList.iterator();
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<Account> asObservableList() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return other == this // short circuit if same object
+                || (other instanceof UniqueAccountList // instanceof handles nulls
+                        && this.internalList.equals(((UniqueAccountList) other).internalList));
+    }
+
+    /**
+     * Returns true if the element in this list is equal to the elements in {@code other}.
+     * The elements do not have to be in the same order.
+     */
+    public boolean equalsOrderInsensitive(UniqueAccountList other) {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        assert CollectionUtil.elementsAreUnique(other.internalList);
+        return this == other || new HashSet<>(this.internalList).equals(new HashSet<>(other.internalList));
+    }
+
+    @Override
+    public int hashCode() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return internalList.hashCode();
+    }
+
+    /**
+     * Signals that an operation would have violated the 'no duplicates' property of the list.
+     */
+    public static class DuplicateAccountException extends DuplicateDataException {
+        protected DuplicateAccountException() {
+            super("Operation would result in duplicate accounts");
+        }
+    }
+
+}
+```
+###### /java/seedu/address/model/account/Account.java
+``` java
+package seedu.address.model.account;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
+/**
+ * Represents an Account in the address book.
+ * Guarantees: immutable; name is valid as declared in {@link #isValidAccountName(String)}
+ */
+public class Account {
+
+    public static final String MESSAGE_ACCOUNT_CONSTRAINTS = "Account names should be alphanumeric";
+    public static final String ACCOUNT_VALIDATION_REGEX = "\\p{Alnum}+";
+
+    public final String accountName;
+
+    /**
+     * Constructs a {@code Tag}.
+     *
+     * @param accountName A valid tag name.
+     */
+    public Account(String accountName) {
+        requireNonNull(accountName);
+        checkArgument(isValidAccountName(accountName), MESSAGE_ACCOUNT_CONSTRAINTS);
+        this.accountName = accountName;
+    }
+
+    /**
+     * Returns true if a given string is a valid tag name.
+     */
+    public static boolean isValidAccountName(String test) {
+        return test.matches(ACCOUNT_VALIDATION_REGEX);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Account // instanceof handles nulls
+                && this.accountName.equals(((Account) other).accountName)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return accountName.hashCode();
+    }
+
+    /**
+     * Format state as text for viewing.
+     */
+    public String toString() {
+        return accountName;
+    }
+
+}
 ```

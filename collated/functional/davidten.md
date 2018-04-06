@@ -120,8 +120,13 @@ public class BrowserWindow extends UiPart<Stage> {
 ``` java
     @Subscribe
     private void handleCloseBrowserEvent(HideBrowserRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        handleHideBrowser();
+        try {
+            logger.info(LogsCenter.getEventHandlingLogMessage(event));
+            handleHideBrowser();
+        } catch (Exception e) {
+            logger.info(e.toString());
+            EventsCenter.getInstance().post(new NewResultAvailableEvent("Login Failed."));
+        }
     }
 
     @Subscribe
@@ -178,6 +183,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
+import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
@@ -201,11 +207,7 @@ public class Oauth2Client {
      */
     public static void authenticateWithLinkedIn(Config configuration) throws IOException {
         config = configuration;
-        try {
-            startServer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        startServer();
 
         clientId = config.getAppId();
 
@@ -220,12 +222,16 @@ public class Oauth2Client {
     /**
      * Starts a webserver and allows it to expect a response at the context specified
      */
-    public static void startServer() throws IOException {
-        int port = 13370;
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/test", new MyHandler());
-        server.setExecutor(null);
-        server.start();
+    public static void startServer() {
+        try {
+            int port = 13370;
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+            server.createContext("/test", new MyHandler());
+            server.setExecutor(null);
+            server.start();
+        } catch (IOException e) {
+            logger.info("Server likely to have been started already " + e.toString());
+        }
     }
 
     /**
@@ -302,6 +308,7 @@ public class Oauth2Client {
 
                 logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
                 logger.info("Access Token is " + accessToken);
+                EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
                 ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
 
@@ -527,7 +534,7 @@ public class ShareToLinkedInCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Post shared to your linkedIn account";
     private static String post;
-
+    private static boolean postSuccess = false;
     /**
      * Default constructor
      */
@@ -547,7 +554,13 @@ public class ShareToLinkedInCommand extends Command {
         //send event To Main to obtain the configuration file.
         EventsCenter.getInstance().post(new ShareToLinkedInEvent());
         //post success
-        return new CommandResult(MESSAGE_SUCCESS);
+        if (postSuccess) {
+            return new CommandResult(MESSAGE_SUCCESS);
+        } else {
+            return new CommandResult("Failed to post to LinkedIn");
+        }
+
+
     }
 
     /**
@@ -555,9 +568,13 @@ public class ShareToLinkedInCommand extends Command {
      * This method posts the post to LinkedIn.
      */
     public static void postToLinkedIn(Config config) {
+        postSuccess = false;
         Logger logger = LogsCenter.getLogger(Oauth2Client.class);
         String accessToken = config.getAppSecret();
-
+        if (accessToken == null || accessToken.length() == 0) {
+            //was unable to share..
+            return;
+        }
         //use the linkedin api to send to linkedin
         HttpClient httpclient = HttpClients.custom()
                                 .setDefaultRequestConfig(RequestConfig.custom()
@@ -588,9 +605,8 @@ public class ShareToLinkedInCommand extends Command {
             // Read the contents of an entity and return it as a String.
             String content = EntityUtils.toString(entity);
 
-
-
             logger.info("RECEIVED A RESPONSE FROM THE SERVER: " + content);
+            postSuccess = true;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
