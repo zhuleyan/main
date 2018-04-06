@@ -183,7 +183,7 @@ Converts the 4th person in the list to a Contact.
 
 === Adding an Account to a Contact : `account`
 
-'Coming in V1.4'
+'Coming in V1.5'
 
 Adds an Account to a Contact. +
 Format: `account INDEX an/ACCOUNTNAME`
