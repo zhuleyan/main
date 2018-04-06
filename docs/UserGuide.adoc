@@ -55,13 +55,13 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.2: Able to add leads into CRM book and convert leads into contacts. All commands can be performed using its respective aliases. Able to start process of LinkedIn Integration. Able to generate a color for the tags added. Able to add/remove/edit the remark of a person.
 
-* In v 1.3: Introduce calander for meetings. Able to detect a duplicate based on a phone number. Able to fully authenticate linkedIn, and share posts to LinkedIn. All alias commands will be completed. Auto-Complete of commands enabled. Able to sort all persons in list by name alphabetically.
+* In v 1.3: Able to detect a duplicate based on a phone number. Able to fully authenticate linkedIn, and share posts to LinkedIn. All alias commands will be completed. Auto-Complete of commands enabled. Able to sort all persons in list by name alphabetically.
 
-* In v 1.4: Able to book meetings using the calender. Able to detect a duplicate based on a email address. Able to list out all Leads and Contacts at user's request. CRM Book will alert you if a contact switches companies. Able to change theme statically. Able to bulk import a csv file.
+* In v 1.4: Added Accounts. Made CRMBook look nicer.
 
 * In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Full LinkedIn integration. Google Maps integration to show a salesperson how to get to a lead's office. There are multiple themes for user to choose from.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a lead's office. There are multiple themes for user to choose from. Google Maps.
 
 * Group leads from different companies that share the same parent company under a category named after the parent company.
 Example: Leads from Skype and Nokia can be categorised under a group called Microsoft.
