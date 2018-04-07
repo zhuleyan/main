@@ -22,12 +22,12 @@ using a CLI (Command Line Interface).
 
 * <<UserGuide#, User Guide>>
 * <<DeveloperGuide#, Developer Guide>>
-* <<LearningOutcomes#, Learning Outcomes>>
 * <<AboutUs#, About Us>>
 * <<ContactUs#, Contact Us>>
 
 == Acknowledgements
 
 * The original source of the code is the AddressBook-level4 project created by the SE-EDU initiative at https://github.com/se-edu/
+* An open source library called Apache Commons CSV is used to process CSV files.
 
 == Licence : link:LICENSE[MIT]
