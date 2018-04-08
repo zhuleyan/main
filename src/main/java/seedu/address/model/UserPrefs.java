@@ -12,7 +12,7 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
-    private String mainWindowFilePath = "MainWindowLight.fxml";
+    private String mainWindowFilePath = "MainWindow.fxml";
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);
