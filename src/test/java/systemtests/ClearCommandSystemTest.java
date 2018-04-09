@@ -66,8 +66,8 @@ public class ClearCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: clear empty address book using alias-> cleared */
-        //assertCommandSuccess(ClearCommand.COMMAND_ALIAS);
-        //assertSelectedCardUnchanged();
+        assertCommandSuccess(ClearCommand.COMMAND_ALIAS);
+        assertSelectedCardUnchanged();
 
         /* Case: mixed case command word -> rejected */
         assertCommandFailure("ClEaR", MESSAGE_UNKNOWN_COMMAND);
