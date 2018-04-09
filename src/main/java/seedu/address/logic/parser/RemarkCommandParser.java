@@ -23,7 +23,12 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
      */
     public RemarkCommand parse(String args) throws ParseException {
         requireNonNull(args);
+
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+
+        if (!arePrefixPresent(argMultimap, PREFIX_REMARK)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
+        }
 
         Index index;
 
@@ -37,5 +42,13 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
         String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
 
         return new RemarkCommand(index, new Remark(remark));
+    }
+
+    /**
+     * Returns true if the remark prefix doesn't contain empty {@code Optional} value in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
+        return argumentMultimap.getValue(prefix).isPresent();
     }
 }
