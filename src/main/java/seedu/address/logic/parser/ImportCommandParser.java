@@ -15,6 +15,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
@@ -48,10 +49,10 @@ public class ImportCommandParser {
             }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
-                Name name = new Name(csvRecord.get(0));
-                Phone phone = new Phone(csvRecord.get(1));
-                Email email = new Email(csvRecord.get(2));
-                Address address = new Address(csvRecord.get(3));
+                Name name = ParserUtil.parseName(csvRecord.get(0));
+                Phone phone = ParserUtil.parsePhone(csvRecord.get(1));
+                Email email = ParserUtil.parseEmail(csvRecord.get(2));
+                Address address = ParserUtil.parseAddress(csvRecord.get(3));
                 Remark remark = new Remark("");
                 Set<Tag> tagList = Collections.emptySet();
 
@@ -61,6 +62,8 @@ public class ImportCommandParser {
             return new ImportCommand(list);
         } catch (IOException e) {
             throw new ParseException("invalid file path");
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
     }
 }
