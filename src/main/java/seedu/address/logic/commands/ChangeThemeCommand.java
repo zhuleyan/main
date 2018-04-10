@@ -36,4 +36,11 @@ public class ChangeThemeCommand extends Command {
         }
         return new CommandResult(String.format(MESSAGE_CHANGE_THEME_SUCCESS, targetTheme));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ChangeThemeCommand // instanceof handles nulls
+                && this.targetTheme.equals(((ChangeThemeCommand) other).targetTheme)); // state check
+    }
 }
