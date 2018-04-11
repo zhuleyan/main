@@ -65,9 +65,9 @@ public class ImportCommandParser {
         } catch (IOException e) {
             throw new ParseException("invalid file path");
         } catch (IllegalValueException ive) {
-            String errormessage = ive.getMessage();
-            String index = "Error at the person of index " + index + ": ";
-            String result = index.concat(errormessage);
+            String errorMessage = ive.getMessage();
+            String indexMessage = "Error at the person of index " + index + ": ";
+            String result = indexMessage.concat(errorMessage);
             throw new ParseException(result, ive);
         }
     }
