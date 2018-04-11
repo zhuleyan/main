@@ -14,15 +14,20 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 == Summary of contributions
 
 * *Major enhancement*: Added *the ability to import a CSV file*
-** What it does: allows the user to import a CSV file at a time.
+** What it does: When the user has a CSV file of Leads, he can directly import the file without adding the Leads one by one.
 ** Justification: This feature improves the product significantly because a user can add a large number of persons into the CRM Book at the same time without typing so many `add` command
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
+** Credits: An open source library called Apache Commons CSV is used to process CSV files.
 
 * *Minor enhancement*: Added a remark command that allows the user to add/remove/edit the remark of a person.
 
 * *Minor enhancement*: Added a sort command that allows the user to sort all persons in the list by name alphabetically.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/zhuleyan.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/zhuleyan.md[Test code]]
+
+* *Other contributions*:
+
+** Community:
+*** Reported bugs and suggestions for other teams in class.
 
 
 == Contributions to the User Guide
