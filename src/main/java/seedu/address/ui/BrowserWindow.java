@@ -14,7 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 public class BrowserWindow extends UiPart<Stage> {
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
-    private static final String FXML = "HelpWindow.fxml";
+    private static String FXML = "HelpWindow.fxml";
 
     @FXML
     private WebView browser;
@@ -33,6 +33,19 @@ public class BrowserWindow extends UiPart<Stage> {
     }
 
     /**
+     * Creates a new BrowserWindow with specified fxml.
+     *
+     * @param root Stage to use as the root of the HelpWindow.
+     */
+    public BrowserWindow(Stage root, String url, String fxml) {
+        super(fxml, root);
+        logger.info("Starting a web page with fxml: " + fxml);
+        logger.info("Starting a web page at URL: " + url);
+        browser.getEngine().load(url);
+        logger.info("Loading a web page");
+    }
+
+    /**
      * Creates a new BrowserWindow.
      */
     public BrowserWindow(String url) {
@@ -44,6 +57,13 @@ public class BrowserWindow extends UiPart<Stage> {
      */
     public BrowserWindow() {
         this(new Stage(), "");
+    }
+
+    /**
+     * Creates a new BrowserWindow.
+     */
+    public BrowserWindow(String url, String fxml) {
+        this(new Stage(), url, fxml);
     }
 
     /**
