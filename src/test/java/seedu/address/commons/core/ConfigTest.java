@@ -19,7 +19,8 @@ public class ConfigTest {
                 + "Preference file Location : preferences.json\n"
                 //@@author davidten
                 + "App Id: 78ameftoz7yvk4\n"
-                + "App Secret: null";
+                + "App Secret: null\n"
+                + "User Location: null";
         //@@author
         assertEquals(defaultConfigAsString, new Config().toString());
     }

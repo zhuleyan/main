@@ -18,6 +18,7 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditDetailsCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.GoogleSetLocationCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ImportCommand;
@@ -69,6 +70,10 @@ public class AddressBookParser {
         case LinkedInLoginCommand.COMMAND_WORD:
         case LinkedInLoginCommand.COMMAND_ALIAS:
             return new LinkedInLoginCommand();
+
+        case GoogleSetLocationCommand.COMMAND_WORD:
+        case GoogleSetLocationCommand.COMMAND_ALIAS:
+            return new GoogleSetLocationCommandParser().parse(arguments);
         //@@author
         case AddCommand.COMMAND_WORD:
         case AddCommand.COMMAND_ALIAS:

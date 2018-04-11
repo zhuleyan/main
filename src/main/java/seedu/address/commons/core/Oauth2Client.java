@@ -64,7 +64,8 @@ public class Oauth2Client {
         String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
             + clientId + "&redirect_uri=" + redirectUri + "&state=123";
 
-        bWindow = new BrowserWindow(urlString);
+        String fxmlString = "LinkedInLoginWindow.fxml";
+        bWindow = new BrowserWindow(urlString, fxmlString);
         bWindow.show();
 
     }
