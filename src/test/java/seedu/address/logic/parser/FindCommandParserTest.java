@@ -31,4 +31,27 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
     }
 
+    //@@author Sheikh-Umar
+    @Test
+    public void parse_validArgs_returnsFindCommandForPhoneNumber() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("99991234", "88776655")));
+        assertParseSuccess(parser, "99991234 88776655", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n 99991234 \n \t 88776655  \t", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommandForEmailAddress() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("johntan@gmail.com")));
+        assertParseSuccess(parser, "johntan@gmail.com", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n johntan@gmail.com  \t", expectedFindCommand);
+    }
+    //@@author
 }

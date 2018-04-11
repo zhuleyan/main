@@ -270,12 +270,13 @@ Selects the 1st person in the results of the `find` command
 //tag::bulkimport[]
 === Importing a CSV file : `i`, `import`
 
-Imports a CSV file to the CRM Book. +
+When you have a CSV file of Leads, you can directly import the file to the CRM Book without adding them one by one. +
 Format: `i PATH`, `import PATH`
 
 ****
 * The path refers to the path of the file that the user wants to import.
 * The path must be a valid file path.
+* The columns in the CSV file should be `name`, `phone`, `email`, `address` respectively. The order has to be followed restrictively to guarantee the success of import.
 ****
 
 Examples:

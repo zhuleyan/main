@@ -6,6 +6,9 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.DANIEL;
+import static seedu.address.testutil.TypicalPersons.ELLE;
+import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import java.util.ArrayList;
@@ -41,6 +44,67 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
+        /* Case: find phone number of person in address book -> 1 person found */
+        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email of person in address book -> 1 person found */
+        command = FindCommand.COMMAND_WORD + " " + DANIEL.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        //@@author Sheikh-Umar
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + BENSON.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, BENSON);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + FIONA.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, FIONA);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + GEORGE.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, GEORGE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + ELLE.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, ELLE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + BENSON.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, BENSON);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + FIONA.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, FIONA);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + GEORGE.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, GEORGE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + ELLE.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, ELLE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+        //@@author
         /* Case: find person where person list is not displaying the person we are finding -> 1 person found */
         command = FindCommand.COMMAND_WORD + " Carl";
         ModelHelper.setFilteredList(expectedModel, CARL);
@@ -111,11 +175,6 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
-        /* Case: find phone number of person in address book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPhone().value;
-        assertCommandSuccess(command, expectedModel);
-        assertSelectedCardUnchanged();
-
         /* Case: find address of person in address book -> 0 persons found */
         command = FindCommand.COMMAND_WORD + " " + DANIEL.getAddress().value;
         assertCommandSuccess(command, expectedModel);
@@ -123,11 +182,6 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: find address of person in address book using alias command -> 0 persons found */
         command = FindCommand.COMMAND_ALIAS + " " + DANIEL.getAddress().value;
-        assertCommandSuccess(command, expectedModel);
-        assertSelectedCardUnchanged();
-
-        /* Case: find email of person in address book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getEmail().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
