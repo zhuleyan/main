@@ -145,6 +145,24 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 * `e 2 p/99990000 e/johndoe@example.com` +
 Edits the phone number and email address of the 1st person to be `99990000` and `johndoe@example.com` respectively.
 
+=== Adding nonessential details of a person : `adddetails`
+
+Edits an existing person in the address book. +
+For Leads, format: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]`
+For Contacts, format: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
+
+****
+* Adds details to the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* At least one of the optional fields must be provided.
+****
+
+Examples:
+
+* `adddetails 1 c/Macrosoft r/4` +
+For the first person, makes Macrosoft the company and sets the rating to 4. This person must be a Lead.
+* `adddetails 2 d/IT t/Mr.` +
+Sets the department of the 2nd person to be `IT` and sets the title to `Mr.`. This person must be a Contact.
+
 === Editing nonessential details of a person : `editdetails`
 
 Edits an existing person in the address book. +
@@ -422,6 +440,8 @@ e.g. `disp Lead`, `display Contact`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
+* *AddDetails* :  For Leads: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
+For Contacts: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *EditDetails* :  For Leads: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +

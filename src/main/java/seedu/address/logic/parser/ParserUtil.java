@@ -12,6 +12,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.Theme;
+import seedu.address.model.account.Account;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -201,8 +202,11 @@ public class ParserUtil {
      * Parses a {@code String company}.
      * Leading and trailing whitespaces will be trimmed.
      */
-    public static String parseCompany(String company) {
+    public static String parseCompany(String company) throws IllegalValueException {
         requireNonNull(company);
+        if (!Account.isValidAccountName(company)) {
+            throw new IllegalValueException(Account.MESSAGE_ACCOUNT_CONSTRAINTS);
+        }
         return company.trim();
     }
 
@@ -210,7 +214,7 @@ public class ParserUtil {
      * Parses a {@code Optional<String> company} into an {@code Optional<String>} if {@code company} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<String> parseCompany(Optional<String> company) {
+    public static Optional<String> parseCompany(Optional<String> company) throws IllegalValueException {
         requireNonNull(company);
         return company.isPresent() ? Optional.of(parseCompany(company.get())) : Optional.empty();
     }

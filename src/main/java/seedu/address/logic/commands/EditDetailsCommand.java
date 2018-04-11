@@ -31,6 +31,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 public class EditDetailsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "editdetails";
+    public static final String COMMAND_ALIAS = "adddetails";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the fine details of the Lead/Contact identified "
             + "by the index number used in the last Leads-Contacts listing. "

@@ -11,7 +11,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Account {
 
     public static final String MESSAGE_ACCOUNT_CONSTRAINTS = "Account names should be alphanumeric";
-    public static final String ACCOUNT_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String ACCOUNT_VALIDATION_REGEX = "[\\p{Alnum} ]+";
 
     public final String accountName;
 
