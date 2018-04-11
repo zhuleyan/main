@@ -24,18 +24,14 @@ public class ChangeThemeCommandTest {
         ChangeThemeCommand changeThemeCommand = prepareCommand(theme);
 
         String expectedMessage = String.format(ChangeThemeCommand.MESSAGE_CHANGE_THEME_SUCCESS, theme);
-
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.updateTheme("light");
-
-        assertCommandSuccess(changeThemeCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(changeThemeCommand, model, expectedMessage, model);
     }
 
     @Test
     public void execute_currentThemeEqualsInputTheme_failure() {
-        Theme theme = new Theme("dark");
+        Theme theme = new Theme("blue");
         ChangeThemeCommand changeThemeCommand = prepareCommand(theme);
-        String expectedMessage = String.format(ChangeThemeCommand.MESSAGE_CHANGE_THEME_FAIL, "dark");
+        String expectedMessage = String.format(ChangeThemeCommand.MESSAGE_CHANGE_THEME_FAIL, "blue");
         assertCommandSuccess(changeThemeCommand, model, expectedMessage, model);
     }
 

@@ -30,7 +30,7 @@ public class UserPrefs {
         guiSettings = new GuiSettings(width, height, x, y);
     }
 
-    //@@author A0155428B
+    //@@author A0155428B-unused
     public String getMainWindowFile() {
         return mainWindowFilePath;
     }
