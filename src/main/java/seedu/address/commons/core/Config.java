@@ -17,6 +17,15 @@ public class Config {
     //@@author davidten
     private String appId = "78ameftoz7yvk4";
     private String appSecret;
+    private String userLocation;
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String address) {
+        userLocation = address;
+    }
 
     public String getAppSecret() {
         return appSecret;
@@ -84,6 +93,7 @@ public class Config {
         //@@author davidten
         sb.append("\nApp Id: " + appId);
         sb.append("\nApp Secret: " + appSecret);
+        sb.append("\nUser Location: " + userLocation);
         //@@author
         return sb.toString();
     }

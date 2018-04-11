@@ -10,8 +10,6 @@ import seedu.address.commons.core.Oauth2Client;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-
-
 /**
  * Parses user input
  */
