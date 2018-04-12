@@ -16,14 +16,19 @@ By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 //tag::description[]
-CRM Book application aims to assist salespeople in managing the information of Leads and Contacts more optimally for future sales decisions.
-Leads are people that salespeople want to sell to. Contacts are people that salespeople have sold to.
 
-Unique features of this application include identifying if a Lead to be added in is a duplicate,
-scheduling appointments with Leads through the Calander, converting a Lead to a Contact after a sales transaction, and integrating LinkedIn to allow
-a salesperson to know if one of their Contacts changed companies.
-*More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
-CRM Book can get your contact management tasks done faster than traditional GUI apps.
+A CRM System is a Customer Relationship Management system, mainly used in the real world by Sales and Marketing teams to manage their business-customer relationships, as well as to manage business contacts, employees, clients, contract wins and sales leads. Some examples of popular CRMs include Salesforce, SAP, and Microsoft Dynamics CRM.
+
+A common complaint against such traditional CRMs is that they are large, contain too many functionalities, and in some cases even require additional training before using. (Search for: Salesforce Trailhead)
+
+The CRM Book application aims to assist Salespeople by implementing the most important functionality of a CRM System, that is, managing their business contacts and clients. In a CRM, business contacts are seperated into two categories, Leads and Contacts. Leads are people that the salesperson has sold to in the past, while Contacts are people whom the salesperson has sold to before, even if the company they represent may no longer purchase the product. Also, accounts represent Companies.
+
+Some unique features of this CRM in v1.5 that benefits the individual Salesperson even more is an enhanced detection of duplicates through fields such as email and phone number, importing of a CSV file of leads that the salesperson may have bought through a mailing list or obtained through a tradeshow, sharing of posts about their company through LinkedIn, as well as seeing directions to their Lead's office through Google Maps. It is important to note that these features all enhance the experience of the salesperson, and does not distract from the core functionality of managing their relationship with their leads and contacts.
+
+Future releases of the CRM Book would include the ability to schedule meetings through a Calendar, integration with other Social Media networks to post company related news, allowing a client to choose a meeting slot among a few that the salesperson has specified, and also manage the contracts that tie a Contact to an account.
+
+*More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CRM Book can get your contact management tasks done faster than traditional GUI apps.
+
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 //end::description[]
 
@@ -75,23 +80,25 @@ Example: Leads from Skype and Nokia can be categorised under a group called Micr
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `h`, `help`
+=== Viewing help: `h`, `help`
 
 Format: `h`, `help`
 
-=== Log in to LinkedIn : 'linklog', 'linkedin_login'
+//tag::linkedinLogin[]
+=== Log in to LinkedIn: `linklog`, `linkedin_login`
 
 Format: 'linklog', 'linkedin_login'
 
 [TIP]
 A LinkedIn Login is required if you want to share posts to linkedIn. If this is your first login, you will also have to give permissions for CRM Book in LinkedIn via a pop up.
 
-=== Share a Post on LinkedIn : 'linkshare', 'linkedin_share'
+=== Share a Post on LinkedIn: `linkshare`, `linkedin_share`
 
 Format: 'linkshare [content]', 'linkedin_share [content]'
 
 [TIP]
 This command will allow you to share a post on LinkedIn to all your connections. This will allow you to share any interesting marketing materials your company may be involved in quickly.
+//end::linkedinLogin[]
 
 === Adding a Lead: `a`, `add`
 
@@ -418,6 +425,20 @@ Format: `changetheme THEME`
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
+// tag::setlocation[]
+=== Setting current location: `set_office_address`, `setA`
+Sets the current office address for Google Maps +
+Format: `setA a/ADDRESS
+
+[TIP]
+Setting this address is required if you want to see the Google Map directions to a customer's location
+// end::setlocation[]
+
+// tag::getdirections[]
+=== Get directions to customer's office: commandless
+To activate this, have a office address set and click on one of your customer's name card.
+// end::getdirections[]
+
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
 
@@ -454,7 +475,8 @@ For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 e.g. `f Chris`, `find James Jake`, `f 99881122`, `find john@gmail.com`
 // end::findcommandsummary[]
 * *Linkedin_login* : `linklog`, `linkedin_login`
-* *Linkedin_share* : `linkshare [content]`, `linkedin_share [content]`
+* *Linkedin_share* : `linkshare [content]`, `linkedin_share CONTENT`
+* *SetOfficeAddress* : `set_office_address a/ADDRESS`, `setA a/ADDRESS`
 * *List* : `l`, `list`
 * *Help* : `h`, `help`
 * *Select* : `s INDEX`, `select INDEX` +

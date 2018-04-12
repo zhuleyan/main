@@ -58,7 +58,7 @@ public class Oauth2Client {
      * starts a webserver and opens a browser for Linkedin Authorization
      */
     public static void authenticateWithLinkedIn() throws IOException {
-        setupConfig();
+        config = setupConfig();
         startServer();
 
         clientId = config.getAppId();
@@ -74,7 +74,7 @@ public class Oauth2Client {
     /**
      * Called to start reading the configuration file so that we get the most updated values
      */
-    public static void setupConfig() {
+    public static Config setupConfig() {
         Config initializedConfig;
         String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
         try {
@@ -85,7 +85,7 @@ public class Oauth2Client {
                     + "Using default config properties");
             initializedConfig = new Config();
         }
-        config = initializedConfig;
+        return initializedConfig;
     }
 
     /**

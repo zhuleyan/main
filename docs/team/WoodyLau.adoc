@@ -43,11 +43,11 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-<<../UserGuide.adoc#38-editing-nonessential-details-of-a-person\--editdetails,Edit Details>>
+<<../UserGuide.adoc#39-editing-nonessential-details-of-a-person\--editdetails,Edit Details>>
 
-<<../UserGuide.adoc#39-converting-a-person\--con-convert,Convert>>
+<<../UserGuide.adoc#310-converting-a-person\--con-convert,Convert>>
 
-<<../UserGuide.adoc#211-adding-an-account-to-a-contact\--account,Account>>
+<<../UserGuide.adoc#311-adding-an-account-to-a-contact\--account,Account>>
 
 == Contributions to the Developer Guide
 

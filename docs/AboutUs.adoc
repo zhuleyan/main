@@ -9,7 +9,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 == Project Team
 
-=== David Ten
+=== Ten Chee Onn David Jonathan
 image::davidTen.png[width="150", align="left"]
 {empty}[https://github.com/davidten[github]]
 
