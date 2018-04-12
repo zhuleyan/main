@@ -393,6 +393,7 @@ Examples:
 Adds the remark 'Happy' to the 1st Lead or Contact.
 
 * `remark 4 r/` +
+
 Removes the remark of the 4th Lead or Contact.
 //end::remark[]
 
@@ -456,6 +457,7 @@ e.g.`s 1`, `select 2`
 * *Undo* : `u`, `undo`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
+* *Sort* : `st`, `sort`
 * *Import* : `i PATH`, `import PATH`
 * *Change Theme* : `changetheme THEME` +
 e.g. `changetheme dark`
