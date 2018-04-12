@@ -14,14 +14,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Oauth2Client;
+import seedu.address.commons.events.ui.ChangeThemeRequestEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
+import seedu.address.commons.events.ui.NewResultAvailableEvent;
+import seedu.address.commons.events.ui.ShareToLinkedInEvent;
 import seedu.address.commons.events.ui.ShowBrowserRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.ShareToLinkedInCommand;
+import seedu.address.model.Theme;
 import seedu.address.model.UserPrefs;
 
 
@@ -31,18 +37,20 @@ import seedu.address.model.UserPrefs;
  */
 public class MainWindow extends UiPart<Stage> {
 
-    private static final String FXML = "MainWindow.fxml";
-
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
     private Stage primaryStage;
     private Logic logic;
+
+    private String themeFilePath;
 
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
     private PersonListPanel personListPanel;
     private Config config;
     private UserPrefs prefs;
+
+
 
     @FXML
     private StackPane browserPlaceholder;
@@ -63,7 +71,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane statusbarPlaceholder;
 
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
-        super(FXML, primaryStage);
+        super(prefs.getMainWindowFile(), primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
@@ -74,6 +82,7 @@ public class MainWindow extends UiPart<Stage> {
         // Configure the UI
         setTitle(config.getAppTitle());
         setWindowDefaultSize(prefs);
+        setDefaultThemeFilePath(prefs);
 
         setAccelerators();
         registerAsAnEventHandler(this);
@@ -157,14 +166,59 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    //@@author A0155428B
+    private String getFullPath(String filePath) {
+        String fullPath = getClass().getResource(filePath).toExternalForm();
+        return fullPath;
+    }
+
+    /**
+     * Sets the default theme file path based on user preferences.
+     */
+    private void setDefaultThemeFilePath(UserPrefs prefs) {
+        this.themeFilePath = prefs.getGuiSettings().getThemeFilePath();
+        String fullPath = getFullPath(this.themeFilePath);
+        primaryStage.getScene().getStylesheets().add(fullPath);
+    }
+
+    //@@author
     /**
      * Returns the current size and the position of the main Window.
      */
     GuiSettings getCurrentGuiSetting() {
         return new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
+                (int) primaryStage.getX(), (int) primaryStage.getY(), this.themeFilePath);
     }
 
+    //@@author A0155428B
+    /**
+     * Changes the current theme
+     */
+    @FXML
+    public void handleChangeTheme(String theme) {
+        String fullPath = getFullPath(this.themeFilePath);
+        primaryStage.getScene().getStylesheets().remove(fullPath);
+
+        switch (theme) {
+        case Theme.LIGHT_THEME:
+            this.themeFilePath = Theme.LIGHT_THEME_FILE_PATH;
+            break;
+        case Theme.DARK_THEME:
+            this.themeFilePath = Theme.DARK_THEME_FILE_PATH;
+            break;
+        case Theme.BLUE_THEME:
+            this.themeFilePath = Theme.BLUE_THEME_FILE_PATH;
+            break;
+        default:
+            //this will not happen
+        }
+
+        prefs.getGuiSettings().setThemeFilePath(this.themeFilePath);
+        fullPath = getFullPath(this.themeFilePath);
+        primaryStage.getScene().getStylesheets().add(fullPath);
+    }
+
+    //@@author davidten
     /**
      * Opens the help window.
      */
@@ -175,11 +229,19 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
+     * Sends the config to shareToLinkedIn Command
+     */
+    public void shareToLinkedIn() {
+        ShareToLinkedInCommand newShare = new ShareToLinkedInCommand();
+        newShare.postToLinkedIn(config);
+    }
+
+    /**
      * Opens the linkedin authentication window.
      */
     public void handleLinkedInAuthentication() {
         try {
-            Oauth2Client.authenticateWithLinkedIn();
+            Oauth2Client.authenticateWithLinkedIn(config);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,9 +254,15 @@ public class MainWindow extends UiPart<Stage> {
         Oauth2Client.closeBrowser();
         Oauth2Client.getLinkedInS();
     }
-
+    //@@author
     void show() {
         primaryStage.show();
+    }
+
+    @Subscribe
+    private void handleChangeThemeEvent(ChangeThemeRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        handleChangeTheme(event.theme);
     }
 
     /**
@@ -213,10 +281,16 @@ public class MainWindow extends UiPart<Stage> {
         browserPanel.freeResources();
     }
 
+    //@@author davidten
     @Subscribe
     private void handleCloseBrowserEvent(HideBrowserRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        handleHideBrowser();
+        try {
+            logger.info(LogsCenter.getEventHandlingLogMessage(event));
+            handleHideBrowser();
+        } catch (Exception e) {
+            logger.info(e.toString());
+            EventsCenter.getInstance().post(new NewResultAvailableEvent("Login Failed."));
+        }
     }
 
     @Subscribe
@@ -230,4 +304,12 @@ public class MainWindow extends UiPart<Stage> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
     }
+
+    @Subscribe
+    private void handleShareToLinkedInEvent(ShareToLinkedInEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        shareToLinkedIn();
+    }
+    //@@author
+
 }
