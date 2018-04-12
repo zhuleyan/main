@@ -26,6 +26,7 @@ a salesperson to know if one of their Contacts changed companies.
 CRM Book can get your contact management tasks done faster than traditional GUI apps.
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 //end::description[]
+
 == Quick Start
 
 .  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
