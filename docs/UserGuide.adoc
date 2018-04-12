@@ -286,7 +286,7 @@ Selects the 4th person in the CRM Book
 Selects the 1st person in the results of the `find` command
 
 //tag::bulkimport[]
-=== Importing a CSV file : `i`, `import`
+=== Importing a CSV file: `i`, `import`
 
 When you have a CSV file of Leads, you can directly import the file to the CRM Book without adding them one by one. +
 Format: `i PATH`, `import PATH`
