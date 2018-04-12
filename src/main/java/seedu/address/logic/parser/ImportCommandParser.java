@@ -42,6 +42,7 @@ public class ImportCommandParser {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
         List<Lead> list = new ArrayList<>();
+        int index = 1;
         try {
             Reader reader = Files.newBufferedReader(Paths.get(args));
             if (!args.substring(args.length() - 4, args.length()).equalsIgnoreCase(".csv")) {
@@ -58,12 +59,16 @@ public class ImportCommandParser {
 
                 Lead person = new Lead(name, phone, email, address, remark, tagList);
                 list.add(person);
+                index++;
             }
             return new ImportCommand(list);
         } catch (IOException e) {
             throw new ParseException("invalid file path");
         } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
+            String errorMessage = ive.getMessage();
+            String indexMessage = "Error at the person of index " + index + ": ";
+            String result = indexMessage.concat(errorMessage);
+            throw new ParseException(result, ive);
         }
     }
 }
