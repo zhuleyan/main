@@ -1,5 +1,6 @@
 package seedu.address.commons.core;
 
+import seedu.address.logic.commands.AccountCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
@@ -10,6 +11,7 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditDetailsCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.GoogleSetLocationCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ImportCommand;
@@ -19,6 +21,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
+import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.commands.UndoCommand;
 
 /**
@@ -38,5 +41,7 @@ public class Messages {
         LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE,
         ImportCommand.COMMAND_WORD, RemarkCommand.COMMAND_WORD, EditDetailsCommand.COMMAND_WORD,
-        DisplayCommand.COMMAND_WORD, ShareToLinkedInCommand.COMMAND_WORD, ChangeThemeCommand.COMMAND_WORD};
+        DisplayCommand.COMMAND_WORD, ShareToLinkedInCommand.COMMAND_WORD, ChangeThemeCommand.COMMAND_WORD,
+        EditDetailsCommand.COMMAND_ALIAS, SortCommand.COMMAND_WORD, GoogleSetLocationCommand.COMMAND_WORD,
+        AccountCommand.COMMAND_WORD};
 }
