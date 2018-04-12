@@ -47,6 +47,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
 
+    //@@author WoodyLau
     @FXML
     private Label company;
     @FXML
@@ -57,6 +58,7 @@ public class PersonCard extends UiPart<Region> {
     private Label website;
     @FXML
     private Label department;
+    //@@author
 
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);

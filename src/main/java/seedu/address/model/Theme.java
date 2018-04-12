@@ -13,8 +13,15 @@ public class Theme {
     public static final String MESSAGE_THEME_CONSTRAINTS =
             "Theme should be either light or dark";
 
-    public final String theme;
+    public static final String DEFAULT_THEME_FILE_PATH = "/view/BlueTheme.css";
+    public static final String DARK_THEME_FILE_PATH = "/view/DarkTheme.css";
+    public static final String LIGHT_THEME_FILE_PATH = "/view/LightTheme.css";
+    public static final String BLUE_THEME_FILE_PATH = "/view/BlueTheme.css";
+    public static final String LIGHT_THEME = "light";
+    public static final String DARK_THEME = "dark";
+    public static final String BLUE_THEME = "blue";
 
+    public final String theme;
     /**
      * Constructs a {@code Theme}.
      *
@@ -30,13 +37,28 @@ public class Theme {
      * Returns true if a given string is a valid theme.
      */
     public static boolean isValidTheme(String test) {
-        if (test.equals("light") || test.equals("dark")) {
+        if (test.equals(LIGHT_THEME) || test.equals(DARK_THEME) || test.equals(BLUE_THEME)) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Converts theme string to file path
+     */
+    public String convertThemeToFilePath() {
+        switch (this.theme) {
+        case DARK_THEME:
+            return DARK_THEME_FILE_PATH;
+        case LIGHT_THEME:
+            return LIGHT_THEME_FILE_PATH;
+        case BLUE_THEME:
+            return BLUE_THEME_FILE_PATH;
+        default:
+            return DEFAULT_THEME_FILE_PATH;
+        }
+    }
 
     @Override
     public String toString() {

@@ -388,6 +388,10 @@ A user is not able to assign a remark to a person when adding the person. Theref
 The implementation of this command is much like the `EditCommand`.
 For example, when a user type `remark 2 r\Likes to swim`. Then the remark field of the 2nd person in the current list will be changed to `Likes to swim`. It’s similar to editing a person’s phone number or address.
 
+The sequence diagram is shown below:
+
+image::RemarkCommandSequenceDiagram.png[width="1000"]
+
 ==== Design Considerations
 
 ===== Aspect: Implementation of `RemarkCommand`
@@ -628,6 +632,10 @@ public class ImportCommand extends Command {
 ----
 
 When an `ImportCommand` is called, the corresponding CSV file will be processed. Then persons will be added to CRM Book automatically like what a `AddCommand` can do but without manual typing.
+
+The sequence diagram is shown below:
+
+image::ImportCommandSequenceDiagram.png[width="1000"]
 
 ==== Design Considerations
 

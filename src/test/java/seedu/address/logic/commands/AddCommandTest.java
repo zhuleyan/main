@@ -152,6 +152,12 @@ public class AddCommandTest {
         public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
             fail("This method should not be called.");
         };
+
+        @Override
+        public String getThemeFilePath() {
+            fail("This method should not be called.");
+            return null;
+        }
     }
 
     /**

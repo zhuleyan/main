@@ -65,11 +65,15 @@ public class EditDetailsCommandParser implements Parser<EditDetailsCommand> {
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
-        ParserUtil.parseCompany(argContactMultimap.getValue(PREFIX_COMPANY))
-                .ifPresent(editContactDescriptor::setCompany);
-        ParserUtil.parseDepartment(argContactMultimap.getValue(PREFIX_DEPARTMENT))
-                .ifPresent(editContactDescriptor::setDepartment);
-        ParserUtil.parseTitle(argContactMultimap.getValue(PREFIX_TITLE)).ifPresent(editContactDescriptor::setTitle);
+        try {
+            ParserUtil.parseCompany(argContactMultimap.getValue(PREFIX_COMPANY))
+                    .ifPresent(editContactDescriptor::setCompany);
+            ParserUtil.parseDepartment(argContactMultimap.getValue(PREFIX_DEPARTMENT))
+                    .ifPresent(editContactDescriptor::setDepartment);
+            ParserUtil.parseTitle(argContactMultimap.getValue(PREFIX_TITLE)).ifPresent(editContactDescriptor::setTitle);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
 
         if (!editLeadDescriptor.isAnyFieldEdited() && !editContactDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditDetailsCommand.MESSAGE_NOT_EDITED);

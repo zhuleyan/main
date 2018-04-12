@@ -61,4 +61,6 @@ public interface Model {
 
     void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException;
 
+    String getThemeFilePath();
+
 }

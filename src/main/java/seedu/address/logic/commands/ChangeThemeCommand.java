@@ -2,8 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.events.ui.ChangeThemeRequestEvent;
 import seedu.address.model.Theme;
-import seedu.address.model.exception.InputThemeEqualsCurrentThemeException;
 
 //@@author A0155428B
 /**
@@ -18,7 +19,7 @@ public class ChangeThemeCommand extends Command {
             + "Example: " + COMMAND_WORD + " light";
 
     public static final String MESSAGE_CHANGE_THEME_SUCCESS =
-            "Theme changed to %1$s. Please restart to effect the change.";
+            "Theme has been changed to %1$s.";
     public static final String MESSAGE_CHANGE_THEME_FAIL = "Current theme is %1$s.";
     private final Theme targetTheme;
 
@@ -29,12 +30,15 @@ public class ChangeThemeCommand extends Command {
     @Override
     public CommandResult execute() {
         requireNonNull(targetTheme);
-        try {
-            model.updateTheme(targetTheme.theme);
-        } catch (InputThemeEqualsCurrentThemeException e) {
+        if (isCurrentThemeEqualToTargetTheme()) {
             return new CommandResult(String.format(MESSAGE_CHANGE_THEME_FAIL, targetTheme));
         }
+        EventsCenter.getInstance().post(new ChangeThemeRequestEvent(targetTheme.toString()));
         return new CommandResult(String.format(MESSAGE_CHANGE_THEME_SUCCESS, targetTheme));
+    }
+
+    private boolean isCurrentThemeEqualToTargetTheme() {
+        return targetTheme.convertThemeToFilePath().equals(model.getThemeFilePath());
     }
 
     @Override

@@ -16,8 +16,7 @@ public class SortCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Sorted all Leads or Contacts by name";
-    //@@author
-
+    //@@author zhuleyan
     @Override
     public CommandResult execute() {
         model.sortAllPersons();

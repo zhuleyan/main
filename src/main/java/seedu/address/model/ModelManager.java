@@ -137,7 +137,7 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
-    //@@author A0155428B
+    //@@author A0155428B-unused
     @Override
     public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
         if (theme.equals("light")) {
@@ -151,5 +151,10 @@ public class ModelManager extends ComponentManager implements Model {
             }
             this.userPrefs.setMainWindowFilePath("MainWindow.fxml");
         }
+    }
+
+    @Override
+    public String getThemeFilePath() {
+        return this.userPrefs.getGuiSettings().getThemeFilePath();
     }
 }
