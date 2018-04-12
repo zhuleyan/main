@@ -29,7 +29,7 @@ Responsibilities: Duplicate detection, Basic command aliases, Display of Lead an
 
 === Woody Lau
 image::WoodyLau.png[width="150", align="left"]
-{empty}[http://github.com/WoodyLau[github]]
+{empty}[http://github.com/WoodyLau[github]] [<<WoodyLau#, portfolio>>]
 
 Role: Developer + Git Expert + Integration +
 Responsibilities: Lead, Contact and Account objects.

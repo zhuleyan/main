@@ -191,8 +191,8 @@ Format: `con INDEX`, `convert INDEX`
 
 ****
 * Converts the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* This command can be undone and redone as necessary
 * If the indicated person is a Contact, an error is thrown
+* This command can be undone and redone as necessary
 ****
 
 Examples:
