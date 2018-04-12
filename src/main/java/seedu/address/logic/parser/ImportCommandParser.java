@@ -1,3 +1,4 @@
+//@@author zhuleyan
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -26,7 +27,6 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
-//@@author zhuleyan
 /**
  * Parses input arguments and creates a new ImportCommand object
  */

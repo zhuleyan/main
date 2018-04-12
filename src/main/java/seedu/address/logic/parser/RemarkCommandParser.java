@@ -1,3 +1,4 @@
+//@@author zhuleyan-reused
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
@@ -10,7 +11,6 @@ import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Remark;
 
-//@@author zhuleyan-reused
 /**
  * Parses input arguments and creates a new RemarkCommand object
  */

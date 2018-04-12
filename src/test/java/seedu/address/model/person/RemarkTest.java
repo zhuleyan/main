@@ -1,3 +1,4 @@
+//@@author zhuleyan-reused
 package seedu.address.model.person;
 
 import static org.junit.Assert.assertFalse;
@@ -5,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-//@@author zhuleyan-reused
 public class RemarkTest {
     @Test
     public void isEqualRemark() {

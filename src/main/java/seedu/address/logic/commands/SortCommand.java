@@ -1,8 +1,8 @@
+//@@author zhuleyan
 package seedu.address.logic.commands;
 
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-//@@author zhuleyan
 /**
  * Sorts persons in CRM by name.
  */

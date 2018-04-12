@@ -1,3 +1,4 @@
+//@@author zhuleyan
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -8,7 +9,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
-//@@author zhuleyan
 /**
  * Import many persons to the address book at one time.
  */

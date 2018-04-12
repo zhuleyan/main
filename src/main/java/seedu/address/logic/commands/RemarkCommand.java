@@ -1,3 +1,4 @@
+//@@author zhuleyan-reused
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
@@ -16,7 +17,6 @@ import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
-//@@author zhuleyan-reused
 /**
  * Edits the remark of an existing person in the address book.
  */
