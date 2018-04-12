@@ -1,0 +1,54 @@
+= ZHU Leyan - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CRM Book
+
+---
+
+== Overview
+
+CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry, such as identifying duplicates.
+
+== Summary of contributions
+
+* *Major enhancement*: Added *the ability to import a CSV file*
+** What it does: When the user has a CSV file of Leads, he can directly import the file without adding the Leads one by one.
+** Justification: This feature improves the product significantly because a user can add a large number of persons into the CRM Book at the same time without typing so many `add` command
+** Credits: An open source library called Apache Commons CSV is used to process CSV files.
+
+* *Minor enhancement*: Added a remark command that allows the user to add/remove/edit the remark of a person.
+
+* *Minor enhancement*: Added a sort command that allows the user to sort all persons in the list by name alphabetically.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/zhuleyan.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/zhuleyan.md[Test code]]
+
+* *Other contributions*:
+
+** Community:
+*** Reported bugs and suggestions for other teams in class.
+
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+<<../UserGuide.adoc#321-add-or-remove-a-remark-to-a-lead-or-contact-rem-remark, Remark Command>>
+
+<<../UserGuide.adoc#322-sort-persons-by-name-in-alphabetical-order-st-sort, Sort Command>>
+
+<<../UserGuide.adoc#315-importing-a-csv-file-i-import, Import Command>>
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+<<../DeveloperGuide.adoc#32-remark-feature, Remark Command>>
+
+<<../DeveloperGuide.adoc#37-bulk-import-feature, Import Command>>

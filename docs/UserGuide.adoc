@@ -286,7 +286,7 @@ Selects the 4th person in the CRM Book
 Selects the 1st person in the results of the `find` command
 
 //tag::bulkimport[]
-=== Importing a CSV file : `i`, `import`
+=== Importing a CSV file: `i`, `import`
 
 When you have a CSV file of Leads, you can directly import the file to the CRM Book without adding them one by one. +
 Format: `i PATH`, `import PATH`
@@ -383,7 +383,7 @@ Exits the program. +
 Format: `ex`, `exit`
 
 //tag::remark[]
-=== Add or remove a remark to a Lead or Contact: `rem`, `remark`  [since v1.2]
+=== Add or remove a remark to a Lead or Contact: `rem`, `remark`
 
 Adds or removes a remark to a particular Lead or Contact. +
 Format to add remark: `rem [INDEX] r/[KEYWORD]`, `remark [INDEX] r/[KEYWORD]`
@@ -397,7 +397,7 @@ Removes the remark of the 4th Lead or Contact.
 //end::remark[]
 
 //tag::sort[]
-=== Sort persons by name in alphabetical order: `st`, `sort`  [since v1.3]
+=== Sort persons by name in alphabetical order: `st`, `sort`
 
 Sorts all persons in CRM Book by name. +
 Format: `st`, `sort`
@@ -456,6 +456,7 @@ e.g.`s 1`, `select 2`
 * *Undo* : `u`, `undo`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
+* *Sort* : `st`, `sort`
 * *Import* : `i PATH`, `import PATH`
 * *Change Theme* : `changetheme THEME` +
 e.g. `changetheme dark`
