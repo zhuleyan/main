@@ -205,8 +205,6 @@ Converts the 4th person in the list to a Contact.
 
 === Adding an Account to a Contact : `account`
 
-'Coming in V1.5'
-
 Adds an Account to a Contact. +
 Format: `account INDEX an/ACCOUNTNAME`
 
@@ -217,7 +215,7 @@ Format: `account INDEX an/ACCOUNTNAME`
 
 Examples:
 
-* `account 2 Macrosoft` +
+* `account 2 an/Macrosoft` +
 Adds the Account Macrosoft to the 2nd person in the list
 
 === Locating persons by name: `f`, `find`

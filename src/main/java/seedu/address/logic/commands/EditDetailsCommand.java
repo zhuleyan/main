@@ -269,7 +269,6 @@ public class EditDetailsCommand extends UndoableCommand {
 
         /**
          * Copy constructor.
-         * A defensive copy of {@code tags} is used internally.
          */
         public EditContactDescriptor(EditContactDescriptor toCopy) {
             setCompany(toCopy.company);
