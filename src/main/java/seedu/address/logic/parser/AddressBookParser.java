@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seedu.address.logic.commands.AccountCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
@@ -84,6 +85,7 @@ public class AddressBookParser {
         case EditCommand.COMMAND_ALIAS:
             return new EditCommandParser().parse(arguments);
 
+        //@@author WoodyLau
         case EditDetailsCommand.COMMAND_WORD:
         case EditDetailsCommand.COMMAND_ALIAS:
             return new EditDetailsCommandParser().parse(arguments);
@@ -91,6 +93,10 @@ public class AddressBookParser {
         case ConvertCommand.COMMAND_WORD:
         case ConvertCommand.COMMAND_ALIAS:
             return new ConvertCommandParser().parse(arguments);
+
+        case AccountCommand.COMMAND_WORD:
+            return new AccountCommandParser().parse(arguments);
+        //@@author
 
         case SelectCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_ALIAS:

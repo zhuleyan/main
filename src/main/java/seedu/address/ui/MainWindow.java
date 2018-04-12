@@ -241,7 +241,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void handleLinkedInAuthentication() {
         try {
-            Oauth2Client.authenticateWithLinkedIn(config);
+            Oauth2Client.authenticateWithLinkedIn();
         } catch (IOException e) {
             e.printStackTrace();
         }

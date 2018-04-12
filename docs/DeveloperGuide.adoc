@@ -500,6 +500,10 @@ A new conversion command `ConvertCommand` has been added to convert Leads into C
 
 image::ConvertSequenceDiagram1.png[width="650"]
 
+The `ConvertCommand` class calls the `convertPerson method` in the `ModelManager` class and the Sequence Diagram for the resulting steps are shown below.
+
+image::ConvertSequenceDiagram2.png[width="650"]
+
 When the user has selected a Contact instead of a Lead, an error is thrown with this code:
 
 [source,java]
@@ -517,6 +521,9 @@ public class ConvertCommand extends UndoableCommand {
     }
 }
 ----
+
+It keeps the name, phone, email, address, remarks and tags through the conversion. The company is converted if it exists into an Account. The converted date is set in the Contact.
+
 
 ==== Design Considerations
 
@@ -676,6 +683,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 A command can be performed by typing in its alias rather than the word. +
 The following is an example of implementing the alias command for the list command: +
+[source, java]
 ----
 public class ListCommand extends Command {
 
@@ -713,6 +721,21 @@ The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. 
 The feature is implemented by checking the phone number and email address of a new Lead with all of the phone numbers and email addresses of all leads and contacts currently in the CRM-Book. +
 
 The feature will be implemented on the add command because the current application detects duplicates at the add command. +
+The following is how the feature will be implemented: +
+[source, java]
+----
+public boolean contains(Person toCheck) {
+        requireNonNull(toCheck);
+        for (int i = 0; i < internalList.size(); i++) {
+            Person current = internalList.get(i);
+            if (current.getPhone().equals(toCheck.getPhone())
+                    || current.getEmail().equals(toCheck.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+----
 
 The phone number and email address of a Lead will be checked in the list of all Leads and Contacts.
 If either the phone number of email address of the Lead to be added is found in the list,
@@ -725,7 +748,7 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ==== Design Considerations
 ===== Aspect: How to implement identifying a duplicate
 * **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
-** Pros: Search will be performed in linear time.
+** Pros: Search will be performed in linear time, and enhances an existing portion of code.
 // end::duplicate[]
 
 // tag::display[]
@@ -739,6 +762,7 @@ The feature is implemented through the DisplayCommand, which is based on FindCom
 Hence, the DisplayCommand will operate similarly as the FindCommand, with the only difference being the DisplayCommand searches for all Leads or Contacts already in the CRM Book. +
 
 The `DisplayCommand` inherits from `Command`. It is implemented this way:
+[source, java]
 ----
 public class DisplayCommand extends Command {
     @Override
@@ -753,11 +777,43 @@ The following action diagram shows how the operation of displaying the Leads or 
 image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
 
 ==== Design Considerations
-===== Aspect: How displaying Lead list or Contact list works
+===== Aspect: How displaying Lead list and Contact list works
 
 * **Alternative 1 (current choice):** Iterate through the CRM Book for persons that match the keyword that user entered just like the FindCommand.
 ** Pros: Iteration will be performed in linear time, and utilises the functionality of the FindCommand.
 // end::display[]
+
+// tag::findbyphonenumberandemailaddress[]
+=== Enhancement of Find Command feature
+==== Reason for Implementation
+The user may want to search for Leads and Contacts based on phone numbers and email addresses rather than names.
+
+==== Current Implementation
+The CRM Book currently searches for a Lead or Contact based on their name.
+
+This command can be further improved by being able to find phone numbers and email addresses. +
+
+The following is how the feature will be implemented:
+[source, java]
+----
+public boolean test(Person person) {
+         return keywords.stream().anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
+                        || StringUtil.containsWordIgnoreCase(person.getPhone().value, keyword)
+                        || StringUtil.containsWordIgnoreCase(person.getEmail().value, keyword));
+     }
+ }
+----
+
+The phone number and email address that the user entered will be checked in the list of all Leads and Contacts.
+If either the phone number of email address is found in the list,
+the CRM Book will display the Leads and/or Contacts that match the keywords entered.
+If not, the CRM Book will display zero Leads and Contacts found.
+
+==== Design Considerations
+===== Aspect: How to implement finding phone numbers and email addresses
+* **Alternative 1 (current choice):** Edit the current search implementation to include finding phone numbers and email addresses.
+** Pros: Search will be performed in linear time, and utilises an existing portion of code.
+// end::findbyphonenumberandemailaddress[]
 
 // tag::changeTheme[]
 === Change Theme feature
@@ -1249,9 +1305,9 @@ David Ten: +
 * This allows them to sell to a new account using their old Contact.
 
 Umar: +
-**Major feature** : Neat display of non-duplicate data
+**Major feature** : Added duplicate detection and display list of Leads and Contacts
 
-* Implement smarter duplicate detection by verifying the whether the phone number or email address of a Lead to be entered matches any of the phone numbers or email addresses
+* Implement duplicate detection by verifying the whether the phone number or email address of a Lead to be entered matches any of the phone numbers or email addresses
 currently stored in the CRM Book.
 * Implement the display of Leads list and Contacts list separately at the salesperson's request.
 
@@ -1260,9 +1316,6 @@ currently stored in the CRM Book.
 * Ensures that commands can be performed using its alias. +
 * In the sales industry, a person may type fast and would want to execute a command quickly.
 Hence, doing a command using its alias will ensure he/she can do a certain command quicker.
-
-
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
 
 ZHU Leyan: +
 **Major Feature** : Bulk Import of Leads
@@ -1284,7 +1337,7 @@ Woody Lau: +
 * Conversion between Leads and Contacts will be supported.
 
 
-**Major Feature** : Account Creation
+**Minor Feature** : Account Creation
 
 * Allows Contacts to belong to Accounts.
 
@@ -1438,6 +1491,7 @@ Use case ends.
 +
 Use case ends.
 
+// tag:displaylistusecase[]
 === Use case: User seeks Lead list or Contact list
 
 *MSS*
@@ -1454,6 +1508,32 @@ Use case ends.
 ** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
+// end:displaylistusecase[]
+
+// tag:findphonenumberandemailaddressusecase[]
+=== Use case: User enters phone numbers and/or email addresses to find
+
+*MSS*
+
+1. User enters keywords (phone numbers and/or email addresses) for find command.
+2. CRM searches for Leads and/or Contacts that match with the keywords.
+3. User sees the Leads and/or Contacts that match with the keywords.
+
+*Extensions*
+
+[none]
+* 1a. User enters find command incorrectly.
+
+** 1a1. CRM Book displays error message.
++
+Use case ends.
+
+* 2a. CRM Book is unable to find Leads and/or Contacts that match with the keywords.
+
+** 2a1. User sees an empty list.
++
+Use case ends.
+// end:displaylistusecase[]
 
 === Use case: User posts to LinkedIn
 
@@ -1572,8 +1652,6 @@ Use case ends.
 .  Should process a query and respond within 3 seconds.
 .  Should be compatible across Linux, Windows, and MacOS operating systems.
 
-_{More to be added}_
-
 [appendix]
 == Glossary
 
@@ -1622,21 +1700,18 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
 
 === Deleting a Lead or Contact
 
-. Deleting a person while all persons are listed
+. Deleting a Lead or Contact while all Leads and Contacts are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all Leads and Contacts using the `list` command. Multiple persons in the list.
 .. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   Expected: First Lead/Contact is deleted from the list. Details of the deleted Lead/Contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
-   Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+   Expected: No Lead/Contact is deleted. Error details shown in the status message. Status bar remains the same.
+.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
-
-_{ more test cases ... }_
 
 === Saving data
 

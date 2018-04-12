@@ -20,5 +20,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_TITLE = new Prefix("t/");
     public static final Prefix PREFIX_WEBSITE = new Prefix("w/");
     public static final Prefix PREFIX_DEPARTMENT = new Prefix("d/");
+    public static final Prefix PREFIX_ACCOUNT = new Prefix("an/");
     //@@author
 }

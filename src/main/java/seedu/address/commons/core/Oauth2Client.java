@@ -12,6 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -34,6 +35,7 @@ import com.sun.net.httpserver.HttpServer;
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
+import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
@@ -55,8 +57,8 @@ public class Oauth2Client {
      * Called when user types Linkedin_login
      * starts a webserver and opens a browser for Linkedin Authorization
      */
-    public static void authenticateWithLinkedIn(Config configuration) throws IOException {
-        config = configuration;
+    public static void authenticateWithLinkedIn() throws IOException {
+        setupConfig();
         startServer();
 
         clientId = config.getAppId();
@@ -67,7 +69,34 @@ public class Oauth2Client {
         String fxmlString = "LinkedInLoginWindow.fxml";
         bWindow = new BrowserWindow(urlString, fxmlString);
         bWindow.show();
+    }
 
+    /**
+     * Called to start reading the configuration file so that we get the most updated values
+     */
+    public static void setupConfig() {
+        Config initializedConfig;
+        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
+        try {
+            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
+            initializedConfig = configOptional.orElse(new Config());
+        } catch (DataConversionException e) {
+            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
+                    + "Using default config properties");
+            initializedConfig = new Config();
+        }
+        config = initializedConfig;
+    }
+
+    /**
+     * Called to save whatever config we write into the config file
+     */
+    public static void saveConfig() {
+        try {
+            ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -161,7 +190,7 @@ public class Oauth2Client {
                 logger.info("Access Token is " + accessToken);
                 EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
-                ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+                saveConfig();
 
                 //Login Successful
             } finally {

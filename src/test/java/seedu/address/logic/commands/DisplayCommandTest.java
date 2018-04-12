@@ -58,6 +58,20 @@ public class DisplayCommandTest {
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
 
+    @Test
+    public void execute_userEnteredLeads_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        DisplayCommand command = prepareCommand("Leads");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
+    @Test
+    public void execute_userEnteredContacts_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        DisplayCommand command = prepareCommand("Contacts");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
     /**
      * Parses {@code userInput} into a {@code FindCommand}.
      */

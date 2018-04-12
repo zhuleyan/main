@@ -220,6 +220,27 @@ public class ParserUtil {
     }
 
     /**
+     * Parses an {@code String account}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseAccount(String account) throws IllegalValueException {
+        requireNonNull(account);
+        if (!Account.isValidAccountName(account)) {
+            throw new IllegalValueException(Account.MESSAGE_ACCOUNT_CONSTRAINTS);
+        }
+        return account.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> account} into an {@code Optional<String>} if {@code account} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseAccount(Optional<String> account) throws IllegalValueException {
+        requireNonNull(account);
+        return account.isPresent() ? Optional.of(parseAccount(account.get())) : Optional.empty();
+    }
+
+    /**
      * Parses a {@code String industry}.
      * Leading and trailing whitespaces will be trimmed.
      */
