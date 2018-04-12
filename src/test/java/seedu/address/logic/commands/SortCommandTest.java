@@ -28,7 +28,7 @@ public class SortCommandTest {
     }
 
     @Test
-    public void execute_sortList_Success() {
+    public void execute_sortList_success() {
         assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }
