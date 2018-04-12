@@ -75,23 +75,25 @@ Example: Leads from Skype and Nokia can be categorised under a group called Micr
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `h`, `help`
+=== Viewing help: `h`, `help`
 
 Format: `h`, `help`
 
-=== Log in to LinkedIn : 'linklog', 'linkedin_login'
+//tag::linkedinLogin[]
+=== Log in to LinkedIn: `linklog`, `linkedin_login`
 
 Format: 'linklog', 'linkedin_login'
 
 [TIP]
 A LinkedIn Login is required if you want to share posts to linkedIn. If this is your first login, you will also have to give permissions for CRM Book in LinkedIn via a pop up.
 
-=== Share a Post on LinkedIn : 'linkshare', 'linkedin_share'
+=== Share a Post on LinkedIn: `linkshare`, `linkedin_share`
 
 Format: 'linkshare [content]', 'linkedin_share [content]'
 
 [TIP]
 This command will allow you to share a post on LinkedIn to all your connections. This will allow you to share any interesting marketing materials your company may be involved in quickly.
+//end::linkedinLogin[]
 
 === Adding a Lead: `a`, `add`
 
