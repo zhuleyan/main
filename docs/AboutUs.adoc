@@ -18,12 +18,12 @@ Responsibilities: LinkedIn Integration
 
 '''
 
-=== Sheikh Umar
+=== SHEIKH UMAR BIN SHAIK ABU BAKAR BANAFE'
 image::sheikh-umar.png[width="150", align="left"]
 {empty}[https://github.com/Sheikh-Umar[github]] [<<Sheikh-Umar#, portfolio>>]
 
 Role: Documentation + Deliverables and deadlines +
-Responsibilities: Smart Duplicate detection + Command Aliases + Retrieval of Lead or Contact lists + Enhancing the Find Command
+Responsibilities: Duplicate detection, Basic command aliases, Display of Lead and Contact lists, Enhancing the Find Command
 
 '''
 

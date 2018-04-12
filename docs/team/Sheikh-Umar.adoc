@@ -1,4 +1,4 @@
-= Sheikh Umar - Project Portfolio
+= SHEIKH UMAR BIN SHAIK ABU BAKAR BANAFE' - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
@@ -21,10 +21,10 @@ Hence, this enhancement tackles this issues so that the user will have a more pl
 ** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives.
 
 * *Minor enhancement*: Created an alias command for basic commands
-** What it does: User can enter the desired action quickly.
-** Justification: Salespeople may want the CRM Book to do a command as quickly as possible. This will involve typing as few command words as possible.
+** What it does: User can make the CRM Book perform basic commands with a few letters.
+** Justification: Salespeople may want the CRM Book to do a basic command as quickly as possible. This will involve typing as few letters as possible.
 ** Highlights: Ensuring that each alias command is unique. For example, the sort and select commands may share the alias command 's'. However, this will lead to one command being performed over the other.
-Hence, the sort command has the alias 'st', and the select command has the alias 's'.
+Hence, the sort command has the alias 'st', and the select command has the alias 's'. Examples of a basic command includes commands such as add, delete, clear, and find.
 
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/Sheikh-Umar.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/Sheikh-Umar.md[Test code]]
@@ -57,4 +57,6 @@ Hence, the sort command has the alias 'st', and the select command has the alias
 
 <<../DeveloperGuide.adoc#311-identifying-a-duplicate-feature, Identify Duplicates feature>>
 
-<<../DeveloperGuide.adoc#312-displaying-lead-list-and-contact-list-feature, Displaying Lead list and Contact list feature>>
+<<../DeveloperGuide.adoc#displaying-lead-list-and-contact-list-feature, Displaying Lead list and Contact list feature>>
+
+<<../DeveloperGuide.adoc#enhancement-of-find-command-feature, Enhancement of Find Command feature>>
