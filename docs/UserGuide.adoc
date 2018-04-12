@@ -15,16 +15,17 @@ endif::[]
 By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
-
+//tag::description[]
 CRM Book application aims to assist salespeople in managing the information of Leads and Contacts more optimally for future sales decisions.
 Leads are people that salespeople want to sell to. Contacts are people that salespeople have sold to.
+
 Unique features of this application include identifying if a Lead to be added in is a duplicate,
 scheduling appointments with Leads through the Calander, converting a Lead to a Contact after a sales transaction, and integrating LinkedIn to allow
 a salesperson to know if one of their Contacts changed companies.
 *More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
 CRM Book can get your contact management tasks done faster than traditional GUI apps.
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
-
+//end::description[]
 == Quick Start
 
 .  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
@@ -61,9 +62,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps.
-
-* Group Leads from different companies that share the same parent company under a category named after the parent company.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Group Leads from different companies that share the same parent company under a category named after the parent company.
 Example: Leads from Skype and Nokia can be categorised under a group called Microsoft.
 
 ====
@@ -113,6 +112,7 @@ Examples:
 Shows a list of all Leads and Contacts in the CRM. +
 Format: `l`, `list`
 
+//tag::displaylist[]
 === Displaying all Leads or all Contacts: `disp`, `display`
 
 Shows a list of either Leads or Contacts in the CRM. +
@@ -122,6 +122,7 @@ Format: `disp Lead`, `display Lead`, `disp Contact`, `display Contact`
 * The search is case insensitive. e.g `lead` will match `Lead`
 * Only a full word will be matched e.g. `Contact` will not match `Contacts`
 ****
+//end::displaylist[]
 
 === Editing a person : `e`, `edit`
 
@@ -221,13 +222,12 @@ Adds the Account Macrosoft to the 2nd person in the list
 
 === Locating persons by name: `f`, `find`
 
-Finds persons whose names contain any of the given keywords. +
+Finds persons whose key information contain any of the given keywords. +
 Format: `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
@@ -236,8 +236,12 @@ Examples:
 
 * `find John` +
 Returns `john` and `John Doe`
+* `find 99881234` +
+Returns the Lead or Contact with the phone number `99881234`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
+* `find johntan@gmail.com` +
+Returns the Lead or Contact with the email address `johntan@gmail.com`
 
 === Deleting a person : `d`, `delete`
 
@@ -434,8 +438,10 @@ e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/
 * *Convert* : `con INDEX`, `convert INDEX`
 * *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
+//tag::displaycommandsummary[]
 * *Display* : `disp KEYWORD`, `display KEYWORD` +
 e.g. `disp Lead`, `display Contact`
+//end::displaycommandsummary[]
 * *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
@@ -444,8 +450,10 @@ e.g. `edit 2 n/James Lee e/jameslee@example.com`
 For Contacts: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *EditDetails* :  For Leads: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
+// tag::findcommandsummary[]
 * *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `f Chris`, `find James Jake`
+e.g. `f Chris`, `find James Jake`, `f 99881122`, `find john@gmail.com`
+// end::findcommandsummary[]
 * *Linkedin_login* : `linklog`, `linkedin_login`
 * *Linkedin_share* : `linkshare [content]`, `linkedin_share [content]`
 * *List* : `l`, `list`

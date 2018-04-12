@@ -1,0 +1,60 @@
+= Sheikh Umar - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CRM Book
+
+---
+
+== Overview
+
+CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry,
+such as identifying duplicates.
+
+== Summary of contributions
+
+* *Major enhancement*: Displaying list of non-duplicate Leads and Contacts.
+** What it does: Informs the user if a Lead to be added in is already in the CRM Book either as a Lead or a Contact, and allows the user to see a Lead list and Contact list separately.
+** Justification: Salespeople often face the issue of duplicate data as the CRM applications that they are using does not detect duplicates. Furthermore, the CRM application that they are using may not be able to display Leads and Contacts separately.
+Hence, this enhancement tackles this issues so that the user will have a more pleasant experience with a CRM application.
+** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives.
+
+* *Minor enhancement*: Created an alias command for basic commands
+** What it does: User can enter the desired action quickly.
+** Justification: Salespeople may want the CRM Book to do a command as quickly as possible. This will involve typing as few command words as possible.
+** Highlights: Ensuring that each alias command is unique. For example, the sort and select commands may share the alias command 's'. However, this will lead to one command being performed over the other.
+Hence, the sort command has the alias 'st', and the select command has the alias 's'.
+
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/Sheikh-Umar.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/Sheikh-Umar.md[Test code]]
+
+* *Other contributions*:
+
+** Community:
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-W09-B2/main/issues/197[Issue #197], https://github.com/CS2103JAN2018-W09-B2/main/issues/202[Issue #202])
+
+** Project management:
+*** Managed the collation of code of my team for releases `v1.4` - `v1.5rc` (2 releases) on GitHub
+** Enhancements to existing features:
+*** Made the find command be able to search for phone numbers and email addresses (Pull request https://github.com/CS2103JAN2018-F11-B1/main/pull/200[#200])
+
+== Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+<<../UserGuide.adoc#36-displaying-all-leads-or-all-contacts-disp-display, Display Command>>
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+<<../DeveloperGuide.adoc#310-alias-commands-feature, Alias Commands feature>>
+
+<<../DeveloperGuide.adoc#311-identifying-a-duplicate-feature, Identify Duplicates feature>>
+
+<<../DeveloperGuide.adoc#312-displaying-lead-list-and-contact-list-feature, Displaying Lead list and Contact list feature>>

@@ -676,6 +676,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 A command can be performed by typing in its alias rather than the word. +
 The following is an example of implementing the alias command for the list command: +
+[source, java]
 ----
 public class ListCommand extends Command {
 
@@ -713,6 +714,21 @@ The CRM Book will ensure that every Lead and Contact stored is a non-duplicate. 
 The feature is implemented by checking the phone number and email address of a new Lead with all of the phone numbers and email addresses of all leads and contacts currently in the CRM-Book. +
 
 The feature will be implemented on the add command because the current application detects duplicates at the add command. +
+The following is how the feature will be implemented: +
+[source, java]
+----
+public boolean contains(Person toCheck) {
+        requireNonNull(toCheck);
+        for (int i = 0; i < internalList.size(); i++) {
+            Person current = internalList.get(i);
+            if (current.getPhone().equals(toCheck.getPhone())
+                    || current.getEmail().equals(toCheck.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+----
 
 The phone number and email address of a Lead will be checked in the list of all Leads and Contacts.
 If either the phone number of email address of the Lead to be added is found in the list,
@@ -725,7 +741,7 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ==== Design Considerations
 ===== Aspect: How to implement identifying a duplicate
 * **Alternative 1 (current choice):** Iterate through all Leads and Contacts in CRM-Book.
-** Pros: Search will be performed in linear time.
+** Pros: Search will be performed in linear time, and enhances an existing portion of code.
 // end::duplicate[]
 
 // tag::display[]
@@ -739,6 +755,7 @@ The feature is implemented through the DisplayCommand, which is based on FindCom
 Hence, the DisplayCommand will operate similarly as the FindCommand, with the only difference being the DisplayCommand searches for all Leads or Contacts already in the CRM Book. +
 
 The `DisplayCommand` inherits from `Command`. It is implemented this way:
+[source, java]
 ----
 public class DisplayCommand extends Command {
     @Override
@@ -758,6 +775,30 @@ image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
 * **Alternative 1 (current choice):** Iterate through the CRM Book for persons that match the keyword that user entered just like the FindCommand.
 ** Pros: Iteration will be performed in linear time, and utilises the functionality of the FindCommand.
 // end::display[]
+
+// tag::findbyphonenumberandemailaddress[]
+=== Finding a Lead or Contact based on phone numbers and email addresses feature
+==== Current Implementation
+The CRM Book currently searches for a Lead or Contact based on their name.
+
+The feature is implemented by editing the Find Command to search for phone numbers and email addresses +
+
+The following is how the feature will be implemented:
+[source, java]
+----
+public boolean test(Person person) {
+         return keywords.stream().anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
+                        || StringUtil.containsWordIgnoreCase(person.getPhone().value, keyword)
+                        || StringUtil.containsWordIgnoreCase(person.getEmail().value, keyword));
+     }
+ }
+----
+
+The phone number and email address that the user entered will be checked in the list of all Leads and Contacts.
+If either the phone number of email address is found in the list,
+the CRM Book will display the Lead/Contact that matches the keywords entered.
+If not, the CRM Book will display zero Leads/Contacts found.
+// end::findbyphonenumberandemailaddress[]
 
 // tag::changeTheme[]
 === Change Theme feature
@@ -1249,7 +1290,7 @@ David Ten: +
 * This allows them to sell to a new account using their old Contact.
 
 Umar: +
-**Major feature** : Neat display of non-duplicate data
+**Major feature** : Displaying list of non-duplicate Leads and Contacts
 
 * Implement smarter duplicate detection by verifying the whether the phone number or email address of a Lead to be entered matches any of the phone numbers or email addresses
 currently stored in the CRM Book.
@@ -1438,6 +1479,7 @@ Use case ends.
 +
 Use case ends.
 
+// tag:displaylistusecase[]
 === Use case: User seeks Lead list or Contact list
 
 *MSS*
@@ -1454,6 +1496,32 @@ Use case ends.
 ** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
+// end:displaylistusecase[]
+
+// tag:findphonenumberandemailaddressusecase[]
+=== Use case: User enters phone number and/or email address to find
+
+*MSS*
+
+1. User enters keywords (phone number and/or email addresses) for find command.
+2. CRM searches for Leads and Contacts that match the keywords.
+3. User sees the Leads and Contacts that match the keywords
+
+*Extensions*
+
+[none]
+* 1a. User enters find command incorrectly.
+
+** 1a1. CRM Book displays error message.
++
+Use case ends.
+
+* 2a. CRM Books is unable to find Lead/Contact that matches keyword.
+
+** 3a. User sees zero Leads and Contacts found.
++
+Use case ends.
+// end:displaylistusecase[]
 
 === Use case: User posts to LinkedIn
 
@@ -1571,8 +1639,6 @@ Use case ends.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Should process a query and respond within 3 seconds.
 .  Should be compatible across Linux, Windows, and MacOS operating systems.
-
-_{More to be added}_
 
 [appendix]
 == Glossary
