@@ -41,7 +41,7 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 
 <<../UserGuide.adoc#322-sort-persons-by-name-in-alphabetical-order-st-sort, Sort Command>>
 
-<<../UserGuide.adoc#315-importing-a-csv-file--i-import, Import Command>>
+<<../UserGuide.adoc#315-importing-a-csv-file-i-import, Import Command>>
 
 == Contributions to the Developer Guide
 
