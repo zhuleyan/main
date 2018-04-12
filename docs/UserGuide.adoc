@@ -393,7 +393,6 @@ Examples:
 Adds the remark 'Happy' to the 1st Lead or Contact.
 
 * `remark 4 r/` +
-
 Removes the remark of the 4th Lead or Contact.
 //end::remark[]
 
