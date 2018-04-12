@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.model.person.Contact;
+import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
 
 /**
@@ -45,20 +47,94 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
 
+    //@@author WoodyLau
+    @FXML
+    private Label company;
+    @FXML
+    private Label industry;
+    @FXML
+    private Label rating;
+    @FXML
+    private Label website;
+    @FXML
+    private Label department;
+    //@@author
+
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
         this.person = person;
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().fullName);
+        if (person instanceof Lead && ((Lead) person).getTitle() != null) {
+            name.setText(((Lead) person).getTitle() + " " + person.getName().fullName);
+        } else if (person instanceof Contact && ((Contact) person).getTitle() != null) {
+            String text = ((Contact) person).getTitle() + " " + person.getName().fullName;
+            name.setText(text);
+        } else {
+            name.setText(person.getName().fullName);
+        }
         type.setText(person.getType().value);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         remark.setText(person.getRemark().value);
         initTags(person);
+        if (person instanceof Lead) {
+            setLead((Lead) person);
+        } else {
+            setContact((Contact) person);
+        }
     }
 
-    //@@author Liu Yiming {A0155428B}
+    //@@author WoodyLau
+    private void setLead(Lead person) {
+        department.setVisible(false);
+        department.setManaged(false);
+
+        if (person.getCompany() == null) {
+            company.setText("Company: Not Given");
+        } else {
+            company.setText("Company: " + person.getCompany());
+        }
+        if (person.getIndustry() == null) {
+            industry.setVisible(false);
+            industry.setManaged(false);
+        } else {
+            industry.setText("Industry: " + person.getIndustry());
+        }
+        if (person.getRating() == 0) {
+            rating.setText("Rating: Not Given");
+        } else {
+            rating.setText("Rating: " + person.getRating() + "/5");
+        }
+        if (person.getWebsite() == null) {
+            website.setVisible(false);
+            website.setManaged(false);
+        } else {
+            website.setText("Website: " + person.getWebsite());
+        }
+    }
+
+    private void setContact(Contact person) {
+        industry.setVisible(false);
+        industry.setManaged(false);
+        rating.setVisible(false);
+        rating.setManaged(false);
+        website.setVisible(false);
+        website.setManaged(false);
+
+        if (person.getCompany() == null) {
+            company.setText("Company: Not Given");
+        } else {
+            company.setText("Company: " + person.getCompany());
+        }
+        if (person.getDepartment() == null) {
+            department.setText("Department: Not Given");
+        } else {
+            department.setText("Department: " + person.getDepartment());
+        }
+    }
+
+    //@@author A0155428B
     /**
      *Returns the color for {@code tagName}'s label
      */

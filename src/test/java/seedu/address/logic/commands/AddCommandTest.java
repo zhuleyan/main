@@ -21,6 +21,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.exception.InputThemeEqualsCurrentThemeException;
 import seedu.address.model.person.Contact;
 import seedu.address.model.person.Lead;
 import seedu.address.model.person.Person;
@@ -145,6 +146,17 @@ public class AddCommandTest {
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
+            fail("This method should not be called.");
+        };
+
+        @Override
+        public String getThemeFilePath() {
+            fail("This method should not be called.");
+            return null;
         }
     }
 
