@@ -109,6 +109,10 @@ public class ConvertCommand extends UndoableCommand {
         if (oldLead.getCompany() != null) {
             contact.setCompany(new Account(oldLead.getCompany()));
         }
+        if (oldLead.getTitle() != null) {
+            contact.setTitle(oldLead.getTitle());
+        }
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         contact.setConvertedDate(dateFormat.format(date));
