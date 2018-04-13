@@ -13,7 +13,7 @@ import seedu.address.model.Theme;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.exception.InputThemeEqualsCurrentThemeException;
 
-
+//@@author A0155428B
 public class ChangeThemeCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());

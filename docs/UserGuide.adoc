@@ -15,15 +15,22 @@ endif::[]
 By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
+//tag::description[]
 
-CRM Book application aims to assist salespeople in managing the information of Leads and Contacts more optimally for future sales decisions.
-Leads are people that salespeople want to sell to. Contacts are people that salespeople have sold to.
-Unique features of this application include identifying if a Lead to be added in is a duplicate,
-scheduling appointments with Leads through the Calander, converting a Lead to a Contact after a sales transaction, and integrating LinkedIn to allow
-a salesperson to know if one of their Contacts changed companies.
-*More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast,
-CRM Book can get your contact management tasks done faster than traditional GUI apps.
+A CRM System is a Customer Relationship Management system, mainly used in the real world by Sales and Marketing teams to manage their business-customer relationships, as well as to manage business contacts, employees, clients, contract wins and sales leads. Some examples of popular CRMs include Salesforce, SAP, and Microsoft Dynamics CRM.
+
+A common complaint against such traditional CRMs is that they are large, contain too many functionalities, and in some cases even require additional training before using. (Search for: Salesforce Trailhead)
+
+The CRM Book application aims to assist Salespeople by implementing the most important functionality of a CRM System, that is, managing their business contacts and clients. In a CRM, business contacts are seperated into two categories, Leads and Contacts. Leads are people that the salesperson has sold to in the past, while Contacts are people whom the salesperson has sold to before, even if the company they represent may no longer purchase the product. Also, accounts represent Companies.
+
+Some unique features of this CRM in v1.5 that benefits the individual Salesperson even more is an enhanced detection of duplicates through fields such as email and phone number, importing of a CSV file of leads that the salesperson may have bought through a mailing list or obtained through a tradeshow, sharing of posts about their company through LinkedIn, as well as seeing directions to their Lead's office through Google Maps. It is important to note that these features all enhance the experience of the salesperson, and does not distract from the core functionality of managing their relationship with their leads and contacts.
+
+Future releases of the CRM Book would include the ability to schedule meetings through a Calendar, integration with other Social Media networks to post company related news, allowing a client to choose a meeting slot among a few that the salesperson has specified, and also manage the contracts that tie a Contact to an account.
+
+*More importantly, CRM Book is optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CRM Book can get your contact management tasks done faster than traditional GUI apps.
+
 Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+//end::description[]
 
 == Quick Start
 
@@ -61,9 +68,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps.
-
-* Group Leads from different companies that share the same parent company under a category named after the parent company.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Group Leads from different companies that share the same parent company under a category named after the parent company.
 Example: Leads from Skype and Nokia can be categorised under a group called Microsoft.
 
 ====
@@ -75,23 +80,25 @@ Example: Leads from Skype and Nokia can be categorised under a group called Micr
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `h`, `help`
+=== Viewing help: `h`, `help`
 
 Format: `h`, `help`
 
-=== Log in to LinkedIn : 'linklog', 'linkedin_login'
+//tag::linkedinLogin[]
+=== Log in to LinkedIn: `linklog`, `linkedin_login`
 
 Format: 'linklog', 'linkedin_login'
 
 [TIP]
 A LinkedIn Login is required if you want to share posts to linkedIn. If this is your first login, you will also have to give permissions for CRM Book in LinkedIn via a pop up.
 
-=== Share a Post on LinkedIn : 'linkshare', 'linkedin_share'
+=== Share a Post on LinkedIn: `linkshare`, `linkedin_share`
 
 Format: 'linkshare [content]', 'linkedin_share [content]'
 
 [TIP]
 This command will allow you to share a post on LinkedIn to all your connections. This will allow you to share any interesting marketing materials your company may be involved in quickly.
+//end::linkedinLogin[]
 
 === Adding a Lead: `a`, `add`
 
@@ -113,6 +120,7 @@ Examples:
 Shows a list of all Leads and Contacts in the CRM. +
 Format: `l`, `list`
 
+//tag::displaylist[]
 === Displaying all Leads or all Contacts: `disp`, `display`
 
 Shows a list of either Leads or Contacts in the CRM. +
@@ -122,6 +130,7 @@ Format: `disp Lead`, `display Lead`, `disp Contact`, `display Contact`
 * The search is case insensitive. e.g `lead` will match `Lead`
 * Only a full word will be matched e.g. `Contact` will not match `Contacts`
 ****
+//end::displaylist[]
 
 === Editing a person : `e`, `edit`
 
@@ -190,8 +199,8 @@ Format: `con INDEX`, `convert INDEX`
 
 ****
 * Converts the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
-* This command can be undone and redone as necessary
 * If the indicated person is a Contact, an error is thrown
+* This command can be undone and redone as necessary
 ****
 
 Examples:
@@ -204,8 +213,6 @@ Converts the 4th person in the list to a Contact.
 
 === Adding an Account to a Contact : `account`
 
-'Coming in V1.5'
-
 Adds an Account to a Contact. +
 Format: `account INDEX an/ACCOUNTNAME`
 
@@ -216,18 +223,17 @@ Format: `account INDEX an/ACCOUNTNAME`
 
 Examples:
 
-* `account 2 Macrosoft` +
+* `account 2 an/Macrosoft` +
 Adds the Account Macrosoft to the 2nd person in the list
 
 === Locating persons by name: `f`, `find`
 
-Finds persons whose names contain any of the given keywords. +
+Finds persons whose key information contain any of the given keywords. +
 Format: `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
@@ -236,8 +242,12 @@ Examples:
 
 * `find John` +
 Returns `john` and `John Doe`
+* `find 99881234` +
+Returns the Lead or Contact with the phone number `99881234`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
+* `find johntan@gmail.com` +
+Returns the Lead or Contact with the email address `johntan@gmail.com`
 
 === Deleting a person : `d`, `delete`
 
@@ -406,14 +416,32 @@ Format: `st`, `sort`
 //tag::changetheme[]
 === Change theme: `changetheme`  [since v1.4]
 
-Changes color theme of CRM Book to the user specified theme. +
-Format: `changetheme THEME`
+Changes color theme of CRM Book to the user specified theme. Currently, there are three themes, namely `dark`, `light` and `blue`.
+The `blue` theme is the default theme. When user opens CRM Book for the first time, blue theme will be on display.
+If the user changes the theme, it will be saved in user preferences so that CRM Book will display the user preferred theme in subsequent runs. +
+Format: `changetheme THEME` +
+Example: `changetheme light`
+
 //end::changetheme[]
 
 === Saving the data
 
 Address book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
+
+// tag::setlocation[]
+=== Setting current location: `set_office_address`, `setA`
+Sets the current office address for Google Maps +
+Format: `setA a/ADDRESS
+
+[TIP]
+Setting this address is required if you want to see the Google Map directions to a customer's location
+// end::setlocation[]
+
+// tag::getdirections[]
+=== Get directions to customer's office: commandless
+To activate this, have a office address set and click on one of your customer's name card.
+// end::getdirections[]
 
 // tag::dataencryption[]
 === Encrypting data files `[coming in v2.0]`
@@ -434,8 +462,10 @@ e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/
 * *Convert* : `con INDEX`, `convert INDEX`
 * *Delete* : `d INDEX`, `delete INDEX` +
 e.g. `d 5`, `delete 3`
+//tag::displaycommandsummary[]
 * *Display* : `disp KEYWORD`, `display KEYWORD` +
 e.g. `disp Lead`, `display Contact`
+//end::displaycommandsummary[]
 * *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
@@ -444,10 +474,13 @@ e.g. `edit 2 n/James Lee e/jameslee@example.com`
 For Contacts: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *EditDetails* :  For Leads: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
+// tag::findcommandsummary[]
 * *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `f Chris`, `find James Jake`
+e.g. `f Chris`, `find James Jake`, `f 99881122`, `find john@gmail.com`
+// end::findcommandsummary[]
 * *Linkedin_login* : `linklog`, `linkedin_login`
-* *Linkedin_share* : `linkshare [content]`, `linkedin_share [content]`
+* *Linkedin_share* : `linkshare [content]`, `linkedin_share CONTENT`
+* *SetOfficeAddress* : `set_office_address a/ADDRESS`, `setA a/ADDRESS`
 * *List* : `l`, `list`
 * *Help* : `h`, `help`
 * *Select* : `s INDEX`, `select INDEX` +

@@ -28,7 +28,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
 import seedu.address.testutil.PersonBuilder;
 
-//@@author zhuleyan-reused
+//@@author zhuleyan
+//reused
 public class RemarkCommandTest {
 
     public static final String REMARK_EXAMPLE = "This is a remark";

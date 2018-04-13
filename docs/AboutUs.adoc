@@ -9,7 +9,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 == Project Team
 
-=== David Ten
+=== Ten Chee Onn David Jonathan
 image::davidTen.png[width="150", align="left"]
 {empty}[https://github.com/davidten[github]]
 
@@ -18,18 +18,18 @@ Responsibilities: LinkedIn Integration
 
 '''
 
-=== Sheikh Umar
+=== SHEIKH UMAR BIN SHAIK ABU BAKAR BANAFE'
 image::sheikh-umar.png[width="150", align="left"]
-{empty}[https://github.com/Sheikh-Umar[github]]
+{empty}[https://github.com/Sheikh-Umar[github]] [<<Sheikh-Umar#, portfolio>>]
 
 Role: Documentation + Deliverables and deadlines +
-Responsibilities: Smart Duplicate detection + Command Aliases + Retrieval of Lead list and Contact list
+Responsibilities: Duplicate detection, Basic command aliases, Display of Lead and Contact lists, Enhancing the Find Command
 
 '''
 
 === Woody Lau
 image::WoodyLau.png[width="150", align="left"]
-{empty}[http://github.com/WoodyLau[github]]
+{empty}[http://github.com/WoodyLau[github]] [<<WoodyLau#, portfolio>>]
 
 Role: Developer + Git Expert + Integration +
 Responsibilities: Lead, Contact and Account objects.
@@ -47,7 +47,7 @@ Responsibilities: Remark Command + Sort Command + Bulk Import
 
 === Liu Yiming
 image::LiuYiming.jpg[width="150", align="left"]
-{empty}[http://github.com/zhuleyan[github]]
+{empty}[http://github.com/zhuleyan[github]] [<<liuyiming#, portfolio>>]
 
 Role: Developer + UI designer +
 Responsibilities: Color tag + Auto Complete + Change Theme

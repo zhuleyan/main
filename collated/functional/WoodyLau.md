@@ -1,6 +1,19 @@
 # WoodyLau
 ###### /java/seedu/address/ui/PersonCard.java
 ``` java
+    @FXML
+    private Label company;
+    @FXML
+    private Label industry;
+    @FXML
+    private Label rating;
+    @FXML
+    private Label website;
+    @FXML
+    private Label department;
+```
+###### /java/seedu/address/ui/PersonCard.java
+``` java
     private void setLead(Lead person) {
         department.setVisible(false);
         department.setManaged(false);
@@ -118,11 +131,15 @@ public class EditDetailsCommandParser implements Parser<EditDetailsCommand> {
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
-        ParserUtil.parseCompany(argContactMultimap.getValue(PREFIX_COMPANY))
-                .ifPresent(editContactDescriptor::setCompany);
-        ParserUtil.parseDepartment(argContactMultimap.getValue(PREFIX_DEPARTMENT))
-                .ifPresent(editContactDescriptor::setDepartment);
-        ParserUtil.parseTitle(argContactMultimap.getValue(PREFIX_TITLE)).ifPresent(editContactDescriptor::setTitle);
+        try {
+            ParserUtil.parseCompany(argContactMultimap.getValue(PREFIX_COMPANY))
+                    .ifPresent(editContactDescriptor::setCompany);
+            ParserUtil.parseDepartment(argContactMultimap.getValue(PREFIX_DEPARTMENT))
+                    .ifPresent(editContactDescriptor::setDepartment);
+            ParserUtil.parseTitle(argContactMultimap.getValue(PREFIX_TITLE)).ifPresent(editContactDescriptor::setTitle);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
 
         if (!editLeadDescriptor.isAnyFieldEdited() && !editContactDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditDetailsCommand.MESSAGE_NOT_EDITED);
@@ -148,14 +165,100 @@ public class EditDetailsCommandParser implements Parser<EditDetailsCommand> {
 
 }
 ```
+###### /java/seedu/address/logic/parser/AccountCommandParser.java
+``` java
+package seedu.address.logic.parser;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACCOUNT;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.AccountCommand;
+import seedu.address.logic.commands.AccountCommand.AccountDescriptor;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.tag.Tag;
+
+/**
+ * Parses input arguments and creates a new EditCommand object
+ */
+public class AccountCommandParser implements Parser<AccountCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditDetailsCommand
+     * and returns an EditDetailsCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public AccountCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ACCOUNT);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    AccountCommand.MESSAGE_USAGE));
+        }
+
+        AccountDescriptor accountDescriptor = new AccountDescriptor();
+        try {
+            ParserUtil.parseCompany(argMultimap.getValue(PREFIX_ACCOUNT)).ifPresent(accountDescriptor::setAccount);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        return new AccountCommand(index, accountDescriptor);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
+     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Tag>} containing zero tags.
+     */
+    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws IllegalValueException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
+        return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/AddressBookParser.java
+``` java
+        case EditDetailsCommand.COMMAND_WORD:
+        case EditDetailsCommand.COMMAND_ALIAS:
+            return new EditDetailsCommandParser().parse(arguments);
+
+        case ConvertCommand.COMMAND_WORD:
+        case ConvertCommand.COMMAND_ALIAS:
+            return new ConvertCommandParser().parse(arguments);
+
+        case AccountCommand.COMMAND_WORD:
+            return new AccountCommandParser().parse(arguments);
+```
 ###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
     /**
      * Parses a {@code String company}.
      * Leading and trailing whitespaces will be trimmed.
      */
-    public static String parseCompany(String company) {
+    public static String parseCompany(String company) throws IllegalValueException {
         requireNonNull(company);
+        if (!Account.isValidAccountName(company)) {
+            throw new IllegalValueException(Account.MESSAGE_ACCOUNT_CONSTRAINTS);
+        }
         return company.trim();
     }
 
@@ -163,9 +266,30 @@ public class EditDetailsCommandParser implements Parser<EditDetailsCommand> {
      * Parses a {@code Optional<String> company} into an {@code Optional<String>} if {@code company} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<String> parseCompany(Optional<String> company) {
+    public static Optional<String> parseCompany(Optional<String> company) throws IllegalValueException {
         requireNonNull(company);
         return company.isPresent() ? Optional.of(parseCompany(company.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses an {@code String account}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static String parseAccount(String account) throws IllegalValueException {
+        requireNonNull(account);
+        if (!Account.isValidAccountName(account)) {
+            throw new IllegalValueException(Account.MESSAGE_ACCOUNT_CONSTRAINTS);
+        }
+        return account.trim();
+    }
+
+    /**
+     * Parses a {@code Optional<String> account} into an {@code Optional<String>} if {@code account} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<String> parseAccount(Optional<String> account) throws IllegalValueException {
+        requireNonNull(account);
+        return account.isPresent() ? Optional.of(parseAccount(account.get())) : Optional.empty();
     }
 
     /**
@@ -272,6 +396,7 @@ public class EditDetailsCommandParser implements Parser<EditDetailsCommand> {
     public static final Prefix PREFIX_TITLE = new Prefix("t/");
     public static final Prefix PREFIX_WEBSITE = new Prefix("w/");
     public static final Prefix PREFIX_DEPARTMENT = new Prefix("d/");
+    public static final Prefix PREFIX_ACCOUNT = new Prefix("an/");
 ```
 ###### /java/seedu/address/logic/parser/ConvertCommandParser.java
 ``` java
@@ -344,6 +469,97 @@ public class ConvertCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "convert";
 ```
+###### /java/seedu/address/logic/commands/ConvertCommand.java
+``` java
+    private final Index index;
+
+    private Lead oldLead;
+    private Contact newContact;
+
+    /**
+     * @param index of the person in the filtered person list to edit
+     */
+    public ConvertCommand(Index index) {
+        requireNonNull(index);
+
+        this.index = index;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        try {
+            model.convertPerson(oldLead, newContact);
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("The target person cannot be missing");
+        }
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(String.format(MESSAGE_CONVERT_PERSON_SUCCESS, oldLead));
+    }
+
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
+        if (index.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        try {
+            oldLead = (Lead) lastShownList.get(index.getZeroBased());
+        } catch (ClassCastException cce) {
+            throw new CommandException(MESSAGE_NOT_CONVERTED);
+        }
+        newContact = createContact(oldLead);
+    }
+
+    /**
+     * Creates and returns a {@code Person} with the details of {@code personToEdit}
+     * edited with {@code editPersonDescriptor}.
+     */
+    private static Contact createContact(Lead oldLead) {
+        assert oldLead != null;
+
+        Name updatedName = oldLead.getName();
+        Phone updatedPhone = oldLead.getPhone();
+        Email updatedEmail = oldLead.getEmail();
+        Address updatedAddress = oldLead.getAddress();
+        Remark updatedRemark = oldLead.getRemark();
+        Set<Tag> updatedTags = oldLead.getTags();
+
+        Contact contact = new Contact(updatedName, updatedPhone,
+                updatedEmail, updatedAddress, updatedRemark, updatedTags);
+
+        if (oldLead.getCompany() != null) {
+            contact.setCompany(new Account(oldLead.getCompany()));
+        }
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        contact.setConvertedDate(dateFormat.format(date));
+
+        return contact;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ConvertCommand)) {
+            return false;
+        }
+
+        // state check
+        ConvertCommand e = (ConvertCommand) other;
+        return index.equals(e.index)
+                && Objects.equals(oldLead, e.oldLead);
+    }
+
+}
+```
 ###### /java/seedu/address/logic/commands/EditDetailsCommand.java
 ``` java
 package seedu.address.logic.commands;
@@ -378,6 +594,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 public class EditDetailsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "editdetails";
+    public static final String COMMAND_ALIAS = "adddetails";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the fine details of the Lead/Contact identified "
             + "by the index number used in the last Leads-Contacts listing. "
@@ -615,7 +832,6 @@ public class EditDetailsCommand extends UndoableCommand {
 
         /**
          * Copy constructor.
-         * A defensive copy of {@code tags} is used internally.
          */
         public EditContactDescriptor(EditContactDescriptor toCopy) {
             setCompany(toCopy.company);
@@ -676,6 +892,168 @@ public class EditDetailsCommand extends UndoableCommand {
             return getCompany().equals(e.getCompany())
                     && getDepartment().equals(e.getDepartment())
                     && getTitle().equals(e.getTitle());
+        }
+    }
+}
+```
+###### /java/seedu/address/logic/commands/AccountCommand.java
+``` java
+package seedu.address.logic.commands;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ACCOUNT;
+
+import java.util.List;
+import java.util.Objects;
+
+import seedu.address.commons.core.Messages;
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.CollectionUtil;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.account.Account;
+import seedu.address.model.person.Contact;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
+
+/**
+ * Edits the details of an existing person in the address book.
+ */
+public class AccountCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "account";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an Account (company) to the Contact indicated "
+            + "by the index number used in the last Leads-Contacts listing. "
+            + "Existing Account will be overwritten by the input.\n"
+            + "The parameters are: INDEX (must be a positive integer) "
+            + PREFIX_ACCOUNT + "ACCOUNT...\n"
+            + "Example: " + COMMAND_WORD + " 1 " + PREFIX_ACCOUNT + "Macrosoft Inc";
+
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Added Account to Contact: %1$s";
+    public static final String MESSAGE_NOT_EDITED = "An Account must be provided.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This Contact already exists in the CRM Book.";
+    public static final String MESSAGE_NOT_CONTACT = "Provided person is not a Contact.";
+
+    private final Index index;
+    private final AccountDescriptor accountDescriptor;
+
+    private Person personToEdit;
+
+    /**
+     * @param index of the person in the filtered person list to edit
+     * @param accountDescriptor details for editing Contacts
+     */
+    public AccountCommand(Index index,
+                          AccountDescriptor accountDescriptor) {
+        requireNonNull(index);
+        CollectionUtil.isAnyNonNull(accountDescriptor);
+
+        this.index = index;
+        this.accountDescriptor = new AccountDescriptor(accountDescriptor);
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        if (!accountDescriptor.isAnyFieldEdited()) {
+            throw new CommandException(MESSAGE_NOT_EDITED);
+        }
+        if (!(personToEdit instanceof Contact)) {
+            throw new CommandException(MESSAGE_NOT_CONTACT);
+        }
+        Contact editedPerson = (Contact) personToEdit;
+        editedPerson.setCompany(accountDescriptor.getAccount());
+        try {
+            model.updatePerson(editedPerson, editedPerson);
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("The target person cannot be missing");
+        }
+        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, personToEdit));
+
+    }
+
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Person> lastShownList = model.getFilteredPersonList();
+
+        if (index.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        personToEdit = lastShownList.get(index.getZeroBased());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof AccountCommand)) {
+            return false;
+        }
+
+        // state check
+        AccountCommand e = (AccountCommand) other;
+        return index.equals(e.index)
+                && accountDescriptor.equals(e.accountDescriptor)
+                && Objects.equals(personToEdit, e.personToEdit);
+    }
+
+    /**
+     * Stores the Account to edit the person with. It will replace the existing Account of the person.
+     */
+    public static class AccountDescriptor {
+        private Account account = null;
+
+        public AccountDescriptor() {}
+
+        /**
+         * Copy constructor.
+         */
+        public AccountDescriptor(AccountDescriptor toCopy) {
+            setAccount(toCopy.account);
+        }
+
+        /**
+         * Returns true if at least one field is edited.
+         */
+        public boolean isAnyFieldEdited() {
+            return CollectionUtil.isAnyNonNull(this.account);
+        }
+
+        public void setAccount(String account) {
+            this.account = new Account(account);
+        }
+
+        public void setAccount(Account account) {
+            this.account = account;
+        }
+
+        public Account getAccount() {
+            return account;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            // short circuit if same object
+            if (other == this) {
+                return true;
+            }
+
+            // instanceof handles nulls
+            if (!(other instanceof AccountDescriptor)) {
+                return false;
+            }
+
+            // state check
+            AccountDescriptor e = (AccountDescriptor) other;
+
+            return getAccount().equals(e.getAccount());
         }
     }
 }
@@ -744,6 +1122,139 @@ public class XmlAdaptedAccount {
         return accountName.equals(((XmlAdaptedAccount) other).accountName);
     }
 }
+```
+###### /java/seedu/address/storage/XmlAdaptedPerson.java
+``` java
+    @XmlElement(required = true)
+    private String type;
+    @XmlElement(required = false)
+    private String company;
+    @XmlElement(required = false)
+    private String title;
+    // Fields included for Leads
+    @XmlElement(required = false)
+    private String industry;
+    @XmlElement(required = false)
+    private int rating;
+    @XmlElement(required = false)
+    private String website;
+    // Fields included for Contacts
+    @XmlElement(required = false)
+    private String department;
+    @XmlElement(required = false)
+    private String convertedDate;
+```
+###### /java/seedu/address/storage/XmlAdaptedPerson.java
+``` java
+        if (source instanceof Lead) {
+            company = ((Lead) source).getCompany();
+            industry = ((Lead) source).getIndustry();
+            rating = ((Lead) source).getRating();
+            title = ((Lead) source).getTitle();
+            website = ((Lead) source).getWebsite();
+        } else if (source instanceof Contact) {
+            if (((Contact) source).getCompany() != null) {
+                company = ((Contact) source).getCompany().toString();
+            }
+            department = ((Contact) source).getDepartment();
+            title = ((Contact) source).getTitle();
+            convertedDate = ((Contact) source).getConvertedDate();
+        }
+```
+###### /java/seedu/address/storage/XmlAdaptedPerson.java
+``` java
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted person object into the model's Person object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
+    public Person toModelType() throws IllegalValueException {
+        final List<Tag> personTags = new ArrayList<>();
+        for (XmlAdaptedTag tag : tagged) {
+            personTags.add(tag.toModelType());
+        }
+
+        if (this.name == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+        }
+        if (!Name.isValidName(this.name)) {
+            throw new IllegalValueException(Name.MESSAGE_NAME_CONSTRAINTS);
+        }
+        final Name name = new Name(this.name);
+
+        if (this.phone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        }
+        if (!Phone.isValidPhone(this.phone)) {
+            throw new IllegalValueException(Phone.MESSAGE_PHONE_CONSTRAINTS);
+        }
+        final Phone phone = new Phone(this.phone);
+
+        if (this.email == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        }
+        if (!Email.isValidEmail(this.email)) {
+            throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
+        }
+        final Email email = new Email(this.email);
+
+        if (this.address == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        }
+        if (!Address.isValidAddress(this.address)) {
+            throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
+        }
+        final Address address = new Address(this.address);
+
+        final Remark remark = new Remark(this.remark);
+
+        if (this.type == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Type.class.getSimpleName()));
+        }
+        if (!Type.isValidType(this.type)) {
+            throw new IllegalValueException(Type.MESSAGE_ADDRESS_CONSTRAINTS);
+        }
+        final Type type = new Type(this.type);
+
+        final Set<Tag> tags = new HashSet<>(personTags);
+```
+###### /java/seedu/address/storage/XmlAdaptedPerson.java
+``` java
+        if (type.value.equals("Lead")) {
+            Lead lead = new Lead(name, phone, email, address, remark, tags);
+            if (this.company != null) {
+                lead.setCompany(this.company);
+            }
+            if (this.industry != null) {
+                lead.setIndustry(this.industry);
+            }
+            lead.setRating(this.rating);
+            if (this.title != null) {
+                lead.setTitle(this.title);
+            }
+            if (this.website != null) {
+                lead.setWebsite(this.website);
+            }
+            return lead;
+        }
+        if (type.value.equals("Contact")) {
+            Contact contact = new Contact(name, phone, email, address, remark, tags);
+            if (this.company != null) {
+                contact.setCompany(this.company);
+            }
+            if (this.department != null) {
+                contact.setDepartment(this.department);
+            }
+            if (this.title != null) {
+                contact.setTitle(this.title);
+            }
+            if (this.convertedDate != null) {
+                contact.setConvertedDate(this.convertedDate);
+            }
+            return contact;
+        }
 ```
 ###### /java/seedu/address/model/person/Type.java
 ``` java
@@ -1330,7 +1841,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Account {
 
     public static final String MESSAGE_ACCOUNT_CONSTRAINTS = "Account names should be alphanumeric";
-    public static final String ACCOUNT_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String ACCOUNT_VALIDATION_REGEX = "[\\p{Alnum} ]+";
 
     public final String accountName;
 

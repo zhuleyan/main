@@ -28,6 +28,80 @@
         command = AddCommand.COMMAND_ALIAS + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 ```
+###### /java/systemtests/FindCommandSystemTest.java
+``` java
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + BENSON.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, BENSON);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + FIONA.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, FIONA);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + GEORGE.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, GEORGE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find phone number of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + ELLE.getPhone().value;
+        ModelHelper.setFilteredList(expectedModel, ELLE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + BENSON.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, BENSON);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + FIONA.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, FIONA);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + GEORGE.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, GEORGE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+
+        /* Case: find email address of person in address book using alias command -> 1 person found */
+        command = FindCommand.COMMAND_ALIAS + " " + ELLE.getEmail().value;
+        ModelHelper.setFilteredList(expectedModel, ELLE);
+        assertCommandSuccess(command, expectedModel);
+        assertSelectedCardUnchanged();
+```
+###### /java/seedu/address/logic/parser/FindCommandParserTest.java
+``` java
+    @Test
+    public void parse_validArgs_returnsFindCommandForPhoneNumber() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("99991234", "88776655")));
+        assertParseSuccess(parser, "99991234 88776655", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n 99991234 \n \t 88776655  \t", expectedFindCommand);
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommandForEmailAddress() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("johntan@gmail.com")));
+        assertParseSuccess(parser, "johntan@gmail.com", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n johntan@gmail.com  \t", expectedFindCommand);
+    }
+```
 ###### /java/seedu/address/logic/commands/DisplayCommandTest.java
 ``` java
 package seedu.address.logic.commands;
@@ -89,6 +163,20 @@ public class DisplayCommandTest {
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
 
+    @Test
+    public void execute_userEnteredLeads_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        DisplayCommand command = prepareCommand("Leads");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
+    @Test
+    public void execute_userEnteredContacts_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        DisplayCommand command = prepareCommand("Contacts");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
     /**
      * Parses {@code userInput} into a {@code FindCommand}.
      */
@@ -114,4 +202,8 @@ public class DisplayCommandTest {
         assertEquals(expectedAddressBook, model.getAddressBook());
     }
 }
+```
+###### /data/XmlUtilTest/validAddressBook.xml
+``` xml
+        <email isPrivate="false">martin@example.com</email>
 ```

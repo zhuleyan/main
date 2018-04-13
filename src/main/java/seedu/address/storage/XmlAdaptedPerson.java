@@ -37,6 +37,7 @@ public class XmlAdaptedPerson {
     private String address;
     @XmlElement(required = true)
     private String remark;
+    //@@author WoodyLau
     @XmlElement(required = true)
     private String type;
     @XmlElement(required = false)
@@ -55,6 +56,7 @@ public class XmlAdaptedPerson {
     private String department;
     @XmlElement(required = false)
     private String convertedDate;
+    //@@author
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -95,6 +97,7 @@ public class XmlAdaptedPerson {
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
         }
+        //@@author WoodyLau
         if (source instanceof Lead) {
             company = ((Lead) source).getCompany();
             industry = ((Lead) source).getIndustry();
@@ -109,6 +112,7 @@ public class XmlAdaptedPerson {
             title = ((Contact) source).getTitle();
             convertedDate = ((Contact) source).getConvertedDate();
         }
+        //@@author WoodyLau
     }
 
     /**
@@ -165,6 +169,7 @@ public class XmlAdaptedPerson {
         final Type type = new Type(this.type);
 
         final Set<Tag> tags = new HashSet<>(personTags);
+        //@@author WoodyLau
         if (type.value.equals("Lead")) {
             Lead lead = new Lead(name, phone, email, address, remark, tags);
             if (this.company != null) {
@@ -198,6 +203,7 @@ public class XmlAdaptedPerson {
             }
             return contact;
         }
+        //@@author
         return new Person(name, phone, email, address, remark, tags);
     }
 

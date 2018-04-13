@@ -1,0 +1,58 @@
+= Woody Lau - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CRM Book
+
+---
+
+== Overview
+
+CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry, such as identifying duplicates.
+== Summary of contributions
+
+* *Major enhancement*: Separated out *Leads and Contacts* from Persons
+** What it does: supports the rest of the CRM Book by having separate classes for commands.
+** Justification: This feature is core for a CRM as Leads and Contacts are the primary types of people in the CRM.
+** Highlights: This enhancement affects all commands and classes that accessed Persons. It required researching which commands would need to be modified to target a specific type, or could be generalized for both. The implementation too was challenging as it required discovering the many existing classes that needed changing.
+** Credits: The original Person class from which Leads and Contacts were extended.
+
+* *Minor enhancement*: Added *Accounts*
+** What it does: gives Contact a special class for companies.
+** Justification: Accounts are important for existing CRMs as they hold contracts and other aspects when connected to Contacts. These other features are not implemented in CRM Book.
+** Credits: The Tag class as it provided inspiration for saving Accounts into the AddressBook and XML save file.
+
+* *Minor enhancement*: Created a *convert command* to change Leads into Contacts
+
+* *Minor enhancement*: Created an *editdetails command* that adds fields that are unique to Leads or Contacts, and created fields in the UI that reflects the changes.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/WoodyLau.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/WoodyLau.md[Test code]]
+
+* *Other contributions*:
+
+** Community:
+*** Reported bugs and suggestions for other teams in the class
+** Tools:
+*** Integrated Travis to the team repo
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+<<../UserGuide.adoc#39-editing-nonessential-details-of-a-person\--editdetails,Edit Details>>
+
+<<../UserGuide.adoc#310-converting-a-person\--con-convert,Convert>>
+
+<<../UserGuide.adoc#311-adding-an-account-to-a-contact\--account,Account>>
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+<<../DeveloperGuide.adoc#35-leads-and-contacts-feature,Leads and Contacts>>
