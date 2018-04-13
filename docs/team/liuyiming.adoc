@@ -1,6 +1,6 @@
 = Liu Yiming - Project Portfolio
- :imagesDir: ../images
- :stylesDir: ../stylesheets
+:imagesDir: ../images
+:stylesDir: ../stylesheets
 
 == PROJECT: CRM Book
 
