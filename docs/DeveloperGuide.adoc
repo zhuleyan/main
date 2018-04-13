@@ -413,19 +413,22 @@ To allow easy identification of different tags, a color tag feature is introduce
 A string array is declared in PersonCard.java to include a set of colors for tags.
 [source,java]
 ----
+//In PersonCard.java
 private static final String[] TAG_COLORS =
         { "blue", "cyan", "green", "magenta", "orange", "pink", "red", "yellow", "teal", "brown" };
 ----
 
-These colors are defined, with their background color and text color spelled out, in the the DarkTheme.css file.
+These colors are defined, with their background color and text color spelled out, in the all the different theme CSS files.
 
 A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
 [source,java]
 ----
+//In PersonCard.java
 private String getTagColorFor(String tagName) {
     return TAG_COLORS[Math.abs(tagName.hashCode()) % TAG_COLORS.length];
 }
 
+//In PersonCard.java
 private void initTags(Person person) {
     person.getTags().forEach(tag -> {
         Label tagLabel = new Label(tag.tagName);
@@ -455,20 +458,21 @@ To allow fast typing of commands, auto-complete of commands is implemented.
 Auto-complete is implemented through the TextFields feature of ControlsFX.
 [source,java]
 ----
+//In CommandBox.java
 TextFields.bindAutoCompletion(commandTextField, Messages.AUTOCOMPLETE_FIELD);
 ----
-All the command words are included in the AUTOCOMPLETE_FIELD string.
+All the command keywords are included in the AUTOCOMPLETE_FIELD string array.
 [source,java]
 ----
-public static final String[] AUTOCOMPLETE_FIELD = { AddCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD,
-    ConvertCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD, EditCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD,
-    FindCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD,
-    LinkedInLoginCommand.COMMAND_WORD, ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,
-    SelectCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD, AddCommand.COMMAND_AUTO_COMPLETE};
+//In Messages.java
+public static final String[] AUTOCOMPLETE_FIELD = {
+    //all command keywords
+    };
 ----
-In addition to all the command words, a COMMAND_AUTO_COMPLETE string, with both command word and prefixes, is also included for add command.
+In addition to all the command keywords, a COMMAND_AUTO_COMPLETE string, with both command word and prefixes, is also included for add command.
 [source,java]
 ----
+//In AddCommand.java
 public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
         + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
 ----
@@ -1348,7 +1352,7 @@ Liu Yiming: +
 * This allows user to read the CRM Book easily under different settings
 
 
-**Major Feature** : Auto Completion of commands
+**Minor Feature** : Auto Completion of commands
 
 * Allows user to key in commands more efficiently.
 
@@ -1628,8 +1632,7 @@ Use case ends.
 *MSS*
 
 1.  User requests to change theme
-2.  CRM Book changes theme setting
-3.  User restart CRM Book to effect the change
+2.  CRM Book changes the theme setting to display the chosen theme
 +
 Use case ends.
 
@@ -1642,6 +1645,12 @@ Use case ends.
 +
 Use case ends.
 
+* 2b. The input theme is invalid.
++
+[none]
+** 2b1. CRM Book shows an error message.
++
+Use case ends.
 
 [appendix]
 == Non Functional Requirements

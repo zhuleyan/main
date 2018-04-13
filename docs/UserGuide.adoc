@@ -416,8 +416,12 @@ Format: `st`, `sort`
 //tag::changetheme[]
 === Change theme: `changetheme`  [since v1.4]
 
-Changes color theme of CRM Book to the user specified theme. +
-Format: `changetheme THEME`
+Changes color theme of CRM Book to the user specified theme. Currently, there are three themes, namely `dark`, `light` and `blue`.
+The `blue` theme is the default theme. When user opens CRM Book for the first time, blue theme will be on display.
+If the user changes the theme, it will be saved in user preferences so that CRM Book will display the user preferred theme in subsequent runs. +
+Format: `changetheme THEME` +
+Example: `changetheme light`
+
 //end::changetheme[]
 
 === Saving the data
