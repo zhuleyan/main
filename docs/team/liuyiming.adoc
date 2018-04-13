@@ -1,0 +1,208 @@
+= Liu Yiming - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: CRM Book
+
+---
+
+== Overview
+
+CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC. +
+This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry, such as identifying duplicates.
+
+== Summary of contributions
+
+ * *Major enhancement*: added the ability to change the theme of CRM Book
+ ** What it does: allows the user to change the color theme of CRM Book according to his preference. CRM Book will save this change in user preference and display the chosen theme in subsequent runs.
+ ** Justification: This feature improves the user experience significantly because the user can change the color theme to adapt to different light intensity of the surrounding. For example, change to dark theme when the room is dark. This would prevent eye fatigue. Alternatively, the user can choose to use a theme based on his own likings.
+ ** Highlights: This enhancement affects all parts of UI. It required an in-depth understanding of CSS and FXML. In addition, the feature is implemented in such a way that it would be very easy for future developers to include more themes.
+ ** Credits: The new themes are built based on the dark theme of AddressBook - Level 4.
+
+* *Minor enhancement*: added 10 different color styles for tags.
+
+* *Minor enhancement*: enabled auto-complete of command keywords.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/A0155428B.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/A0155428B.md[Test code]]
+
+* *Other contributions*:
+
+** Documentation:
+*** Enabled auto-publishing of docs
+
+** Enhancements to existing features:
+*** Created and updated the icon of CRM Book (Pull requests https://github.com/CS2103JAN2018-F11-B1/main/pull/32[#32])
+*** Updated the header of CRM Book (Pull requests https://github.com/CS2103JAN2018-F11-B1/main/pull/31[#31])
+*** Updated UI to include a welcome page (Pull requests https://github.com/CS2103JAN2018-F11-B1/main/pull/158[#158])
+
+** Community:
+*** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-W14-B4/main/issues/154[Issue #154], https://github.com/CS2103JAN2018-W14-B4/main/issues/162[Issue #162], https://github.com/CS2103JAN2018-W14-B4/main/issues/165[Issue #165])
+
+== Contributions to the User Guide
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+=== Change theme: `changetheme`  [since v1.4]
+
+Changes color theme of CRM Book to the user specified theme. Currently, there are three themes, namely `dark`, `light` and `blue`.
+The `blue` theme is the default theme. When user opens CRM Book for the first time, blue theme will be on display.
+If the user changes the theme, it will be saved in user preferences so that CRM Book will display the user preferred theme in subsequent runs. +
+Format: `changetheme THEME` +
+Example: `changetheme light`
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+=== Auto-Complete feature
+==== Current Implementation
+
+To allow fast typing of commands, auto-complete of commands is implemented.
+
+Auto-complete is implemented through the TextFields feature of ControlsFX.
+[source,java]
+----
+//In CommandBox.java
+TextFields.bindAutoCompletion(commandTextField, Messages.AUTOCOMPLETE_FIELD);
+----
+All the command words are included in the AUTOCOMPLETE_FIELD string array.
+[source,java]
+----
+//In Messages.java
+public static final String[] AUTOCOMPLETE_FIELD = {
+    //all command keywords
+    };
+----
+In addition to all the command words, a COMMAND_AUTO_COMPLETE string, with both command word and prefixes, is also included for add command.
+[source,java]
+----
+//In AddCommand.java
+public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_NAME + " "
+        + PREFIX_PHONE + " " + PREFIX_EMAIL + " " + PREFIX_ADDRESS + " " + PREFIX_TAG;
+----
+==== Design Considerations
+
+===== Aspect: Implementation of Auto-complete
+
+* **Alternative 1 (current choice):** All the commands that contain the typed input are shown. ie. When "a" is typed, both "add" and "clear" will be shown.
+** Pros: Allow new user to quickly learn the different command words.
+** Cons: When there are a lot of commands, efficiency of auto-complete decreases as user would have too many options to choose from.
+* **Alternative 2:** Only commands with the same sequence as the typed input are shown. ie. When "a" is typed, only "add" will be shown.
+** Pros: Higher efficiency of auto-complete.
+** Cons: New user might find this difficult to use as they are unfamillar with the command words.
+
+=== Color Tag feature
+==== Current Implementation
+
+To allow easy identification of different tags, a color tag feature is introduced.
+
+A string array is declared in PersonCard.java to include a set of colors for tags.
+[source,java]
+----
+//In PersonCard.java
+private static final String[] TAG_COLORS =
+        { "blue", "cyan", "green", "magenta", "orange", "pink", "red", "yellow", "teal", "brown" };
+----
+
+These colors are defined, with their background color and text color spelled out, in the all the different theme CSS files.
+
+A hash code of the tag name is used to select a color for the tag such that it would remain consistent between different runs of the software.
+[source,java]
+----
+//In PersonCard.java
+private String getTagColorFor(String tagName) {
+    return TAG_COLORS[Math.abs(tagName.hashCode()) % TAG_COLORS.length];
+}
+
+//In PersonCard.java
+private void initTags(Person person) {
+    person.getTags().forEach(tag -> {
+        Label tagLabel = new Label(tag.tagName);
+        tagLabel.getStyleClass().add(getTagColorFor(tag.tagName));
+        tags.getChildren().add(tagLabel);
+    });
+}
+----
+==== Design Considerations
+
+===== Aspect: Implementation of color tags
+
+* **Alternative 1 (current choice):** Assign a color from a predefined list based on tag name
+** Pros: No additional commands are needed to generate a color for the tags.
+** Cons: User cannot choose a color for the tag.
+* **Alternative 2:** Allow user to set a color for the tag
+** Pros: Allows more freedom for user customization.
+** Cons: Takes more time to implement color tags.
+
+=== Change Theme feature
+==== Reason for implementation
+CRM Book users are expected to spent long period of time on the software and under different light settings. Change theme allows users to switch between light and dark theme. This would prevent eye fatigue.
+
+==== Current implementation
+Currently, different themes are referenced in different FXML files which uses different CSS files.
+The following piece of code demonstrates how CSS files are referenced in FXML files:
+----
+//in MainWindow.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@DarkTheme.css" />
+    <URL value="@Extensions.css" />
+  </stylesheets>
+  ...
+----
+For example, the default dark theme uses "MainWindow.fxml" to config its main window while the light theme uses "MainWindowLight.fxml".
+In "MainWindow.fxml", "DarkTheme.css" and "Extensions.css" are referenced as the stylesheets of the scene.
+Similarly, "MainWindowLight.fxml" uses "LightTheme.css" and "Extensions.css" as shown below:
+----
+//in MainWindowLight.fxml
+<Scene>
+  <stylesheets>
+    <URL value="@LightTheme.css" />
+    <URL value="@ExtensionsLight.css" />
+  </stylesheets>
+  ...
+----
+Since the main window FXML file path is stored in the UserPrefs class, we can get the file path in ModelManager class by
+UserPrefs::getMainWindowFile() method.
+In addition, UserPrefs::setMainWindowFilePath(String newFilePath) method will change the file path of the FXML file, and
+the "mainWindowFilePath" field in "preferences.json" will change accordingly.
+
+Users can use the command "changetheme THEME" where THEME can only be "light" and "dark" currently. More themes will be added in v2.0.
+The following piece of code shows how ChangeThemeCommand is implemented:
+----
+//in ChangeThemeCommand.java
+public CommandResult execute() {
+    requireNonNull(targetTheme);
+    try {
+        model.updateTheme(targetTheme.theme);
+    } catch (InputThemeEqualsCurrentThemeException e) {
+        return new CommandResult(String.format(MESSAGE_CHANGE_THEME_FAIL, targetTheme));
+    }
+    return new CommandResult(String.format(MESSAGE_CHANGE_THEME_SUCCESS, targetTheme));
+}
+----
+For example, when the command "changetheme light" is triggered, it checks whether the input theme is the same as the current theme.
+If they are equal, the message of command failure is returned. The code below shows how updateTheme(String newTheme) is implemented.
+----
+//in ModelManager.java
+public void updateTheme(String theme) throws InputThemeEqualsCurrentThemeException {
+    if (theme.equals("light")) {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindowLight.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindowLight.fxml");
+    } else {
+        if (this.userPrefs.getMainWindowFile().equals("MainWindow.fxml")) {
+            throw new InputThemeEqualsCurrentThemeException();
+        }
+        this.userPrefs.setMainWindowFilePath("MainWindow.fxml");
+    }
+}
+----
+Upon command success, users have to restart the app in order to see the change in theme.
+This is because the current implementation cannot dynamically change the settings of the main window.
+

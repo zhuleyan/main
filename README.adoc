@@ -29,5 +29,6 @@ using a CLI (Command Line Interface).
 
 * The original source of the code is the AddressBook-level4 project created by the SE-EDU initiative at https://github.com/se-edu/
 * An open source library called Apache Commons CSV is used to process CSV files.
+* An open source library, ControlsFX is used to implement auto-complete of commands.
 
 == Licence : link:LICENSE[MIT]

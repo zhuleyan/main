@@ -5,7 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-//@@author zhuleyan-reused
+//@@author zhuleyan
+//reused
 public class RemarkTest {
     @Test
     public void isEqualRemark() {
