@@ -2,7 +2,8 @@
 ###### /java/seedu/address/commons/core/ConfigTest.java
 ``` java
                 + "App Id: 78ameftoz7yvk4\n"
-                + "App Secret: null";
+                + "App Secret: null\n"
+                + "User Location: null";
 ```
 ###### /java/seedu/address/logic/commands/LinkedInLoginCommandTest.java
 ``` java

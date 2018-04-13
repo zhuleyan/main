@@ -16,7 +16,7 @@ import seedu.address.commons.core.LogsCenter;
 public class BrowserWindow extends UiPart<Stage> {
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
-    private static final String FXML = "HelpWindow.fxml";
+    private static String FXML = "HelpWindow.fxml";
 
     @FXML
     private WebView browser;
@@ -35,6 +35,19 @@ public class BrowserWindow extends UiPart<Stage> {
     }
 
     /**
+     * Creates a new BrowserWindow with specified fxml.
+     *
+     * @param root Stage to use as the root of the HelpWindow.
+     */
+    public BrowserWindow(Stage root, String url, String fxml) {
+        super(fxml, root);
+        logger.info("Starting a web page with fxml: " + fxml);
+        logger.info("Starting a web page at URL: " + url);
+        browser.getEngine().load(url);
+        logger.info("Loading a web page");
+    }
+
+    /**
      * Creates a new BrowserWindow.
      */
     public BrowserWindow(String url) {
@@ -46,6 +59,13 @@ public class BrowserWindow extends UiPart<Stage> {
      */
     public BrowserWindow() {
         this(new Stage(), "");
+    }
+
+    /**
+     * Creates a new BrowserWindow.
+     */
+    public BrowserWindow(String url, String fxml) {
+        this(new Stage(), url, fxml);
     }
 
     /**
@@ -78,6 +98,51 @@ public class BrowserWindow extends UiPart<Stage> {
 
 }
 ```
+###### /java/seedu/address/ui/BrowserPanel.java
+``` java
+    /**
+     * Gets configuration to be used when showing google maps
+     */
+    public static void getConfig() {
+        config = Oauth2Client.setupConfig();
+    }
+
+    /**
+     * Generates the google maps url to be shown in the browser
+     */
+    public static String generateUrl(String from, String to) {
+        String url = "https://www.google.com/maps/dir/?api=1&origin=";
+        String encodedUserLocation = "";
+        String encodedDestinationLocation = "";
+        try {
+            encodedUserLocation = URLEncoder.encode(from, "UTF-8");
+            encodedDestinationLocation = URLEncoder.encode(to, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        url += encodedUserLocation + "&destination=" + encodedDestinationLocation;
+
+        return url;
+    }
+
+    @Subscribe
+    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+        getConfig();
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        //if person has no home location set
+        if (config.getUserLocation() == null || config.getUserLocation().length() == 0) {
+            loadPersonPage(event.getNewSelection().person);
+        } else {
+            //also need to check that URL is limited to 2048 characters
+            //person has home location set up
+            String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
+            logger.info("URL IS " + url);
+            loadPage(url);
+        }
+    }
+}
+```
 ###### /java/seedu/address/ui/MainWindow.java
 ``` java
     /**
@@ -102,7 +167,7 @@ public class BrowserWindow extends UiPart<Stage> {
      */
     public void handleLinkedInAuthentication() {
         try {
-            Oauth2Client.authenticateWithLinkedIn(config);
+            Oauth2Client.authenticateWithLinkedIn();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -162,6 +227,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -184,6 +250,7 @@ import com.sun.net.httpserver.HttpServer;
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
+import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
@@ -205,8 +272,8 @@ public class Oauth2Client {
      * Called when user types Linkedin_login
      * starts a webserver and opens a browser for Linkedin Authorization
      */
-    public static void authenticateWithLinkedIn(Config configuration) throws IOException {
-        config = configuration;
+    public static void authenticateWithLinkedIn() throws IOException {
+        config = setupConfig();
         startServer();
 
         clientId = config.getAppId();
@@ -214,9 +281,37 @@ public class Oauth2Client {
         String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
             + clientId + "&redirect_uri=" + redirectUri + "&state=123";
 
-        bWindow = new BrowserWindow(urlString);
+        String fxmlString = "LinkedInLoginWindow.fxml";
+        bWindow = new BrowserWindow(urlString, fxmlString);
         bWindow.show();
+    }
 
+    /**
+     * Called to start reading the configuration file so that we get the most updated values
+     */
+    public static Config setupConfig() {
+        Config initializedConfig;
+        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
+        try {
+            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
+            initializedConfig = configOptional.orElse(new Config());
+        } catch (DataConversionException e) {
+            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
+                    + "Using default config properties");
+            initializedConfig = new Config();
+        }
+        return initializedConfig;
+    }
+
+    /**
+     * Called to save whatever config we write into the config file
+     */
+    public static void saveConfig() {
+        try {
+            ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -310,7 +405,7 @@ public class Oauth2Client {
                 logger.info("Access Token is " + accessToken);
                 EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
-                ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+                saveConfig();
 
                 //Login Successful
             } finally {
@@ -349,6 +444,15 @@ public class Oauth2Client {
 ``` java
     private String appId = "78ameftoz7yvk4";
     private String appSecret;
+    private String userLocation;
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String address) {
+        userLocation = address;
+    }
 
     public String getAppSecret() {
         return appSecret;
@@ -366,6 +470,7 @@ public class Oauth2Client {
 ``` java
         sb.append("\nApp Id: " + appId);
         sb.append("\nApp Secret: " + appSecret);
+        sb.append("\nUser Location: " + userLocation);
 ```
 ###### /java/seedu/address/commons/events/ui/ShareToLinkedInEvent.java
 ``` java
@@ -419,6 +524,48 @@ public class HideBrowserRequestEvent extends BaseEvent {
 
 }
 ```
+###### /java/seedu/address/logic/parser/GoogleSetLocationCommandParser.java
+``` java
+package seedu.address.logic.parser;
+
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+
+import java.util.stream.Stream;
+
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.GoogleSetLocationCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Address;
+
+/**
+ * Parses input arguments and creates a new AddCommand object
+ */
+public class GoogleSetLocationCommandParser implements Parser<GoogleSetLocationCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the AddCommand
+     * and returns an GoogleSetLocationCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public GoogleSetLocationCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ADDRESS);
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_ADDRESS)
+                || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                GoogleSetLocationCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).get();
+
+            return new GoogleSetLocationCommand(address);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+```
 ###### /java/seedu/address/logic/parser/ShareToLinkedInCommandParser.java
 ``` java
 package seedu.address.logic.parser;
@@ -431,8 +578,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Oauth2Client;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-
-
 
 /**
  * Parses user input
@@ -466,6 +611,10 @@ public class ShareToLinkedInCommandParser implements Parser<ShareToLinkedInComma
         case LinkedInLoginCommand.COMMAND_WORD:
         case LinkedInLoginCommand.COMMAND_ALIAS:
             return new LinkedInLoginCommand();
+
+        case GoogleSetLocationCommand.COMMAND_WORD:
+        case GoogleSetLocationCommand.COMMAND_ALIAS:
+            return new GoogleSetLocationCommandParser().parse(arguments);
 ```
 ###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
@@ -480,6 +629,70 @@ public class ShareToLinkedInCommandParser implements Parser<ShareToLinkedInComma
     }
 
 ```
+###### /java/seedu/address/logic/commands/GoogleSetLocationCommand.java
+``` java
+package seedu.address.logic.commands;
+
+import static java.util.Objects.requireNonNull;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.Config;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.ConfigUtil;
+import seedu.address.model.person.Address;
+
+/**
+ * Allows a user to set their location for Google Maps
+ */
+public class GoogleSetLocationCommand extends Command {
+    public static final String COMMAND_WORD = "set_office_address";
+    public static final String COMMAND_ALIAS = "setA";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets your office address for Google Maps ";
+    public static final String MESSAGE_SUCCESS = "Office address set!";
+
+    private final Address address;
+
+    /**
+     * Default constructor
+     */
+    public GoogleSetLocationCommand(Address address) {
+        requireNonNull(address);
+        this.address = address;
+    }
+
+    @Override
+    public CommandResult execute() {
+        //should be able to just create a new instance of config since it's the same config.json file
+        Logger logger = LogsCenter.getLogger(GoogleSetLocationCommand.class);
+        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
+        Config initializedConfig;
+
+        try {
+            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
+            initializedConfig = configOptional.orElse(new Config());
+        } catch (DataConversionException e) {
+            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
+                    + "Using default config properties");
+            initializedConfig = new Config();
+        }
+
+        initializedConfig.setUserLocation(address.toString());
+        try {
+            ConfigUtil.saveConfig(initializedConfig, initializedConfig.DEFAULT_CONFIG_FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //sets the office address as a string in the config file.
+
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+}
+```
 ###### /java/seedu/address/logic/commands/LinkedInLoginCommand.java
 ``` java
 package seedu.address.logic.commands;
@@ -492,6 +705,27 @@ import seedu.address.commons.events.ui.ShowBrowserRequestEvent;
  */
 public class LinkedInLoginCommand extends Command {
     public static final String COMMAND_WORD = "linkedin_login";
+```
+###### /java/seedu/address/logic/commands/LinkedInLoginCommand.java
+``` java
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Logs in to your LinkedIn account ";
+
+    public static final String MESSAGE_SUCCESS = "Browser Opened for LinkedIn Authentication";
+
+    /**
+     * Default constructor
+     */
+    public LinkedInLoginCommand(){
+
+    }
+
+    @Override
+    public CommandResult execute() {
+        EventsCenter.getInstance().post(new ShowBrowserRequestEvent());
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+}
 ```
 ###### /java/seedu/address/logic/commands/ShareToLinkedInCommand.java
 ``` java

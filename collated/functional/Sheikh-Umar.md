@@ -227,9 +227,9 @@ public class TypeMatchesKeywordsPredicate implements Predicate<Person> {
     public boolean contains(Person toCheck) {
         requireNonNull(toCheck);
         for (int i = 0; i < internalList.size(); i++) {
-            Person current = internalList.get(i);
-            if (current.getPhone().equals(toCheck.getPhone())
-                    || current.getEmail().equals(toCheck.getEmail())) {
+            Person currentPersonInCrm = internalList.get(i);
+            if (currentPersonInCrm.getPhone().equals(toCheck.getPhone())
+                    || currentPersonInCrm.getEmail().equals(toCheck.getEmail())) {
                 return true;
             }
         }

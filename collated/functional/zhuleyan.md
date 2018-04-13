@@ -16,6 +16,7 @@ public class ImportCommandParser {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
         }
         List<Lead> list = new ArrayList<>();
+        int index = 1;
         try {
             Reader reader = Files.newBufferedReader(Paths.get(args));
             if (!args.substring(args.length() - 4, args.length()).equalsIgnoreCase(".csv")) {
@@ -23,53 +24,44 @@ public class ImportCommandParser {
             }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
-                Name name = new Name(csvRecord.get(0));
-                Phone phone = new Phone(csvRecord.get(1));
-                Email email = new Email(csvRecord.get(2));
-                Address address = new Address(csvRecord.get(3));
+                Name name = ParserUtil.parseName(csvRecord.get(0));
+                Phone phone = ParserUtil.parsePhone(csvRecord.get(1));
+                Email email = ParserUtil.parseEmail(csvRecord.get(2));
+                Address address = ParserUtil.parseAddress(csvRecord.get(3));
                 Remark remark = new Remark("");
                 Set<Tag> tagList = Collections.emptySet();
 
                 Lead person = new Lead(name, phone, email, address, remark, tagList);
                 list.add(person);
+                index++;
             }
             return new ImportCommand(list);
         } catch (IOException e) {
             throw new ParseException("invalid file path");
+        } catch (IllegalValueException ive) {
+            String errorMessage = ive.getMessage();
+            String indexMessage = "Error at the person of index " + index + ": ";
+            String result = indexMessage.concat(errorMessage);
+            throw new ParseException(result, ive);
         }
     }
 }
 ```
-###### /java/seedu/address/logic/parser/RemarkCommandParser.java
+###### /java/seedu/address/logic/parser/AddressBookParser.java
 ``` java
-/**
- * Parses input arguments and creates a new RemarkCommand object
- */
-public class RemarkCommandParser implements Parser<RemarkCommand> {
+        case RemarkCommand.COMMAND_WORD:
+        case RemarkCommand.COMMAND_ALIAS:
+            return new RemarkCommandParser().parse(arguments);
+```
+###### /java/seedu/address/logic/parser/AddressBookParser.java
+``` java
+        case SortCommand.COMMAND_WORD:
+        case SortCommand.COMMAND_ALIAS:
+            return new SortCommand();
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the RemarkCommand
-     * and returns a RemarkCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public RemarkCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
-
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
-        }
-
-
-        String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
-
-        return new RemarkCommand(index, new Remark(remark));
-    }
-}
+        case ImportCommand.COMMAND_WORD:
+        case ImportCommand.COMMAND_ALIAS:
+            return new ImportCommandParser().parse(arguments);
 ```
 ###### /java/seedu/address/logic/commands/SortCommand.java
 ``` java
@@ -79,14 +71,15 @@ public class RemarkCommandParser implements Parser<RemarkCommand> {
 public class SortCommand extends Command {
     public static final String COMMAND_WORD = "sort";
 ```
-###### /java/seedu/address/logic/commands/RemarkCommand.java
+###### /java/seedu/address/logic/commands/SortCommand.java
 ``` java
-/**
- * Edits the remark of an existing person in the address book.
- */
-public class RemarkCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "remark";
+    @Override
+    public CommandResult execute() {
+        model.sortAllPersons();
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
 ```
 ###### /java/seedu/address/logic/commands/ImportCommand.java
 ``` java
@@ -147,40 +140,4 @@ public class ImportCommand extends UndoableCommand {
                 s1, s2) -> (s1.compareToIgnoreCase(s2) == 0) ? s1.compareTo(s2) : s1.compareToIgnoreCase(s2))
         );
     }
-```
-###### /java/seedu/address/model/person/Remark.java
-``` java
-/**
- * Represents a Person's remark in the address book.
- * Guarantees: immutable; is valid
- */
-public class Remark {
-
-    public static final String MESSAGE_REMARK_CONSTRAINTS =
-            "Person remarks can take any values, can even be blank";
-    public final String value;
-
-    public Remark(String remark) {
-        //requireNonNull(remark);
-        this.value = remark;
-    }
-
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Remark // instanceof handles nulls
-                && this.value.equals(((Remark) other).value)); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-}
 ```
