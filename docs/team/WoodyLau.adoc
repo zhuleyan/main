@@ -10,6 +10,7 @@
 
 CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
 This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry, such as identifying duplicates.
+
 == Summary of contributions
 
 * *Major enhancement*: Separated out *Leads and Contacts* from Persons
@@ -43,11 +44,11 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-<<../UserGuide.adoc#39-editing-nonessential-details-of-a-person\--editdetails,Edit Details>>
+include::../UserGuide.adoc[tag=editdetails]
 
-<<../UserGuide.adoc#310-converting-a-person\--con-convert,Convert>>
+include::../UserGuide.adoc[tag=convert]
 
-<<../UserGuide.adoc#311-adding-an-account-to-a-contact\--account,Account>>
+include::../UserGuide.adoc[tag=account]
 
 == Contributions to the Developer Guide
 
@@ -55,4 +56,4 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-<<../DeveloperGuide.adoc#35-leads-and-contacts-feature,Leads and Contacts>>
+include::../DeveloperGuide.adoc[tag=leadcontact]

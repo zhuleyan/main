@@ -172,6 +172,7 @@ For the first person, makes Macrosoft the company and sets the rating to 4. This
 * `adddetails 2 d/IT t/Mr.` +
 Sets the department of the 2nd person to be `IT` and sets the title to `Mr.`. This person must be a Contact.
 
+//tag::editdetails[]
 === Editing nonessential details of a person : `editdetails`
 
 Edits an existing person in the address book. +
@@ -191,7 +192,9 @@ Examples:
 For the first person, changes the company to Macrosoft and sets the rating to 4. This person must be a Lead.
 * `editdetails 2 d/IT t/Mr.` +
 Edits the department of the 2nd person to be `IT` and sets the title to `Mr.`. This person must be a Contact.
+//end::editdetails[]
 
+//tag::convert[]
 === Converting a person : `con`, `convert`
 
 Converts an existing Lead in the address book to a Contact. For further description of Leads and Contacts, see the Introduction +
@@ -210,7 +213,9 @@ Converts the 2nd person in the list to a Contact.
 
 * `con 4` +
 Converts the 4th person in the list to a Contact.
+//end::convert[]
 
+//tag::account[]
 === Adding an Account to a Contact : `account`
 
 Adds an Account to a Contact. +
@@ -225,6 +230,7 @@ Examples:
 
 * `account 2 an/Macrosoft` +
 Adds the Account Macrosoft to the 2nd person in the list
+//end::account[]
 
 === Locating persons by name: `f`, `find`
 
