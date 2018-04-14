@@ -1520,7 +1520,7 @@ Use case ends.
 +
 Use case ends.
 
-// tag:displaylistusecase[]
+// tag::displaylistusecase[]
 === Use case: User seeks Lead list or Contact list
 
 *MSS*
@@ -1537,10 +1537,10 @@ Use case ends.
 ** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end::displaylistusecase[]
 
 
-// tag:addparentcompanytagusecase[]
+// tag::addparentcompanytagusecase[]
 === Use case: User seeks to add a company to a Lead or Contact [Coming in v2.0]
 
 *MSS*
@@ -1569,7 +1569,7 @@ Use case ends.
 ** 1a1. CRM Book does not add any to the Lead or Contact.
 +
 Use case ends.
-// end:addparentcompanytagusecase[]
+// end::addparentcompanytagusecase[]
 
 
 // tag::findphonenumberandemailaddressusecase[]
