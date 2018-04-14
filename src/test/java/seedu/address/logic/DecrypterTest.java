@@ -1,3 +1,4 @@
+//@@author davidten
 package seedu.address.logic;
 
 import static org.junit.Assert.assertNotEquals;
@@ -14,9 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-/**
- * Created by davidten on 4/15/18.
- */
 public class DecrypterTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
