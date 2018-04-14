@@ -152,6 +152,9 @@ public class Oauth2Client {
         }
     }
 
+    /**
+     * This method creates and returns the parameters used in httpEntity
+     */
     public static List<NameValuePair> getParams() {
         List<NameValuePair> params = new ArrayList<NameValuePair>(5);
         params.add(new BasicNameValuePair("grant_type", "authorization_code"));
@@ -163,9 +166,9 @@ public class Oauth2Client {
     }
 
     /**
-     * This method exchanges the authorization token for an accessToken
+     * This method creates and returns the httpEntity object used for requesting to LinkedIn
      */
-    public static void getAccessToken() throws IOException {
+    public static HttpEntity getHttpEntity() {
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(linkedInAccessTokenURL);
 
@@ -173,23 +176,36 @@ public class Oauth2Client {
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
         HttpResponse response = httpclient.execute(httppost);
-        HttpEntity entity = response.getEntity();
+        return response.getEntity();
+    }
+
+    /**
+     * This method reads the input stream to get the accessToken for the user
+     */
+    public static String extractAccessTokenFromResponse(InputStream instream) {
+        BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
+        StringBuilder responseStrBuilder = new StringBuilder();
+
+        String inputStr;
+        while ((inputStr = streamReader.readLine()) != null) {
+            responseStrBuilder.append(inputStr);
+        }
+
+        JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
+
+        return jsonObj.getString("access_token");
+    }
+
+    /**
+     * This method exchanges the authorization token for an accessToken
+     */
+    public static void getAccessToken() throws IOException {
+        HttpEntity entity = getHttpEntity();
 
         if (entity != null) {
             InputStream instream = entity.getContent();
             try {
-                BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
-                StringBuilder responseStrBuilder = new StringBuilder();
-
-                String inputStr;
-                while ((inputStr = streamReader.readLine()) != null) {
-                    responseStrBuilder.append(inputStr);
-                }
-
-
-                JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
-
-                String accessToken = jsonObj.getString("access_token");
+                String accessToken = extractAccessTokenFromResponse(instream);
 
                 logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
                 logger.info("Access Token is " + accessToken);

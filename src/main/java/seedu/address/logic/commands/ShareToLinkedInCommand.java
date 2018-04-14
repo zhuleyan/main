@@ -160,7 +160,7 @@ public class ShareToLinkedInCommand extends Command {
             JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
             logger.info("LinkedIn Response is : " + linkedInResponse.toString());
             if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
-            //if has updateURL then it successfully got posted
+                //if has updateURL then it successfully got posted
                 logger.info("Post has been successfully posted");
                 postSuccess = true;
             }
