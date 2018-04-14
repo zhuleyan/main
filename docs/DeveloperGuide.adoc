@@ -1865,7 +1865,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `import` +
    Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
 
-=== Converting a Lead to a Contact:
+=== Converting a Lead to a Contact
 
 . Select a Lead to convert from the current list of people, and note their index number
 
@@ -1877,7 +1877,7 @@ These instructions only provide a starting point for testers to work on; testers
 . Note that the field Department appears
 . Note that all other fields except the type remain the same
 
-=== Editing the non-essential details:
+=== Editing the non-essential details
 
 . Select a Lead or Contact from the current list of people, and note their index number. If Lead, read the `a.` sections. If Contact, read the `b.` sections.
 . In the command bar, type `editdetails INDEX ...` or `adddetails INDEX ...`, followed by type-specific data +
@@ -1898,7 +1898,7 @@ Note, company cannot be deleted, only changed, once it is provided
 .. The rating will change to the provided number +
 Website and industry will appear if provided
 
-=== Adding an Account to a Contact:
+=== Adding an Account to a Contact
 
 . Select a Contact from the current list of people, and note their index number
 
@@ -1907,7 +1907,7 @@ Website and industry will appear if provided
 . In the command bar, type `account INDEX an/COMPANY`
 . Note that the Company field has changed to reflect the new company
 
-=== Logging in to LinkedIn:
+=== Logging in to LinkedIn
 
 . In the command box, type linkedin_login
 
@@ -1915,7 +1915,7 @@ Website and industry will appear if provided
 
 .. The browser window should close and say 'Successfully logged in to LinkedIn'
 
-=== Sharing a Post to LinkedIn:
+=== Sharing a Post to LinkedIn
 
 . In the command box, type linkedin_share [content] where [content] is what you want to share on your LinkedIn profile
 
