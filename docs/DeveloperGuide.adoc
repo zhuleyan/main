@@ -1541,7 +1541,7 @@ Use case ends.
 
 
 // tag:addparentcompanytagusecase[]
-=== Use case: User seeks to add a company to a Lead or Contact
+=== Use case: User seeks to add a company to a Lead or Contact [Coming in v2.0]
 
 *MSS*
 
