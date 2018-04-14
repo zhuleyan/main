@@ -1729,23 +1729,6 @@ Windows, Linux, Unix, OS-X
 A contact detail that is not meant to be shared with others
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1779,6 +1762,56 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: No Lead/Contact is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
+
+
+
+// tag::testingfordisplaycommand[]
+=== Displaying Lead or Contact list
+
+. Finding Lead(s) or Contacts(s) based on phone numbers and email addresses.
+
+.. Prerequisites: Nil.
+.. Test case: `disp Lead`, `display Lead` +
+   Expected: All Leads in the CRM Book. Timestamp in the status bar is updated.
+.. Test case: `disp Contact`, `display Contact` +
+   Expected: All Contacts in the CRM Book. Timestamp in the status bar is updated.
+// end::testingfordisplaycommand[]
+
+
+// tag::testingforduplicatedetection[]
+=== Duplicate Detection
+
+. Detecting a duplicate Lead or Contacts.
+
+.. Prerequisites: There is at least 1 Lead or Contact.
+.. Test case: `a n/John Tan p/99991234 e/johntan@gmail.com a/33, Eunos Street 7, #5-67`, `add n/John Tan p/99991234 e/johntan@gmail.com a/33, Eunos Street 7, #5-67` +
+   Ensure the information entered has either a phone number or email address that is identical to any Lead or Contact in the CRM Book.
+   Expected: Duplicate Lead/Contact message shown. Timestamp in the status bar is updated.
+// end::testingforduplicatedetection[]
+
+// tag::testingforexecutingaliascommands[]
+=== Executing commands via alias
+
+. Executing commands via its alias
+
+.. Prerequisites: Read through the User Guide for commands that have aliases.
+.. Test case: `disp Lead`, `display Lead` +
+   Expected: All Leads in the CRM Book. Timestamp in the status bar is updated.
+.. Test case: `l`, `list` +
+   Expected: List all Leads and Contacts in the CRM Book. Timestamp in the status bar is updated.
+// end::testingforexecutingaliascommands[]
+
+// tag::testingforfindingphonenumberandemailaddresses[]
+=== Finding Lead(s) and Contact(s) via Phone Numbers and Email Addresses
+
+. Finding Lead(s) or Contacts(s) based on phone numbers and email addresses.
+
+.. Prerequisites: Nil.
+.. Test case: `f 99991234`, `find 99991234` +
+   Expected: Lead/Contact with the phone number `99991234` is shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `f johntan@gmail.com`, `find johntan@gmail.com` +
+   Expected: Lead/Contact with the email address `johntan@gmail.com` is shown in the status message. Timestamp in the status bar is updated.
+// end::testingforfindingphonenumberandemailaddresses[]
 
 === Sorting all people
 
@@ -1821,4 +1854,5 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: Error details "not a csv file" show in the status message. Status bar remains the same.
 .. Test case: `import` +
    Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
+
 

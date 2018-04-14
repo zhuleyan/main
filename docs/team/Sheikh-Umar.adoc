@@ -14,19 +14,19 @@ such as identifying duplicates.
 
 == Summary of contributions
 
-* *Major enhancement*: Displaying list of non-duplicate Leads and Contacts.
-** What it does: Informs the user if a Lead to be added in is already in the CRM Book either as a Lead or a Contact, and allows the user to see a Lead list and Contact list separately.
-** Justification: Salespeople often face the issue of duplicate data as the CRM applications that they are using does not detect duplicates. Furthermore, the CRM application that they are using may not be able to display Leads and Contacts separately.
-Hence, this enhancement tackles this issues so that the user will have a more pleasant experience with a CRM application.
+* *Major enhancement*: Displaying list of non-duplicate Leads and Contacts
+** What it does: Informs the user if a Lead to be added in is already in the CRM Book as either a Lead or a Contact, and allows the user to see a Lead list and Contact list separately.
+** Justification: Current CRM applications fail to detect duplicates Leads and Contacts. As a result, these CRM applications may store a Lead or Contact numerous times, hence resulting in redundant data. Furthermore, these CRM applications may not be able to display Leads and Contacts separately.
+Hence, this enhancement tackles these issues so that the user will have a more pleasant experience with managing his/her Leads and Contacts.
 ** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives.
 
 * *Minor enhancement*: Created an alias command for basic commands
 ** What it does: User can make the CRM Book perform basic commands with a few letters.
 ** Justification: Salespeople may want the CRM Book to do a basic command as quickly as possible. This will involve typing as few letters as possible.
 
-* *Minor enhancement*: Enhanced find command to be able to search for phone numbers and email address.
+* *Minor enhancement*: Enhanced the Find command to be able to search for phone numbers and email address
 ** What it does: User can search for Leads and Contacts based on phone numbers and email address.
-** Justification: Salespeople may want to search for Leads and Contacts based on personal inforamtion other than names.
+** Justification: Salespeople may want to search for Leads and Contacts based on personal information other than names.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/Sheikh-Umar.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/Sheikh-Umar.md[Test code]]
 
@@ -73,3 +73,11 @@ include::../DeveloperGuide.adoc[tag=displaylistusecase]
 include::../DeveloperGuide.adoc[tag=addparentcompanytagusecase]
 
 include::../DeveloperGuide.adoc[tag=findphonenumberandemailaddressusecase]
+
+include::../DeveloperGuide.adoc[tag=testingfordisplaycommand]
+
+include::../DeveloperGuide.adoc[tag=testingforduplicatedetection]
+
+include::../DeveloperGuide.adoc[tag=testingforexecutingaliascommands]
+
+include::../DeveloperGuide.adoc[tag=testingforfindingphonenumberandemailaddresses]
