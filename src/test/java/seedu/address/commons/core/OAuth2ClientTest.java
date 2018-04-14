@@ -5,7 +5,6 @@ import org.apache.http.NameValuePair;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import seedu.address.ui.BrowserWindow;
 
 import java.io.IOException;
 import java.net.Socket;
