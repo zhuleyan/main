@@ -1,5 +1,6 @@
 package seedu.address.commons.core;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -119,5 +120,18 @@ public class Config {
             initializedConfig = new Config();
         }
         return initializedConfig;
+    }
+
+    /**
+     * Used by testcases so that Google maps does not interfere with select command
+     */    
+    public static void clearUserLocation(){
+        Config preConfig = Config.setupConfig();
+        preConfig.setUserLocation(null);
+        try {
+            ConfigUtil.saveConfig(preConfig, preConfig.DEFAULT_CONFIG_FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

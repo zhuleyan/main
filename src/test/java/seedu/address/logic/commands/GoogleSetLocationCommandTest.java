@@ -45,6 +45,7 @@ public class GoogleSetLocationCommandTest {
 
         Config postConfig = Config.setupConfig();
         assertEquals(addressString, postConfig.getUserLocation());
+        postConfig.setUserLocation(null);
     }
 
 

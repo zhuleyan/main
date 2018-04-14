@@ -5,6 +5,7 @@ import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.RedoCommand;
@@ -16,6 +17,7 @@ public class ClearCommandSystemTest extends AddressBookSystemTest {
 
     @Test
     public void clear() {
+        Config.clearUserLocation();
         final Model defaultModel = getModel();
 
         /* Case: clear non-empty address book, command with leading spaces and trailing alphanumeric characters and
@@ -64,13 +66,7 @@ public class ClearCommandSystemTest extends AddressBookSystemTest {
         /* Case: clear empty address book -> cleared */
         assertCommandSuccess(ClearCommand.COMMAND_WORD);
         assertSelectedCardUnchanged();
-
-        /* Case: clear empty address book using alias-> cleared */
-        assertCommandSuccess(ClearCommand.COMMAND_ALIAS);
-        assertSelectedCardUnchanged();
-
-        /* Case: mixed case command word -> rejected */
-        assertCommandFailure("ClEaR", MESSAGE_UNKNOWN_COMMAND);
+        
     }
 
     /**
