@@ -173,10 +173,6 @@ public class ImportCommandTest {
      * A Model stub that always throw a DuplicatePersonException when trying to add a person list.
      */
     private class ModelStubThrowingDuplicatePersonException extends ModelStub {
-        /*@Override
-        public void addPersonList(List<Person> persons) throws DuplicatePersonException {
-            throw new DuplicatePersonException();
-        }*/
 
         @Override
         public void addPerson(Person person) throws DuplicatePersonException {
@@ -194,14 +190,6 @@ public class ImportCommandTest {
      */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
-
-        /*@Override
-        public void addPersonList(List<Person> persons) throws DuplicatePersonException {
-            requireNonNull(persons);
-            for (Person person:persons) {
-                personsAdded.add(person);
-            }
-        }*/
 
         @Override
         public void addPerson(Person person) throws DuplicatePersonException {
