@@ -32,8 +32,8 @@ public class GoogleSetLocationCommandTest {
 
     @Test
     public void testGoogleExecuteCommand() throws IOException {
+        Config.clearUserLocation();
         Config preConfig = Config.setupConfig();
-        preConfig.setUserLocation(null);
         assertNull(preConfig.getUserLocation());
 
         String addressString = "6 College Avenue East, Singapore 138614";
@@ -45,7 +45,7 @@ public class GoogleSetLocationCommandTest {
 
         Config postConfig = Config.setupConfig();
         assertEquals(addressString, postConfig.getUserLocation());
-        postConfig.setUserLocation(null);
+        Config.clearUserLocation();
     }
 
 
