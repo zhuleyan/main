@@ -1,4 +1,5 @@
 /* @@author A0155428B-unused */
+/* this file was used in the implementation of change theme command in v1.4 */
 .error {
     -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
 }
