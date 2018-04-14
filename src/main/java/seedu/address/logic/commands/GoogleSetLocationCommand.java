@@ -36,17 +36,7 @@ public class GoogleSetLocationCommand extends Command {
     public CommandResult execute() {
         //should be able to just create a new instance of config since it's the same config.json file
         Logger logger = LogsCenter.getLogger(GoogleSetLocationCommand.class);
-        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
-        Config initializedConfig;
-
-        try {
-            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
-            initializedConfig = configOptional.orElse(new Config());
-        } catch (DataConversionException e) {
-            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
-                    + "Using default config properties");
-            initializedConfig = new Config();
-        }
+        Config initializedConfig = Config.setupConfig();
 
         initializedConfig.setUserLocation(address.toString());
         try {
