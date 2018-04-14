@@ -595,7 +595,19 @@ public static void authenticateWithLinkedIn(Config configuration) throws IOExcep
 
 Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
 
-The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
+The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision to use a Decrypter class is in the comments section of the Decrypter class, and duplicated here for convenience to the reader.
+
+[source, java]
+ // Decrypts the s for use for OAuth
+ // While this is not an ideal situation, LinkedIn's OAuth API does not have a client-side authentication flow.
+ // This means that it will always require the app s for purposes of authentication.
+ // Because of this, building a native (desktop) app that authenticates with LinkedIn is not ideal.
+ // However, a number of sites have agreed that if you have to store the key in the code, then obscuring it to make
+ // it slightly more difficult for a potential hacker to get it is best. (They will need to run the app rather than
+ // just reading the plain text version)
+ // This is especially so because a LinkedIn S is not especially valuable, since anyone can create a LinkedIn app.
+ // Furthermore the chances of competitors abusing the secret to disable this application is minimal, since it is
+ // ultimately, a school project.
 
 [source, java]
 public void handleHideBrowser() {
