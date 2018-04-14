@@ -124,8 +124,8 @@ public class Config {
 
     /**
      * Used by testcases so that Google maps does not interfere with select command
-     */    
-    public static void clearUserLocation(){
+     */
+    public static void clearUserLocation() {
         Config preConfig = Config.setupConfig();
         preConfig.setUserLocation(null);
         try {
