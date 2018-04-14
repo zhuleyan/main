@@ -68,8 +68,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Group Leads from different companies that share the same parent company under a category named after the parent company.
-Example: Leads from Skype and Nokia can be categorised under a group called Microsoft.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Adds a parent company tag to Leads and Contacts if their company has a parent company. Example: Leads and Contacts from Skype and Nokia will have an additional tag called Microsoft.
 
 ====
 *Command Format*

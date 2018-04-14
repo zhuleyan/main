@@ -755,6 +755,22 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ** Pros: Search will be performed in linear time, and enhances an existing portion of code.
 // end::duplicate[]
 
+// tag::groupparentcompany[]
+=== Adding a Parent Company tag feature [Coming in v2.0]
+==== Current Implementation
+It is possible that the user may want to keep track of the companies associated with the Leads and Contacts in the CRM Book.
+For example, Skype and Nokia are two different companies whose parent company is Microsoft.
+Hence, every Lead and Contact will have an additional tag named after the parent company of their current companies.
+The following action diagram illustrates how this will be implemented:
+
+image::AddParentCompanyTag.png[width="800"]
+
+==== Design Considerations
+===== Aspect: How adding a Parent Company tag feature works
+* **Alternative 1 (current choice):** If the user updated the Company of a Lead or Contact, the CRM Book determines if this company has a parent company using a Google search.
+If yes, it automatically adds a tag to this Lead or Contact labelled as the parent company of the company of the Lead or Contact.
+// end::groupparentcompany[]
+
 // tag::display[]
 === Displaying Lead list and Contact list feature
 ==== Current Implementation
@@ -1325,6 +1341,11 @@ currently stored in the CRM Book.
 * In the sales industry, a person may type fast and would want to execute a command quickly.
 Hence, doing a command using its alias will ensure he/she can do a certain command quicker.
 
+**Minor feature** : Enhanced Find Command
+
+* Made Find Command be able to search for phone numbers and email addresses. +
+* A user may want to find a Lead/Contact based on phone numbers and email addresses.
+
 ZHU Leyan: +
 **Major Feature** : Bulk Import of Leads
 
@@ -1725,11 +1746,3 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: No Lead/Contact is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
-
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
