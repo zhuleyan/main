@@ -9,7 +9,7 @@
 == Overview
 
 CRM Book is a desktop application targeted for salespeople. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
-This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that symptomatic in the sales industry,
+This application allows salespeople to organize their Leads, Contacts, and Accounts that suits their liking, as well as address problems that are symptomatic in the sales industry,
 such as identifying duplicates.
 
 == Summary of contributions
