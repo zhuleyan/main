@@ -79,7 +79,7 @@ public class ShareToLinkedInCommand extends Command {
             return false;
         return true;
     }
-    
+
     /**
      * This method creates a JsonObject that sets the following parameters for the LinkedIn post
      * Visibility: 'anyone' (public)
@@ -95,7 +95,7 @@ public class ShareToLinkedInCommand extends Command {
         mainJsonObj.put("visibility", visibilityJsonObj);
         return mainJsonObj.toString();
     }
-    
+
     /**
      * This method creates a HttpClient object
      */
@@ -143,7 +143,7 @@ public class ShareToLinkedInCommand extends Command {
     public static void postToLinkedIn() {
         Config config = Oauth2Client.setupConfig();
         postSuccess = false;
-        
+
         String accessToken = config.getAppSecret();
         if (!accessTokenValid(accessToken)) { //no valid accessToken, return failure.
             return;
