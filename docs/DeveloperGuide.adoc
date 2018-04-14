@@ -1595,7 +1595,7 @@ Use case ends.
 ** 2a1. User sees an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end:findphonenumberandemailaddressusecase[]
 
 === Use case: User posts to LinkedIn
 
