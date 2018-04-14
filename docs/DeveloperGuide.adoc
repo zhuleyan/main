@@ -1539,6 +1539,39 @@ Use case ends.
 Use case ends.
 // end:displaylistusecase[]
 
+
+// tag:addparentcompanytagusecase[]
+=== Use case: User seeks to add a company to a Lead or Contact
+
+*MSS*
+
+1. User enters command to update the company of Lead or Contact.
+2. CRM updates company of the Lead or Contact.
+3. User sees the updated company of the Lead or Contact.
+
+*Extensions*
+
+[none]
+* 1a. User enters command incorrectly.
+
+** 1a1. CRM Book displays an error message.
++
+Use case ends.
+
+* 1a. The keyword  that user entered has a parent company.
+
+** 1a1. CRM Book adds a tag named after the parent company to the Lead or Contact.
++
+Use case ends.
+
+* 1a. User enters a company (keyword) has no parent company.
+
+** 1a1. CRM Book does not add any to the Lead or Contact.
++
+Use case ends.
+// end:addparentcompanytagusecase[]
+
+
 // tag:findphonenumberandemailaddressusecase[]
 === Use case: User enters phone numbers and/or email addresses to find
 
