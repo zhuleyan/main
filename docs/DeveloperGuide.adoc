@@ -1906,3 +1906,35 @@ Website and industry will appear if provided
 
 . In the command bar, type `account INDEX an/COMPANY`
 . Note that the Company field has changed to reflect the new company
+
+=== Logging in to LinkedIn:
+
+. In the command box, type linkedin_login
+
+.. A browser window will appear. Enter your LinkedIn username and password, and accept the permissions requested
+
+.. The browser window should close and say 'Successfully logged in to LinkedIn'
+
+=== Sharing a Post to LinkedIn:
+
+. In the command box, type linkedin_share [content] where [content] is what you want to share on your LinkedIn profile
+
+.. If you are already logged in to LinkedIn and did not revoke the app's permissions, CRM Book will say 'Post shared to your linkedIn account'
+
+.. To check if the post is there, go to your LinkedIn account, click on your name at the top right corner, click Posts & Activity. If the post is not there yet, wait awhile and refresh, sometimes it takes a while before the post appears in the feed.
+
+=== Setting your office location
+
+. In the command box, type set_office_address a/[address] where address is a valid address
+
+.. CRM book will say 'Office address set!'
+
+=== Getting directions to a client's location
+
+. In the command box, type select [index] where index is the index of a currently unselected person card
+
+.. For example, select 3
+
+.. If you have already set your office location, instead of doing a Google search of the person, the CRM Book will instead show you directions to your client's office, powered by Google Maps.
+
+.. If Google Maps does not recognize the address, you may have to manually change the address in the Google Maps prompt
