@@ -36,7 +36,7 @@ public class OAuth2ClientTest {
     public void testGetParams() {
         //just to check that we get the correct number of values.
         List<NameValuePair> testList = Oauth2Client.getParams();
-        assertEquals(testList.size(),5);
+        assertEquals(testList.size(), 5);
     }
 
     @Test
@@ -53,8 +53,7 @@ public class OAuth2ClientTest {
         try {
             s = new Socket(host, port);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
