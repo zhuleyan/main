@@ -1,12 +1,12 @@
 package seedu.address.commons.core;
 
-import seedu.address.commons.exceptions.DataConversionException;
-import seedu.address.commons.util.ConfigUtil;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.ConfigUtil;
 
 /**
  * Config values used by the app
@@ -103,7 +103,7 @@ public class Config {
         //@@author
         return sb.toString();
     }
-
+    //@@author davidten-resued
     /**
      * Called to start reading the configuration file so that we get the most updated values
      */
