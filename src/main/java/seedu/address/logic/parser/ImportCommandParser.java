@@ -36,7 +36,7 @@ public class ImportCommandParser {
      * and returns an AddCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public ImportCommand parse(String args) throws ParseException, IOException {
+    public ImportCommand parse(String args) throws ParseException {
         args = args.trim();
         if (args.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE));
