@@ -112,7 +112,7 @@ public class Oauth2Client {
     public static void getLinkedInS() {
         String encryptedByteCipher = "nvu3QZLMqueiNkyaaOJQmz7Bzrk+Fk+P";
         String encryptedKey = "qI8aUtN6zZI=";
-        
+
         Decrypter a = new Decrypter();
         try {
             secret = a.getLinkedInS(encryptedByteCipher, encryptedKey);
