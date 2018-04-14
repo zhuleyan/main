@@ -39,11 +39,10 @@ public class ShareToLinkedInCommand extends Command {
     public static final String MESSAGE_FAILURE = "Failed to post to LinkedIn";
     public static final String LINKEDIN_SHARE_API_URL = "https://api.linkedin.com/v1/people/~/shares?format=json";
 
-
+    private static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static String post;
     private static boolean postSuccess = false;
 
-    public static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     /**
      * Default constructor
      */
@@ -74,9 +73,10 @@ public class ShareToLinkedInCommand extends Command {
     /**
      * This method checks if the supplied accessToken is not empty.
      */
-    public static boolean accessTokenValid(String accessToken){
-        if (accessToken == null || accessToken.length() == 0)
+    public static boolean accessTokenValid(String accessToken) {
+        if (accessToken == null || accessToken.length() == 0) {
             return false;
+        }
         return true;
     }
 
@@ -86,7 +86,7 @@ public class ShareToLinkedInCommand extends Command {
      * Post: The user input
      * The method then returns this JsonObject as a String
      */
-    public static String getLinkedInJsonObject(){
+    public static String getLinkedInJsonObject() {
         JSONObject visibilityJsonObj = new JSONObject();
         visibilityJsonObj.put("code", new String("anyone"));
 
@@ -99,7 +99,7 @@ public class ShareToLinkedInCommand extends Command {
     /**
      * This method creates a HttpClient object
      */
-    public static HttpClient getHttpClientObject(){
+    public static HttpClient getHttpClientObject() {
         HttpClient httpclient = HttpClients.custom()
                         .setDefaultRequestConfig(RequestConfig.custom()
                         .setCookieSpec(CookieSpecs.STANDARD).build())
@@ -110,13 +110,14 @@ public class ShareToLinkedInCommand extends Command {
     /**
      * This method creates a HttpPost object using a supplied Json(in String form) and accessToken
      */
-    public static HttpPost getHttpPostObject(String jsonToSend, String accessToken) throws UnsupportedEncodingException {
+    public static HttpPost getHttpPostObject(String jsonToSend, String accessToken)
+            throws UnsupportedEncodingException {
         HttpPost httppost = new HttpPost(LINKEDIN_SHARE_API_URL);
         StringEntity params = new StringEntity(jsonToSend);
-            httppost.addHeader("Content-Type", "application/json");
-            httppost.addHeader("x-li-format", "json");
-            httppost.addHeader("Authorization", "Bearer " + accessToken);
-            httppost.setEntity(params);
+        httppost.addHeader("Content-Type", "application/json");
+        httppost.addHeader("x-li-format", "json");
+        httppost.addHeader("Authorization", "Bearer " + accessToken);
+        httppost.setEntity(params);
         return httppost;
     }
 
@@ -158,7 +159,8 @@ public class ShareToLinkedInCommand extends Command {
             HttpClient httpclient = getHttpClientObject();
             JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
             logger.info("LinkedIn Response is : " + linkedInResponse.toString());
-            if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) { //if has updateURL then it successfully got posted
+            if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) { 
+            //if has updateURL then it successfully got posted
                 logger.info("Post has been successfully posted");
                 postSuccess = true;
             }
