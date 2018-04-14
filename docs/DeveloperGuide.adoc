@@ -1779,3 +1779,45 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: No Lead/Contact is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
+
+=== Sorting all people
+
+. Sorting all people in list by name alphabetically
+
+.. Test case: `sort` +
+   Expected: All people in list are sorted by name in alphabetical order.
+.. Test case: `s` +
+   Expected: All people in list are sorted by name in alphabetical order.
+
+=== Adding/Editing/Removing a remark of a person
+
+. Adding/Editing/Removing a remark of person in list
+
+.. Test case: `remark 2 r/Likes to swim` +
+   Expected: The remark "Likes to swim" is added to the second person in list.
+.. Test case: `remark 2 r/Likes to read` +
+   Expected: The remark of the second person in list is now changed to "Likes to read"
+.. Test case: `rem 2 r/` +
+   Expected: The remark of the second person in list is now removed.
+.. Test case: `remark 0 r/aaa` +
+   Expected: No person is added with remark. Error details show in the status message. Status bar remains the same.
+.. Test case: `remark 1 Likes to swim` +
+   Expected: No person is added with remark. Error details show in the status message. Status bar remains the same.
+.. Test case: `remark r/Likes to swim` +
+   Expected: Similar to previous.
+
+=== Importing a CSV file
+
+. Importing a list of Leads to the CRM Book
+
+.. Prerequisites: We provide two sample csv files. Please download them and put them in the same folder as the jar file. If you choose to put them somewhere else, then you need to change the file path in the command accordingly.
+.. Test case: `import ./sample1.csv` +
+   Expected: The 200 Leads in the sample1.csv file are imported to the CRM Book.
+.. Test case: `import ./sample2.csv` +
+   Expected: Since the 16th person in this file has a wrong format of his phone, error details show in the status messages. Status bar remains the same.
+.. Test case: `import ./` +
+   Expected: It's an invalid file path. Error details "invalid file path" show in the status message. Status bar remains the same.
+.. Test case: `import x` (where x is any valid file path but not in CSV)+
+   Expected: Error details "not a csv file" show in the status message. Status bar remains the same.
+.. Test case: `import` +
+   Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
