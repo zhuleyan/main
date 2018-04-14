@@ -833,7 +833,7 @@ The sequence diagram below shows the interactions between different components o
 
 image::ChangeThemeHighLevelSequenceDiagrams.png[width="800"]
 
-Every change theme command will post a ChangeThemeRequestEvent to EventCenter. When this event is handled, the UI will be updated to display the chosen. In addition, the themeFilePath in user prefs is updated with the chosen theme file path.
+Every change theme command will post a ChangeThemeRequestEvent to EventCenter. When this event is handled, the UI will be updated to display the chosen theme. In addition, the themeFilePath in user prefs is updated with the chosen theme file path.
 Currently, there are three themes, namely blue, light and dark. The CSS files of these themes are referenced in Theme class as strings.
 The following piece of code demonstrates how the CSS files are referenced in Theme class:
 ----
@@ -856,7 +856,7 @@ There is a method in Theme class to convert theme name into theme file path.
 ----
 This method is used to check if the chosen theme is equals to the current theme by comparing the file path of the chosen theme with the file path in user prefs.
 
-If the two the chosen theme is not equals to the current theme, the ChangeThemeRequestEvent will be handle in MainWindow class.
+If the chosen theme is not equals to the current theme, the ChangeThemeRequestEvent will be handle in MainWindow class.
 ----
 //in MainWindow.java
 public void handleChangeTheme(String theme) {
