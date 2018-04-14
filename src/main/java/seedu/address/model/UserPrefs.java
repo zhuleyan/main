@@ -31,6 +31,8 @@ public class UserPrefs {
     }
 
     //@@author A0155428B-unused
+    //these methods were used in the implementation of change theme command in v1.4
+
     public String getMainWindowFile() {
         return mainWindowFilePath;
     }

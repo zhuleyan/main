@@ -71,7 +71,8 @@ public class ShareToLinkedInCommand extends Command {
      * Called by an event. This method takes in the config to get the access_token
      * This method posts the post to LinkedIn.
      */
-    public static void postToLinkedIn(Config config) {
+    public static void postToLinkedIn() {
+        Config config = Oauth2Client.setupConfig();
         postSuccess = false;
         Logger logger = LogsCenter.getLogger(Oauth2Client.class);
         String accessToken = config.getAppSecret();

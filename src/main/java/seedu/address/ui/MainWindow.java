@@ -233,7 +233,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     public void shareToLinkedIn() {
         ShareToLinkedInCommand newShare = new ShareToLinkedInCommand();
-        newShare.postToLinkedIn(config);
+        newShare.postToLinkedIn();
     }
 
     /**
