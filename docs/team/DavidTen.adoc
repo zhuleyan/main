@@ -45,11 +45,15 @@ The user interacts with CRM Book using a CLI, and it has a GUI created with Java
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-<<../UserGuide.adoc#32-log-in-to-linkedin-linklog-linkedin_login, LinkedIn Login>>
+include::../UserGuide.adoc[tag=descriptiont]
 
-<<../UserGuide.adoc#33-share-a-post-on-linkedin-linkshare-linkedin_share, LinkedIn Share>>
+include::../UserGuide.adoc[tag=linkedinLogin]
 
-<<../UserGuide.adoc#1-introduction, Introduction>>
+include::../UserGuide.adoc[tag=linkedinShare]
+
+include::../UserGuide.adoc[tag=setlocation]
+
+include::../UserGuide.adoc[tag=getdirections]
 
 == Contributions to the Developer Guide
 
@@ -57,4 +61,4 @@ The user interacts with CRM Book using a CLI, and it has a GUI created with Java
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-<<../DeveloperGuide.adoc#36-linkedin-login-feature,LinkedIn Login>>
+include::../DeveloperGuide.adoc[tag=linkedinlogin]

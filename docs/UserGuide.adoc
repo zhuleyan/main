@@ -68,8 +68,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.5: Able to find phone numbers. Able to change theme dynamically.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Full smart deduplication detection, and also data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Group Leads from different companies that share the same parent company under a category named after the parent company.
-Example: Leads from Skype and Nokia can be categorised under a group called Microsoft.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Adds a parent company tag to Leads and Contacts if their company has a parent company. Example: Leads and Contacts from Skype and Nokia will have an additional tag called Microsoft.
 
 ====
 *Command Format*
@@ -91,14 +90,16 @@ Format: 'linklog', 'linkedin_login'
 
 [TIP]
 A LinkedIn Login is required if you want to share posts to linkedIn. If this is your first login, you will also have to give permissions for CRM Book in LinkedIn via a pop up.
+//end::linkedinLogin[]
 
+//tag::linkedinShare[]
 === Share a Post on LinkedIn: `linkshare`, `linkedin_share`
 
 Format: 'linkshare [content]', 'linkedin_share [content]'
 
 [TIP]
 This command will allow you to share a post on LinkedIn to all your connections. This will allow you to share any interesting marketing materials your company may be involved in quickly.
-//end::linkedinLogin[]
+//end::linkedinShare[]
 
 === Adding a Lead: `a`, `add`
 
@@ -446,7 +447,14 @@ Setting this address is required if you want to see the Google Map directions to
 
 // tag::getdirections[]
 === Get directions to customer's office: commandless
-To activate this, have a office address set and click on one of your customer's name card.
+In order to use this, you must have an office address set. You can then either click on a person card or use the `select` command in order to view the Google Maps directions.
+
+[TIP]
+If a person card was selected while the office location is set, you have to select a different person card to see the map
+
+[TIP]
+Success of this command is also dependent on the success of Google intepreting the address entered
+
 // end::getdirections[]
 
 // tag::dataencryption[]
@@ -464,6 +472,10 @@ _{explain how the user can enable/disable data encryption}_
 
 * *Add* `a n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`, `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `a n/John Tan p/99991111 e/johntan@example.com a/123, Tampines Rd, 54321 t/colleague`
+* *AddDetails* :  For Leads: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
+For Contacts: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
+* *Change Theme* : `changetheme THEME` +
+e.g. `changetheme dark`
 * *Clear* : `c`, `clear`
 * *Convert* : `con INDEX`, `convert INDEX`
 * *Delete* : `d INDEX`, `delete INDEX` +
@@ -472,30 +484,26 @@ e.g. `d 5`, `delete 3`
 * *Display* : `disp KEYWORD`, `display KEYWORD` +
 e.g. `disp Lead`, `display Contact`
 //end::displaycommandsummary[]
-* *Exit* : `ex`, `exit`
 * *Edit* : `e INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `e 1 n/John Tan e/johntan@example.com` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *AddDetails* :  For Leads: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
-For Contacts: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 * *EditDetails* :  For Leads: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
+* *Exit* : `ex`, `exit`
 // tag::findcommandsummary[]
 * *Find* : `f KEYWORD [MORE_KEYWORDS]`, `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `f Chris`, `find James Jake`, `f 99881122`, `find john@gmail.com`
 // end::findcommandsummary[]
+* *Help* : `h`, `help`
+* *History* : `hist`, `history`
+* *Import* : `i PATH`, `import PATH`
 * *Linkedin_login* : `linklog`, `linkedin_login`
 * *Linkedin_share* : `linkshare [content]`, `linkedin_share CONTENT`
-* *SetOfficeAddress* : `set_office_address a/ADDRESS`, `setA a/ADDRESS`
 * *List* : `l`, `list`
-* *Help* : `h`, `help`
-* *Select* : `s INDEX`, `select INDEX` +
-e.g.`s 1`, `select 2`
-* *History* : `hist`, `history`
-* *Undo* : `u`, `undo`
 * *Redo* : `r`, `redo`
 * *Remark* : `rem`, `remark`
+* *SetOfficeAddress* : `set_office_address a/ADDRESS`, `setA a/ADDRESS`
+* *Select* : `s INDEX`, `select INDEX` +
+e.g.`s 1`, `select 2`
 * *Sort* : `st`, `sort`
-* *Import* : `i PATH`, `import PATH`
-* *Change Theme* : `changetheme THEME` +
-e.g. `changetheme dark`
+* *Undo* : `u`, `undo`

@@ -111,7 +111,13 @@ public class ShareToLinkedInCommand extends Command {
             String content = EntityUtils.toString(entity);
 
             logger.info("RECEIVED A RESPONSE FROM THE SERVER: " + content);
-            postSuccess = true;
+
+            //check response to see if it is a correct response before changing the postSuccess
+            JSONObject jsnobject = new JSONObject(content);
+            if (jsnobject.has("updateURL")) { //if has updateURL then it successfully got posted
+                postSuccess = true;
+            }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
