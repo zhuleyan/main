@@ -1821,3 +1821,4 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: Error details "not a csv file" show in the status message. Status bar remains the same.
 .. Test case: `import` +
    Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
+   
