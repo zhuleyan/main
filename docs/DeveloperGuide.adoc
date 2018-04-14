@@ -763,7 +763,7 @@ For example, Skype and Nokia are two different companies whose parent company is
 Hence, every Lead and Contact will have an additional tag named after the parent company if their company has a parent company.
 The following activity diagram illustrates how this will be implemented:
 
-image::AddParentCompanyTag.png[width="800"]
+image::AddParentCompanyTagActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How adding a Parent Company tag feature works
@@ -794,7 +794,7 @@ public class DisplayCommand extends Command {
 
 The following activity diagram shows how the operation of displaying the Leads or Contacts list works:
 
-image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
+image::DisplayListOfACertainTypeActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How displaying Lead list and Contact list works
