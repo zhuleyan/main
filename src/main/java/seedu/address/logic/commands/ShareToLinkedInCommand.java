@@ -39,7 +39,7 @@ public class ShareToLinkedInCommand extends Command {
     public static final String MESSAGE_FAILURE = "Failed to post to LinkedIn";
     public static final String LINKEDIN_SHARE_API_URL = "https://api.linkedin.com/v1/people/~/shares?format=json";
 
-    private static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
+    private static final Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static String post;
     private static boolean postSuccess = false;
 
@@ -159,7 +159,7 @@ public class ShareToLinkedInCommand extends Command {
             HttpClient httpclient = getHttpClientObject();
             JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
             logger.info("LinkedIn Response is : " + linkedInResponse.toString());
-            if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) { 
+            if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
             //if has updateURL then it successfully got posted
                 logger.info("Post has been successfully posted");
                 postSuccess = true;

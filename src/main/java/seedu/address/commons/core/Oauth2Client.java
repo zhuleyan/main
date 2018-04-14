@@ -46,12 +46,13 @@ import seedu.address.ui.BrowserWindow;
  * Acts as the client in the client-server scheme
  */
 public class Oauth2Client {
+    private static final String linkedInAccessTokenURL = "https://www.linkedin.com/oauth/v2/accessToken";
+    private static final String redirectUri = "http://127.0.0.1:13370/test";
+    private static final Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static BrowserWindow bWindow;
     private static String secret;
     private static String authorizationCode;
-    private static String redirectUri = "http://127.0.0.1:13370/test";
     private static String clientId;
-    private static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static Config config;
     /**
      * Called when user types Linkedin_login
@@ -151,20 +152,24 @@ public class Oauth2Client {
         }
     }
 
-
-    /**
-     * This method exchanges the authorization token for an accessToken
-     */
-    public static void getAccessToken() throws IOException {
-        HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("https://www.linkedin.com/oauth/v2/accessToken");
-
+    public static List<NameValuePair> getParams() {
         List<NameValuePair> params = new ArrayList<NameValuePair>(5);
         params.add(new BasicNameValuePair("grant_type", "authorization_code"));
         params.add(new BasicNameValuePair("code", authorizationCode));
         params.add(new BasicNameValuePair("redirect_uri", redirectUri));
         params.add(new BasicNameValuePair("client_id", clientId));
         params.add(new BasicNameValuePair("client_secret", secret));
+        return params;
+    }
+
+    /**
+     * This method exchanges the authorization token for an accessToken
+     */
+    public static void getAccessToken() throws IOException {
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(linkedInAccessTokenURL);
+
+        List<NameValuePair> params = getParams();
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
         HttpResponse response = httpclient.execute(httppost);
