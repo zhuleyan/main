@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.Oauth2Client;
 import seedu.address.commons.events.ui.ShareToLinkedInEvent;
 
 /**
@@ -39,7 +38,7 @@ public class ShareToLinkedInCommand extends Command {
     public static final String MESSAGE_FAILURE = "Failed to post to LinkedIn";
     public static final String LINKEDIN_SHARE_API_URL = "https://api.linkedin.com/v1/people/~/shares?format=json";
 
-    private static final Logger logger = LogsCenter.getLogger(Oauth2Client.class);
+    private static final Logger logger = LogsCenter.getLogger(ShareToLinkedInCommand.class);
     private static String post;
     private static boolean postSuccess = false;
 
@@ -142,7 +141,7 @@ public class ShareToLinkedInCommand extends Command {
      * This method posts the post to LinkedIn.
      */
     public static void postToLinkedIn() {
-        Config config = Oauth2Client.setupConfig();
+        Config config = Config.setupConfig();
         postSuccess = false;
 
         String accessToken = config.getAppSecret();

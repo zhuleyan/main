@@ -34,7 +34,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class Decrypter {
 
-    private final Logger logger = LogsCenter.getLogger(this.getClass());
+    private final Logger logger = LogsCenter.getLogger(Decrypter.class);
 
 
     public String getLinkedInS() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,

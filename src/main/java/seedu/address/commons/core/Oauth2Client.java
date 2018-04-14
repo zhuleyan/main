@@ -1,18 +1,13 @@
 //@@author davidten
 package seedu.address.commons.core;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -59,7 +54,7 @@ public class Oauth2Client {
      * starts a webserver and opens a browser for Linkedin Authorization
      */
     public static void authenticateWithLinkedIn() throws IOException {
-        config = setupConfig();
+        config = Config.setupConfig();
         startServer();
 
         clientId = config.getAppId();
@@ -72,22 +67,7 @@ public class Oauth2Client {
         bWindow.show();
     }
 
-    /**
-     * Called to start reading the configuration file so that we get the most updated values
-     */
-    public static Config setupConfig() {
-        Config initializedConfig;
-        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
-        try {
-            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
-            initializedConfig = configOptional.orElse(new Config());
-        } catch (DataConversionException e) {
-            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
-                    + "Using default config properties");
-            initializedConfig = new Config();
-        }
-        return initializedConfig;
-    }
+
 
     /**
      * Called to save whatever config we write into the config file
@@ -168,7 +148,7 @@ public class Oauth2Client {
     /**
      * This method creates and returns the httpEntity object used for requesting to LinkedIn
      */
-    public static HttpEntity getHttpEntity() {
+    public static HttpEntity getHttpEntity() throws IOException {
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(linkedInAccessTokenURL);
 
@@ -182,7 +162,8 @@ public class Oauth2Client {
     /**
      * This method reads the input stream to get the accessToken for the user
      */
-    public static String extractAccessTokenFromResponse(InputStream instream) {
+    public static String extractAccessTokenFromResponse(InputStream instream)
+            throws IOException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
         StringBuilder responseStrBuilder = new StringBuilder();
 
@@ -207,7 +188,6 @@ public class Oauth2Client {
             try {
                 String accessToken = extractAccessTokenFromResponse(instream);
 
-                logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
                 logger.info("Access Token is " + accessToken);
                 EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
@@ -238,7 +218,7 @@ public class Oauth2Client {
             String authorizationCodeandState = t.getRequestURI().getQuery();
             authorizationCode = authorizationCodeandState.substring(5, authorizationCodeandState.length() - 10);
             logger.info("Auth code is: " + authorizationCode);
-            //t.getRequestURI().getQuery() receives the response from the server. Need to parse it
+
             EventsCenter.getInstance().post(new HideBrowserRequestEvent());
 
         }

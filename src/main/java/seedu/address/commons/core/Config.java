@@ -1,7 +1,12 @@
 package seedu.address.commons.core;
 
+import seedu.address.commons.exceptions.DataConversionException;
+import seedu.address.commons.util.ConfigUtil;
+
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Config values used by the app
@@ -10,6 +15,7 @@ public class Config {
 
     public static final String DEFAULT_CONFIG_FILE = "config.json";
 
+    private static final Logger logger = LogsCenter.getLogger(Config.class);
     // Config values customizable through config file
     private String appTitle = "CRM Book";
     private Level logLevel = Level.INFO;
@@ -98,4 +104,20 @@ public class Config {
         return sb.toString();
     }
 
+    /**
+     * Called to start reading the configuration file so that we get the most updated values
+     */
+    public static Config setupConfig() {
+        Config initializedConfig;
+        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
+        try {
+            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
+            initializedConfig = configOptional.orElse(new Config());
+        } catch (DataConversionException e) {
+            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
+                    + "Using default config properties");
+            initializedConfig = new Config();
+        }
+        return initializedConfig;
+    }
 }
