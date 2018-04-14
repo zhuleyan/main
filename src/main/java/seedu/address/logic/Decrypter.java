@@ -35,10 +35,8 @@ import seedu.address.commons.core.LogsCenter;
 public class Decrypter {
 
     private final Logger logger = LogsCenter.getLogger(Decrypter.class);
-    private final String encryptedByteCipher = "nvu3QZLMqueiNkyaaOJQmz7Bzrk+Fk+P";
-    private final String encryptedKey = "qI8aUtN6zZI=";
 
-    public String getLinkedInS() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
+    public String getLinkedInS(String encryptedByteCipher, String encryptedKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
 
         String strDecryptedText = new String();

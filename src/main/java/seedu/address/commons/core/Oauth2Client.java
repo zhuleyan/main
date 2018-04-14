@@ -70,8 +70,6 @@ public class Oauth2Client {
         bWindow.show();
     }
 
-
-
     /**
      * Called to save whatever config we write into the config file
      */
@@ -112,9 +110,12 @@ public class Oauth2Client {
     }
 
     public static void getLinkedInS() {
+        String encryptedByteCipher = "nvu3QZLMqueiNkyaaOJQmz7Bzrk+Fk+P";
+        String encryptedKey = "qI8aUtN6zZI=";
+        
         Decrypter a = new Decrypter();
         try {
-            secret = a.getLinkedInS();
+            secret = a.getLinkedInS(encryptedByteCipher, encryptedKey);
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -159,6 +160,7 @@ public class Oauth2Client {
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
         HttpResponse response = httpclient.execute(httppost);
+        logger.info(response.getEntity().toString());
         return response.getEntity();
     }
 
