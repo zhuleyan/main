@@ -1763,8 +1763,6 @@ These instructions only provide a starting point for testers to work on; testers
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
 
-
-
 // tag::testingfordisplaycommand[]
 === Displaying Lead or Contact list
 
@@ -1855,4 +1853,44 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `import` +
    Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
 
+=== Converting a Lead to a Contact:
 
+. Select a Lead to convert from the current list of people, and note their index number
+
+.. If a Contact is chosen, an error will appear in the next step
+
+. In the command bar, type `convert INDEX`
+. See that the person is now a Contact
+. Note that the fields Rating, and Website and Industry if they exist, disappear
+. Note that the field Department appears
+. Note that all other fields except the type remain the same
+
+=== Editing the non-essential details:
+
+. Select a Lead or Contact from the current list of people, and note their index number. If Lead, read the `a.` sections. If Contact, read the `b.` sections.
+. In the command bar, type `editdetails INDEX ...` or `adddetails INDEX ...`, followed by type-specific data +
+At least one of the fields must be specified, or an error is given
+
+.. If a Lead, the fields are `c/COMPANY`, `i/INDUSTRY`, `r/RATING`, `t/TITLE`, and `w/WEBSITE`
+Company, industry and website are strings, and company must be alphanumeric +
+Rating is an integer from 1 to 5, and numbers that do not fall within this range will throw an error +
+Title is the honorific of the person, such as `Mr.`, `Mrs.`, `Dr.`, etc. +
+Note, company cannot be deleted, only changed, once it is provided
+.. If a Contact, the fields are `c/COMPANY`, `d/DEPARTMENT`, and `t/TITLE`
+Company and department are strings, and company must be alphanumeric +
+Title is the honorific of the person, such as `Mr.`, `Mrs.`, `Dr.`, etc. +
+Note, company cannot be deleted, only changed, once it is provided
+
+. See that the relevant changes are made
+
+.. The rating will change to the provided number +
+Website and industry will appear if provided
+
+=== Adding an Account to a Contact:
+
+. Select a Contact from the current list of people, and note their index number
+
+.. If a Lead is chosen, an error will appear in the next step
+
+. In the command bar, type `account INDEX an/COMPANY`
+. Note that the Company field has changed to reflect the new company
