@@ -16,8 +16,8 @@ endif::[]
 using a CLI (Command Line Interface).
 * It is a Java sample application specifically catered for salespeople to help them categorise leads more optimally.
 * This application addresses the needs of salespeople, namely: categorise leads and contacts to know potential sales targets and list of leads from past sales transactions,
- port in their LinkedIn profile, and identifies potential duplicate entries to cater to the different styles of salespeople around the world.
-* In summary, this CRM application is a viable form of assistance to manage leads more optimally for future sales decisions.
+ port in their LinkedIn profile, and identifies potential duplicate entries.
+* In summary, this CRM application is a viable form of assistance to manage Leads and Contacts more optimally for future sales decisions.
 
 == Site Map
 

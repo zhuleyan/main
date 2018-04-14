@@ -745,7 +745,7 @@ The phone number and email address of a Lead will be checked in the list of all 
 If either the phone number of email address of the Lead to be added is found in the list,
 the CRM application will display a message that the lead is a duplicate and will reject this lead.
 
-The following action diagram shows how the operation of identifying a duplicate lead works:
+The following activity diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
@@ -755,21 +755,21 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ** Pros: Search will be performed in linear time, and enhances an existing portion of code.
 // end::duplicate[]
 
-// tag::groupparentcompany[]
+// tag::addparentcompanytag[]
 === Adding a Parent Company tag feature [Coming in v2.0]
 ==== Current Implementation
 It is possible that the user may want to keep track of the companies associated with the Leads and Contacts in the CRM Book.
 For example, Skype and Nokia are two different companies whose parent company is Microsoft.
-Hence, every Lead and Contact will have an additional tag named after the parent company of their current companies.
-The following action diagram illustrates how this will be implemented:
+Hence, every Lead and Contact will have an additional tag named after the parent company if their company has a parent company.
+The following activity diagram illustrates how this will be implemented:
 
-image::AddParentCompanyTag.png[width="800"]
+image::AddParentCompanyTagActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How adding a Parent Company tag feature works
 * **Alternative 1 (current choice):** If the user updated the Company of a Lead or Contact, the CRM Book determines if this company has a parent company using a Google search.
 If yes, it automatically adds a tag to this Lead or Contact labelled as the parent company of the company of the Lead or Contact.
-// end::groupparentcompany[]
+// end::addparentcompanytag[]
 
 // tag::display[]
 === Displaying Lead list and Contact list feature
@@ -792,9 +792,9 @@ public class DisplayCommand extends Command {
 }
 ----
 
-The following action diagram shows how the operation of displaying the Leads or Contacts list works:
+The following activity diagram shows how the operation of displaying the Leads or Contacts list works:
 
-image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
+image::DisplayListOfACertainTypeActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How displaying Lead list and Contact list works
@@ -1520,7 +1520,7 @@ Use case ends.
 +
 Use case ends.
 
-// tag:displaylistusecase[]
+// tag::displaylistusecase[]
 === Use case: User seeks Lead list or Contact list
 
 *MSS*
@@ -1537,9 +1537,42 @@ Use case ends.
 ** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end::displaylistusecase[]
 
-// tag:findphonenumberandemailaddressusecase[]
+
+// tag::addparentcompanytagusecase[]
+=== Use case: User seeks to add a company to a Lead or Contact [Coming in v2.0]
+
+*MSS*
+
+1. User enters command to update the company of Lead or Contact.
+2. CRM updates company of the Lead or Contact.
+3. User sees the updated company of the Lead or Contact.
+
+*Extensions*
+
+[none]
+* 1a. User enters command incorrectly.
+
+** 1a1. CRM Book displays an error message.
++
+Use case ends.
+
+* 1a. The keyword  that user entered has a parent company.
+
+** 1a1. CRM Book adds a tag named after the parent company to the Lead or Contact.
++
+Use case ends.
+
+* 1a. User enters a company (keyword) has no parent company.
+
+** 1a1. CRM Book does not add any to the Lead or Contact.
++
+Use case ends.
+// end::addparentcompanytagusecase[]
+
+
+// tag::findphonenumberandemailaddressusecase[]
 === Use case: User enters phone numbers and/or email addresses to find
 
 *MSS*
@@ -1562,7 +1595,7 @@ Use case ends.
 ** 2a1. User sees an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end::findphonenumberandemailaddressusecase[]
 
 === Use case: User posts to LinkedIn
 
