@@ -160,7 +160,7 @@ public class Oauth2Client {
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
         HttpResponse response = httpclient.execute(httppost);
-        logger.info(response.getEntity().toString());
+
         return response.getEntity();
     }
 

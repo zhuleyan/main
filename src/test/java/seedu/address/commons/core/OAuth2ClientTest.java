@@ -45,16 +45,13 @@ public class OAuth2ClientTest {
     /**
      * This method is used to check if there is a server listening to the given port and host.
      */
-    public static boolean serverListening(String host, int port)
-    {
-        Socket s = null;
-        try
-        {
+    public static boolean serverListening(String host, int port)  {
+        Socket s;
+        try {
             s = new Socket(host, port);
             return true;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             return false;
         }
     }
