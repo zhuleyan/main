@@ -64,6 +64,8 @@ include::../DeveloperGuide.adoc[tag=duplicate]
 
 include::../DeveloperGuide.adoc[tag=display]
 
+include::../DeveloperGuide.adoc[tag=parentcompanytag]
+
 include::../DeveloperGuide.adoc[tag=findbyphonenumberandemailaddress]
 
 include::../DeveloperGuide.adoc[tag=displaylistusecase]

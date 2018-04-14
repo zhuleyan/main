@@ -745,7 +745,7 @@ The phone number and email address of a Lead will be checked in the list of all 
 If either the phone number of email address of the Lead to be added is found in the list,
 the CRM application will display a message that the lead is a duplicate and will reject this lead.
 
-The following action diagram shows how the operation of identifying a duplicate lead works:
+The following activity diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
@@ -760,8 +760,8 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ==== Current Implementation
 It is possible that the user may want to keep track of the companies associated with the Leads and Contacts in the CRM Book.
 For example, Skype and Nokia are two different companies whose parent company is Microsoft.
-Hence, every Lead and Contact will have an additional tag named after the parent company of their current companies.
-The following action diagram illustrates how this will be implemented:
+Hence, every Lead and Contact will have an additional tag named after the parent company if their company has a parent company.
+The following activity diagram illustrates how this will be implemented:
 
 image::AddParentCompanyTag.png[width="800"]
 
@@ -792,7 +792,7 @@ public class DisplayCommand extends Command {
 }
 ----
 
-The following action diagram shows how the operation of displaying the Leads or Contacts list works:
+The following activity diagram shows how the operation of displaying the Leads or Contacts list works:
 
 image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
 
