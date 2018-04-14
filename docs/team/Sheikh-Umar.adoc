@@ -71,3 +71,5 @@ include::../DeveloperGuide.adoc[tag=findbyphonenumberandemailaddress]
 include::../DeveloperGuide.adoc[tag=displaylistusecase]
 
 include::../DeveloperGuide.adoc[tag=findphonenumberandemailaddressusecase]
+
+include::../DeveloperGuide.adoc[tag=addparentcompanytagusecase]
