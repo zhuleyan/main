@@ -1572,7 +1572,7 @@ Use case ends.
 // end:addparentcompanytagusecase[]
 
 
-// tag:findphonenumberandemailaddressusecase[]
+// tag::findphonenumberandemailaddressusecase[]
 === Use case: User enters phone numbers and/or email addresses to find
 
 *MSS*
@@ -1595,7 +1595,7 @@ Use case ends.
 ** 2a1. User sees an empty list.
 +
 Use case ends.
-// end:findphonenumberandemailaddressusecase[]
+// end::findphonenumberandemailaddressusecase[]
 
 === Use case: User posts to LinkedIn
 
