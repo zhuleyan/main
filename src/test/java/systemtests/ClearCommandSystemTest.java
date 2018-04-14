@@ -66,7 +66,7 @@ public class ClearCommandSystemTest extends AddressBookSystemTest {
         /* Case: clear empty address book -> cleared */
         assertCommandSuccess(ClearCommand.COMMAND_WORD);
         assertSelectedCardUnchanged();
-        
+
     }
 
     /**
