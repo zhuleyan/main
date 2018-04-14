@@ -1,23 +1,25 @@
 package seedu.address.logic.commands;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import seedu.address.commons.core.Config;
-import seedu.address.commons.util.ConfigUtil;
-import seedu.address.model.person.Address;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import seedu.address.commons.core.Config;
+import seedu.address.model.person.Address;
+
+
 
 public class GoogleSetLocationCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private GoogleSetLocationCommand prepareCommand(Address address){
+    private GoogleSetLocationCommand prepareCommand(Address address) {
         GoogleSetLocationCommand command = new GoogleSetLocationCommand(address);
         return command;
     }
@@ -42,7 +44,7 @@ public class GoogleSetLocationCommandTest {
         assertEquals(cr.feedbackToUser, GoogleSetLocationCommand.MESSAGE_SUCCESS);
 
         Config postConfig = Config.setupConfig();
-        assertEquals(addressString, postConfig .getUserLocation());
+        assertEquals(addressString, postConfig.getUserLocation());
     }
 
 
