@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <!-- @@author A0155428B-unused -->
+<!-- this file was used in the implementation of change theme command in v1.4-->
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          minWidth="450" minHeight="600">
   <icons>

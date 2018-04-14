@@ -23,12 +23,13 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 
 * *Minor enhancement*: enabled auto-complete of command keywords.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/A0155428B.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/A0155428B.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/A0155428B.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/A0155428B.md[Test code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/unused/A0155428B-unused.md[Unused code]]
 
 * *Other contributions*:
 
 ** Documentation:
 *** Enabled auto-publishing of docs
+*** Enabled Coveralls
 
 ** Enhancements to existing features:
 *** Created and updated the icon of CRM Book (Pull requests https://github.com/CS2103JAN2018-F11-B1/main/pull/32[#32])
