@@ -36,8 +36,9 @@ public class Decrypter {
 
     private final Logger logger = LogsCenter.getLogger(Decrypter.class);
 
-    public String getLinkedInS(String encryptedByteCipher, String encryptedKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
+    public String getLinkedInS(String encryptedByteCipher, String encryptedKey) throws NoSuchPaddingException,
+            NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException,
+            InvalidAlgorithmParameterException {
 
         String strDecryptedText = new String();
 
