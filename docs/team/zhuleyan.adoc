@@ -37,11 +37,11 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-<<../UserGuide.adoc#321-add-or-remove-a-remark-to-a-lead-or-contact-rem-remark, Remark Command>>
+include::../UserGuide.adoc[tag=remark]
 
-<<../UserGuide.adoc#322-sort-persons-by-name-in-alphabetical-order-st-sort, Sort Command>>
+include::../UserGuide.adoc[tag=sort]
 
-<<../UserGuide.adoc#315-importing-a-csv-file-i-import, Import Command>>
+include::../UserGuide.adoc[tag=bulkimport]
 
 == Contributions to the Developer Guide
 
@@ -49,6 +49,6 @@ This application allows salespeople to organize their Leads, Contacts, and Accou
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-<<../DeveloperGuide.adoc#32-remark-feature, Remark Command>>
+include::../DeveloperGuide.adoc[tag=remark]
 
-<<../DeveloperGuide.adoc#37-bulk-import-feature, Import Command>>
+include::../DeveloperGuide.adoc[tag=bulkimport]

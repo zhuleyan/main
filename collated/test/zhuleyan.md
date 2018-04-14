@@ -1,6 +1,7 @@
 # zhuleyan
 ###### /java/seedu/address/logic/parser/RemarkCommandParserTest.java
 ``` java
+//reused
 public class RemarkCommandParserTest {
     private RemarkCommandParser parser = new RemarkCommandParser();
     private final String someRemark = "This is a remark.";
@@ -33,6 +34,7 @@ public class RemarkCommandParserTest {
 ```
 ###### /java/seedu/address/logic/commands/RemarkCommandTest.java
 ``` java
+//reused
 public class RemarkCommandTest {
 
     public static final String REMARK_EXAMPLE = "This is a remark";
@@ -245,6 +247,7 @@ public class RemarkCommandTest {
 ```
 ###### /java/seedu/address/model/person/RemarkTest.java
 ``` java
+//reused
 public class RemarkTest {
     @Test
     public void isEqualRemark() {

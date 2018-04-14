@@ -1,4 +1,4 @@
-= SHEIKH UMAR BIN SHAIK ABU BAKAR BANAFE' - Project Portfolio
+= Sheikh Umar Bin Shaik Abu Bakar Banafe' - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
@@ -23,9 +23,10 @@ Hence, this enhancement tackles this issues so that the user will have a more pl
 * *Minor enhancement*: Created an alias command for basic commands
 ** What it does: User can make the CRM Book perform basic commands with a few letters.
 ** Justification: Salespeople may want the CRM Book to do a basic command as quickly as possible. This will involve typing as few letters as possible.
-** Highlights: Ensuring that each alias command is unique. For example, the sort and select commands may share the alias command 's'. However, this will lead to one command being performed over the other.
-Hence, the sort command has the alias 'st', and the select command has the alias 's'. Examples of a basic command includes commands such as add, delete, clear, and find.
 
+* *Minor enhancement*: Enhanced find command to be able to search for phone numbers and email address.
+** What it does: User can search for Leads and Contacts based on phone numbers and email address.
+** Justification: Salespeople may want to search for Leads and Contacts based on personal inforamtion other than names.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/Sheikh-Umar.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/Sheikh-Umar.md[Test code]]
 
@@ -35,7 +36,7 @@ Hence, the sort command has the alias 'st', and the select command has the alias
 *** Reported bugs and suggestions for other teams in the class (examples: https://github.com/CS2103JAN2018-W09-B2/main/issues/197[Issue #197], https://github.com/CS2103JAN2018-W09-B2/main/issues/202[Issue #202])
 
 ** Project management:
-*** Managed the collation of code of my team for releases `v1.4` - `v1.5rc` (2 releases) on GitHub
+*** Managed the collation of code of my team for releases `v1.4` - `v1.5` (3 releases) on GitHub
 ** Enhancements to existing features:
 *** Made the find command be able to search for phone numbers and email addresses (Pull request https://github.com/CS2103JAN2018-F11-B1/main/pull/200[#200])
 
@@ -45,7 +46,11 @@ Hence, the sort command has the alias 'st', and the select command has the alias
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-<<../UserGuide.adoc#36-displaying-all-leads-or-all-contacts-disp-display, Display Command>>
+include::../UserGuide.adoc[tag=displaylist]
+
+include::../UserGuide.adoc[tag=displaycommandsummary]
+
+include::../UserGuide.adoc[tag=findcommandsummary]
 
 == Contributions to the Developer Guide
 
@@ -53,10 +58,14 @@ Hence, the sort command has the alias 'st', and the select command has the alias
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-<<../DeveloperGuide.adoc#310-alias-commands-feature, Alias Commands feature>>
+include::../DeveloperGuide.adoc[tag=alias]
 
-<<../DeveloperGuide.adoc#311-identifying-a-duplicate-feature, Identify Duplicates feature>>
+include::../DeveloperGuide.adoc[tag=duplicate]
 
-<<../DeveloperGuide.adoc#displaying-lead-list-and-contact-list-feature, Displaying Lead list and Contact list feature>>
+include::../DeveloperGuide.adoc[tag=display]
 
-<<../DeveloperGuide.adoc#enhancement-of-find-command-feature, Enhancement of Find Command feature>>
+include::../DeveloperGuide.adoc[tag=findbyphonenumberandemailaddress]
+
+include::../DeveloperGuide.adoc[tag=displaylistusecase]
+
+include::../DeveloperGuide.adoc[tag=findphonenumberandemailaddressusecase]
