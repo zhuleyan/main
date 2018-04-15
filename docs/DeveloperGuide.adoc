@@ -204,7 +204,7 @@ image::ModelClassDiagram.png[width="800"]
 The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
+* stores the CRM Book data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
@@ -219,7 +219,7 @@ image::StorageClassDiagram.png[width="800"]
 The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in xml format and read it back.
+* can save the CRM Book data in xml format and read it back.
 
 [[Design-Commons]]
 === Common classes
@@ -234,13 +234,13 @@ This section describes some noteworthy details on how certain features are imple
 === Undo/Redo feature
 ==== Current Implementation
 
-The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
+The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the CRM Book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
 
 image::LogicCommandClassDiagram.png[width="800"]
 
-As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
+As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the CRM Book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
 Commands that are not undoable are implemented this way:
 [source,java]
@@ -275,7 +275,7 @@ public class DeleteCommand extends UndoableCommand {
 
 Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
 
-The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
+The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person in the CRM Book. The current state of the CRM Book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
@@ -288,7 +288,7 @@ If a command fails its execution, it will not be pushed to the `UndoRedoStack` a
 
 The user now decides that adding the person was a mistake, and decides to undo that action using `undo`.
 
-We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
+We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the CRM Book to the state before the `add` command executed.
 
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
@@ -299,7 +299,7 @@ The following sequence diagram shows how the undo operation works:
 
 image::UndoRedoSequenceDiagram.png[width="800"]
 
-The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
+The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the CRM Book to the state after the command is executed).
 
 [NOTE]
 If the `redoStack` is empty, then there are no other commands left to be redone, and an `Exception` will be thrown when popping the `redoStack`.
@@ -329,7 +329,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Alternative 1 (current choice):** Saves the entire CRM Book.
 ** Pros: Easy to implement.
 ** Cons: May have performance issues in terms of memory usage.
 * **Alternative 2:** Individual command knows how to undo/redo by itself.
@@ -492,7 +492,7 @@ public static final String COMMAND_AUTO_COMPLETE = COMMAND_WORD + " " + PREFIX_N
 === Leads and Contacts feature
 ==== Current Implementation
 
-People in the address book were stored under a single class with no options for differentiating between two types of classes.
+People in the CRM Book were stored under a single class with no options for differentiating between two types of classes.
 
 To implement a CRM Book, Leads and Contacts must be differentiated so that they can each hold different fields like a proper CRM Book. To do so, they currently extend the Person class so that all existing functionality associated with Persons will work with both Leads an Contacts. Unique fields will be given their own classes like the original generic fields like Name and Address.
 
@@ -1121,7 +1121,7 @@ Here are the steps to create a new release.
 
 === Managing Dependencies
 
-A project often depends on third-party libraries. For example, Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
+A project often depends on third-party libraries. For example, CRM Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
 a. Include those libraries in the repo (this bloats the repo size) +
 b. Require developers to download those libraries manually (this creates extra work for developers)
 
@@ -1164,12 +1164,12 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 [discrete]
 ==== `Model` component
 
-*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the CRM Book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
 
 [TIP]
 Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
 
-. Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
+. Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the CRM Book.
 +
 ****
 * Hints
@@ -1188,7 +1188,7 @@ Do take a look at <<Design-Model>> before attempting to modify the `Model` compo
 [discrete]
 ==== `Ui` component
 
-*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
+*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your CRM Book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
 
 [TIP]
 Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
@@ -1238,7 +1238,7 @@ image::getting-started-ui-result-after.png[width="200"]
 *** Do read the commits one at a time if you feel overwhelmed.
 ****
 
-. Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
+. Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the CRM Book.
 +
 **Before**
 +
@@ -1251,7 +1251,7 @@ image::getting-started-ui-status-after.png[width="500"]
 ****
 * Hints
 ** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
-** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
+** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the CRM Book is updated.
 * Solution
 ** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
 ** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
@@ -1263,12 +1263,12 @@ image::getting-started-ui-status-after.png[width="500"]
 [discrete]
 ==== `Storage` component
 
-*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
+*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the CRM Book to the cloud. However, the current implementation of the application constantly saves the CRM Book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the CRM Book storage.
 
 [TIP]
 Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
 
-. Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
+. Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the CRM Book can be saved in a fixed temporary location.
 +
 ****
 * Hint
