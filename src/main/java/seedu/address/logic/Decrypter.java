@@ -1,3 +1,4 @@
+//@@author davidten
 package seedu.address.logic;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -34,16 +35,16 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class Decrypter {
 
-    private final Logger logger = LogsCenter.getLogger(this.getClass());
+    private final Logger logger = LogsCenter.getLogger(Decrypter.class);
 
-
-    public String getLinkedInS() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
+    public String getLinkedInS(String encryptedByteCipher, String encryptedKey) throws NoSuchPaddingException,
+            NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException,
+            InvalidAlgorithmParameterException {
 
         String strDecryptedText = new String();
 
         //Secret key generation
-        byte[] decodedKey = Base64.getDecoder().decode("qI8aUtN6zZI=");
+        byte[] decodedKey = Base64.getDecoder().decode(encryptedKey);
         SecretKey sKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
         logger.info("Secret key for decryption is " + Base64.getEncoder().encodeToString(sKey.getEncoded()));
 
@@ -51,7 +52,7 @@ public class Decrypter {
         Cipher desCipher = Cipher.getInstance("DES");
 
         //Decrypt the data
-        byte[] byteCipherText = Base64.getDecoder().decode("nvu3QZLMqueiNkyaaOJQmz7Bzrk+Fk+P");
+        byte[] byteCipherText = Base64.getDecoder().decode(encryptedByteCipher);
         desCipher.init(Cipher.DECRYPT_MODE, sKey, desCipher.getParameters());
         byte[] byteDecryptedText = desCipher.doFinal(byteCipherText);
         strDecryptedText = new String(byteDecryptedText);

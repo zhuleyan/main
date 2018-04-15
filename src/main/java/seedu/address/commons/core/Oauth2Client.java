@@ -12,7 +12,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -35,7 +34,6 @@ import com.sun.net.httpserver.HttpServer;
 import javafx.application.Platform;
 import seedu.address.commons.events.ui.HideBrowserRequestEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
-import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.ConfigUtil;
 import seedu.address.logic.Decrypter;
 import seedu.address.ui.BrowserWindow;
@@ -46,19 +44,20 @@ import seedu.address.ui.BrowserWindow;
  * Acts as the client in the client-server scheme
  */
 public class Oauth2Client {
+    private static final String linkedInAccessTokenURL = "https://www.linkedin.com/oauth/v2/accessToken";
+    private static final String redirectUri = "http://127.0.0.1:13370/test";
+    private static final Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static BrowserWindow bWindow;
     private static String secret;
     private static String authorizationCode;
-    private static String redirectUri = "http://127.0.0.1:13370/test";
     private static String clientId;
-    private static Logger logger = LogsCenter.getLogger(Oauth2Client.class);
     private static Config config;
     /**
      * Called when user types Linkedin_login
      * starts a webserver and opens a browser for Linkedin Authorization
      */
     public static void authenticateWithLinkedIn() throws IOException {
-        config = setupConfig();
+        config = Config.setupConfig();
         startServer();
 
         clientId = config.getAppId();
@@ -68,24 +67,8 @@ public class Oauth2Client {
 
         String fxmlString = "LinkedInLoginWindow.fxml";
         bWindow = new BrowserWindow(urlString, fxmlString);
+        logger.info("Showing browserWindow for logging in to LinkedIn");
         bWindow.show();
-    }
-
-    /**
-     * Called to start reading the configuration file so that we get the most updated values
-     */
-    public static Config setupConfig() {
-        Config initializedConfig;
-        String configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
-        try {
-            Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
-            initializedConfig = configOptional.orElse(new Config());
-        } catch (DataConversionException e) {
-            logger.warning("Config file at " + configFilePathUsed + " is not in the correct format. "
-                    + "Using default config properties");
-            initializedConfig = new Config();
-        }
-        return initializedConfig;
     }
 
     /**
@@ -94,6 +77,7 @@ public class Oauth2Client {
     public static void saveConfig() {
         try {
             ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+            logger.info("Configuration saved");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,6 +93,7 @@ public class Oauth2Client {
             server.createContext("/test", new MyHandler());
             server.setExecutor(null);
             server.start();
+            logger.info("Server started at port 13370, listening for /test");
         } catch (IOException e) {
             logger.info("Server likely to have been started already " + e.toString());
         }
@@ -123,14 +108,19 @@ public class Oauth2Client {
             @Override
             public void run() {
                 bWindow.hide();
+                logger.info("Browser Closed");
             }
         });
     }
 
     public static void getLinkedInS() {
+        String encryptedByteCipher = "nvu3QZLMqueiNkyaaOJQmz7Bzrk+Fk+P";
+        String encryptedKey = "qI8aUtN6zZI=";
+
         Decrypter a = new Decrypter();
         try {
-            secret = a.getLinkedInS();
+            secret = a.getLinkedInS(encryptedByteCipher, encryptedKey);
+            logger.info("Secret obtained");
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -151,42 +141,62 @@ public class Oauth2Client {
         }
     }
 
-
     /**
-     * This method exchanges the authorization token for an accessToken
+     * This method creates and returns the parameters used in httpEntity
      */
-    public static void getAccessToken() throws IOException {
-        HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("https://www.linkedin.com/oauth/v2/accessToken");
-
+    public static List<NameValuePair> getParams() {
         List<NameValuePair> params = new ArrayList<NameValuePair>(5);
         params.add(new BasicNameValuePair("grant_type", "authorization_code"));
         params.add(new BasicNameValuePair("code", authorizationCode));
         params.add(new BasicNameValuePair("redirect_uri", redirectUri));
         params.add(new BasicNameValuePair("client_id", clientId));
         params.add(new BasicNameValuePair("client_secret", secret));
+        return params;
+    }
+
+    /**
+     * This method creates and returns the httpEntity object used for requesting to LinkedIn
+     */
+    public static HttpEntity getHttpEntity() throws IOException {
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(linkedInAccessTokenURL);
+
+        List<NameValuePair> params = getParams();
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
         HttpResponse response = httpclient.execute(httppost);
-        HttpEntity entity = response.getEntity();
+
+        return response.getEntity();
+    }
+
+    /**
+     * This method reads the input stream to get the accessToken for the user
+     */
+    public static String extractAccessTokenFromResponse(InputStream instream)
+            throws IOException {
+        BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
+        StringBuilder responseStrBuilder = new StringBuilder();
+
+        String inputStr;
+        while ((inputStr = streamReader.readLine()) != null) {
+            responseStrBuilder.append(inputStr);
+        }
+
+        JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
+        return jsonObj.getString("access_token");
+    }
+
+    /**
+     * This method exchanges the authorization token for an accessToken
+     */
+    public static void getAccessToken() throws IOException {
+        HttpEntity entity = getHttpEntity();
 
         if (entity != null) {
             InputStream instream = entity.getContent();
             try {
-                BufferedReader streamReader = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
-                StringBuilder responseStrBuilder = new StringBuilder();
+                String accessToken = extractAccessTokenFromResponse(instream);
 
-                String inputStr;
-                while ((inputStr = streamReader.readLine()) != null) {
-                    responseStrBuilder.append(inputStr);
-                }
-
-
-                JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
-
-                String accessToken = jsonObj.getString("access_token");
-
-                logger.info("Login to LinkedIn Successful" + responseStrBuilder.toString());
                 logger.info("Access Token is " + accessToken);
                 EventsCenter.getInstance().post(new NewResultAvailableEvent("Successfully logged in to LinkedIn"));
                 config.setAppSecret(accessToken);
@@ -217,7 +227,7 @@ public class Oauth2Client {
             String authorizationCodeandState = t.getRequestURI().getQuery();
             authorizationCode = authorizationCodeandState.substring(5, authorizationCodeandState.length() - 10);
             logger.info("Auth code is: " + authorizationCode);
-            //t.getRequestURI().getQuery() receives the response from the server. Need to parse it
+
             EventsCenter.getInstance().post(new HideBrowserRequestEvent());
 
         }

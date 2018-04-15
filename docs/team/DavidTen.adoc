@@ -45,7 +45,7 @@ The user interacts with CRM Book using a CLI, and it has a GUI created with Java
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=descriptiont]
+include::../UserGuide.adoc[tag=description]
 
 include::../UserGuide.adoc[tag=linkedinLogin]
 
@@ -62,3 +62,9 @@ include::../UserGuide.adoc[tag=getdirections]
 |===
 
 include::../DeveloperGuide.adoc[tag=linkedinlogin]
+
+include::../DeveloperGuide.adoc[tag=linkedinshare]
+
+include::../DeveloperGuide.adoc[tag=settingGoogleLocation]
+
+include::../DeveloperGuide.adoc[tag=viewDirections]

@@ -16,7 +16,6 @@ By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 //tag::description[]
-
 A CRM System is a Customer Relationship Management system, mainly used in the real world by Sales and Marketing teams to manage their business-customer relationships, as well as to manage business contacts, employees, clients, contract wins and sales leads. Some examples of popular CRMs include Salesforce, SAP, and Microsoft Dynamics CRM.
 
 A common complaint against such traditional CRMs is that they are large, contain too many functionalities, and in some cases even require additional training before using. (Search for: Salesforce Trailhead)
@@ -40,7 +39,7 @@ Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
+.  Download the latest `crmbook.jar` link:https://github.com/CS2103JAN2018-F11-B1/main/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
@@ -428,7 +427,6 @@ The `blue` theme is the default theme. When user opens CRM Book for the first ti
 If the user changes the theme, it will be saved in user preferences so that CRM Book will display the user preferred theme in subsequent runs. +
 Format: `changetheme THEME` +
 Example: `changetheme light`
-
 //end::changetheme[]
 
 === Saving the data
@@ -454,14 +452,7 @@ If a person card was selected while the office location is set, you have to sele
 
 [TIP]
 Success of this command is also dependent on the success of Google intepreting the address entered
-
 // end::getdirections[]
-
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
 
 == FAQ
 

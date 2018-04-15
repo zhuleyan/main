@@ -27,7 +27,7 @@ Responsibilities: Duplicate detection, Basic command aliases, Display of Lead an
 
 '''
 
-=== Woody Lau
+=== Woody Grant Lau
 image::WoodyLau.png[width="150", align="left"]
 {empty}[http://github.com/WoodyLau[github]] [<<WoodyLau#, portfolio>>]
 
