@@ -578,14 +578,14 @@ The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up th
 [source, java]
 public void handleLinkedInAuthentication() {
     try {
-        Oauth2Client.authenticateWithLinkedIn(config);
+        Oauth2Client.authenticateWithLinkedIn();
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 
 [source, java]
-public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+public static void authenticateWithLinkedIn() throws IOException {
     ...
     String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
         + clientId + "&redirect_uri=" + redirectUri + "&state=...";
@@ -639,7 +639,7 @@ image::LinkedInLoginSequenceDiagram.png[width="800"]
 ** Cons: Bad security, secret will likely end up in a paste database somewhere in the internet
 // end::linkedinlogin[]
 
-// tag::linkedinlogin[]
+// tag::linkedinshare[]
 === Share to LinkedIn Feature
 ==== Current Implementation
 
@@ -669,7 +669,19 @@ Finally we use the postSuccess value to determine if we send a success or failed
 
 image::LinkedInShareSequenceDiagram.png[width="800"]
 
-// end::linkedinlogin[]
+==== Design Considerations
+===== Aspect: Allowing users to set privacy level
+
+* **Alternative 1 (current choice):** Only option is 'anyone'
+** Pros: Salesperson always wants to share to as many people as possible. Reduces complexity of command and/or save on a command to set a default level of visibility.
+** Cons: Salesperson is limited to only posting public posts using CRM Book
+* **Alternative 2:** Allow salesperson to set a default visibility option using another command
+** Pros: Salesperson has greater flexibility in setting the visibility type of their post.
+** Cons: Have to write a new command that may not be used.
+* **Alternative 3:** Allow salesperson to specify visibility in share command
+** Pros: Salesperson has the greatest level flexibility in setting the visibility type of their post.
+** Cons: Increases complexity of the command
+// end::linkedinshare[]
 
 // tag::bulkimport[]
 === Bulk Import Feature
