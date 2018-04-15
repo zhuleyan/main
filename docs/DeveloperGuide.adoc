@@ -667,6 +667,8 @@ if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
 
 Finally we use the postSuccess value to determine if we send a success or failed message to the user.
 
+image::LinkedInShareSequenceDiagram.png[width="800"]
+
 // end::linkedinlogin[]
 
 // tag::bulkimport[]
