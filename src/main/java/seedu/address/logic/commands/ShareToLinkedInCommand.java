@@ -18,9 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import seedu.address.commons.core.Config;
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.ShareToLinkedInEvent;
 
 /**
  * Shares a post to the logged in LinkedIn accountx
