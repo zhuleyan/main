@@ -62,3 +62,9 @@ include::../UserGuide.adoc[tag=getdirections]
 |===
 
 include::../DeveloperGuide.adoc[tag=linkedinlogin]
+
+include::../DeveloperGuide.adoc[tag=linkedinshare]
+
+include::../DeveloperGuide.adoc[tag=settingGoogleLocation]
+
+include::../DeveloperGuide.adoc[tag=viewDirections]

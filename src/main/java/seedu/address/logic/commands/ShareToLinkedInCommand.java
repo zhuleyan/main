@@ -18,9 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import seedu.address.commons.core.Config;
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.ShareToLinkedInEvent;
 
 /**
  * Shares a post to the logged in LinkedIn accountx
@@ -58,8 +56,7 @@ public class ShareToLinkedInCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        //send event To Main to obtain the configuration file.
-        EventsCenter.getInstance().post(new ShareToLinkedInEvent());
+        postToLinkedIn();
         //post success
         logger.info("CHECKING POST SUCCESS NOW");
         if (postSuccess) {
@@ -151,7 +148,7 @@ public class ShareToLinkedInCommand extends Command {
 
         String jsonToSend = getLinkedInJsonObject();
 
-        logger.info("SENDING TO THE SERVER: " + jsonToSend);
+        logger.info("Access token is valid, sending the json to server: " + jsonToSend);
 
         try {
             HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);

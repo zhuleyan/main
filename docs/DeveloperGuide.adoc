@@ -578,14 +578,14 @@ The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up th
 [source, java]
 public void handleLinkedInAuthentication() {
     try {
-        Oauth2Client.authenticateWithLinkedIn(config);
+        Oauth2Client.authenticateWithLinkedIn();
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 
 [source, java]
-public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+public static void authenticateWithLinkedIn() throws IOException {
     ...
     String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
         + clientId + "&redirect_uri=" + redirectUri + "&state=...";
@@ -634,8 +634,99 @@ image::LinkedInLoginSequenceDiagram.png[width="800"]
 * **Alternative 2:** Store the App Secret in another server, and requesting it with an authentication code
 ** Pros: Higher security, app secret not stored on GitHub
 ** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
-**Additional Info:** See comments on Decrypter class for full argument
+* **Alternative 3:** Store the App Secret in plain text
+** Pros: Much easier to code and implement
+** Cons: Bad security, secret will likely end up in a paste database somewhere in the internet
 // end::linkedinlogin[]
+
+// tag::linkedinshare[]
+=== Share to LinkedIn Feature
+==== Current Implementation
+
+When the linkedin_share command is executed, it will call the Config class to get a current copy of the configurations used by the Application. It will also set the boolean value of postSuccess to false. This boolean value will be used to determine if we managed to successfully post to LinkedIn.
+
+[source, java]
+public static void postToLinkedIn() {
+    Config config = Config.setupConfig();
+    postSuccess = false;
+
+Next, we create a JSON Object that LinkedIn requires, specifying the visibility (privacy) of the post, and the actual content of the post. By default, we set the visibility to be 'anyone', or in Facebook terms, 'Public'. An overview on LinkedIn's share API can be found at https://developer.linkedin.com/docs/share-on-linkedin
+
+With the JSON Object and the access_token taken from the user's configuration file, we create a HttpPost Object and HttpClient Object, send it to LinkedIn, and analyze the response. In particular, if the response contains an updateUrl, it means that the post has been successfully posted, and we update the boolean value of postSuccess to true.
+
+[source, java]
+HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);
+HttpClient httpclient = getHttpClientObject();
+JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
+logger.info("LinkedIn Response is : " + linkedInResponse.toString());
+if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
+    //if has updateURL then it successfully got posted
+    logger.info("Post has been successfully posted");
+    postSuccess = true;
+}
+
+Finally we use the postSuccess value to determine if we send a success or failed message to the user.
+
+The following sequence diagram shows how the command works
+
+image::LinkedInShareSequenceDiagram.png[width="800"]
+
+==== Design Considerations
+===== Aspect: Allowing salesperson to set privacy level of their post
+
+* **Alternative 1 (current choice):** Only option is 'anyone'
+** Pros: Salesperson always wants to share to as many people as possible. Reduces complexity of command and/or save on a command to set a default level of visibility.
+** Cons: Salesperson is limited to only posting public posts using CRM Book
+* **Alternative 2:** Allow salesperson to set a default visibility option using another command
+** Pros: Salesperson has greater flexibility in setting the visibility type of their post.
+** Cons: Have to write a new command that may not be used.
+* **Alternative 3:** Allow salesperson to specify visibility in share command
+** Pros: Salesperson has the greatest level flexibility in setting the visibility type of their post.
+** Cons: Increases complexity of the command
+// end::linkedinshare[]
+
+// tag::settingGoogleLocation[]
+=== Saving a location for Google Maps
+==== Current Implementation
+
+To save a location in Google Maps, it does not matter whether CRM Book already has a pre-existing address. Rather, we always overwrite the config file to be updated with the latest address.
+
+[source, java]
+Config initializedConfig = Config.setupConfig();
+initializedConfig.setUserLocation(address.toString());
+
+The following sequence diagram shows how the command works
+
+image::SaveGoogleLocationSequenceDiagram.png[width="800"]
+// end::settingGoogleLocation[]
+
+// tag::viewDirections[]
+=== View directions to a Client's office
+==== Current Implementation
+
+The current implementation of this feature is the same as when a person card is changed (Like the select command). The difference is that if the config file states that a user's office location has been set, then load Google maps instead of doing a Google Search.
+
+[source, java]
+@Subscribe
+private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+    getConfig();
+    logger.info(LogsCenter.getEventHandlingLogMessage(event));
+    //if person has no home location set
+    if (config.getUserLocation() == null || config.getUserLocation().length() == 0) {
+        logger.info("No office location set, doing Google search");
+        loadPersonPage(event.getNewSelection().person);
+    } else {
+        String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
+        logger.info("Office location set, Load Google Maps. URL IS " + url);
+        loadPage(url);
+    }
+}
+
+The following sequence diagram shows how this feature works. The select command is used only if the user activated it via commandline. However, clicking on another person card without using the select command will work as well.
+
+image::LoadGoogleMapsSequenceDiagram.png[width="800"]
+
+// end::viewDirections[]
 
 // tag::bulkimport[]
 === Bulk Import Feature
