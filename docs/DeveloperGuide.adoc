@@ -595,7 +595,19 @@ public static void authenticateWithLinkedIn(Config configuration) throws IOExcep
 
 Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
 
-The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
+The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision to use a Decrypter class is in the comments section of the Decrypter class, and duplicated here for convenience to the reader.
+
+[source, java]
+ // Decrypts the s for use for OAuth
+ // While this is not an ideal situation, LinkedIn's OAuth API does not have a client-side authentication flow.
+ // This means that it will always require the app s for purposes of authentication.
+ // Because of this, building a native (desktop) app that authenticates with LinkedIn is not ideal.
+ // However, a number of sites have agreed that if you have to store the key in the code, then obscuring it to make
+ // it slightly more difficult for a potential hacker to get it is best. (They will need to run the app rather than
+ // just reading the plain text version)
+ // This is especially so because a LinkedIn S is not especially valuable, since anyone can create a LinkedIn app.
+ // Furthermore the chances of competitors abusing the secret to disable this application is minimal, since it is
+ // ultimately, a school project.
 
 [source, java]
 public void handleHideBrowser() {
@@ -1853,7 +1865,7 @@ These instructions only provide a starting point for testers to work on; testers
 .. Test case: `import` +
    Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
 
-=== Converting a Lead to a Contact:
+=== Converting a Lead to a Contact
 
 . Select a Lead to convert from the current list of people, and note their index number
 
@@ -1865,7 +1877,7 @@ These instructions only provide a starting point for testers to work on; testers
 . Note that the field Department appears
 . Note that all other fields except the type remain the same
 
-=== Editing the non-essential details:
+=== Editing the non-essential details
 
 . Select a Lead or Contact from the current list of people, and note their index number. If Lead, read the `a.` sections. If Contact, read the `b.` sections.
 . In the command bar, type `editdetails INDEX ...` or `adddetails INDEX ...`, followed by type-specific data +
@@ -1886,7 +1898,7 @@ Note, company cannot be deleted, only changed, once it is provided
 .. The rating will change to the provided number +
 Website and industry will appear if provided
 
-=== Adding an Account to a Contact:
+=== Adding an Account to a Contact
 
 . Select a Contact from the current list of people, and note their index number
 
@@ -1894,3 +1906,35 @@ Website and industry will appear if provided
 
 . In the command bar, type `account INDEX an/COMPANY`
 . Note that the Company field has changed to reflect the new company
+
+=== Logging in to LinkedIn
+
+. In the command box, type linkedin_login
+
+.. A browser window will appear. Enter your LinkedIn username and password, and accept the permissions requested
+
+.. The browser window should close and say 'Successfully logged in to LinkedIn'
+
+=== Sharing a Post to LinkedIn
+
+. In the command box, type linkedin_share [content] where [content] is what you want to share on your LinkedIn profile
+
+.. If you are already logged in to LinkedIn and did not revoke the app's permissions, CRM Book will say 'Post shared to your linkedIn account'
+
+.. To check if the post is there, go to your LinkedIn account, click on your name at the top right corner, click Posts & Activity. If the post is not there yet, wait awhile and refresh, sometimes it takes a while before the post appears in the feed.
+
+=== Setting your office location
+
+. In the command box, type set_office_address a/[address] where address is a valid address
+
+.. CRM book will say 'Office address set!'
+
+=== Getting directions to a client's location
+
+. In the command box, type select [index] where index is the index of a currently unselected person card
+
+.. For example, select 3
+
+.. If you have already set your office location, instead of doing a Google search of the person, the CRM Book will instead show you directions to your client's office, powered by Google Maps.
+
+.. If Google Maps does not recognize the address, you may have to manually change the address in the Google Maps prompt

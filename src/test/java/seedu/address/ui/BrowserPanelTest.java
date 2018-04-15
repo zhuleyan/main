@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import guitests.guihandles.BrowserPanelHandle;
 import seedu.address.MainApp;
+import seedu.address.commons.core.Config;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 
 public class BrowserPanelTest extends GuiUnitTest {
@@ -34,6 +35,7 @@ public class BrowserPanelTest extends GuiUnitTest {
 
     @Test
     public void display() throws Exception {
+        Config.clearUserLocation();
         // default web page
         URL expectedDefaultPageUrl = MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE);
         assertEquals(expectedDefaultPageUrl, browserPanelHandle.getLoadedUrl());
@@ -45,4 +47,5 @@ public class BrowserPanelTest extends GuiUnitTest {
         waitUntilBrowserLoaded(browserPanelHandle);
         assertEquals(expectedPersonUrl, browserPanelHandle.getLoadedUrl());
     }
+
 }

@@ -11,6 +11,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
 import org.junit.Test;
 
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -20,6 +21,7 @@ import seedu.address.model.Model;
 public class SelectCommandSystemTest extends AddressBookSystemTest {
     @Test
     public void select() {
+        Config.clearUserLocation();
         /* ------------------------ Perform select operations on the shown unfiltered list -------------------------- */
 
         /* Case: select the first card in the person list, command with leading spaces and trailing spaces

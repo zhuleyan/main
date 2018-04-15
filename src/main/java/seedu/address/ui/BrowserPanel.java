@@ -15,7 +15,6 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.Oauth2Client;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
 
@@ -74,7 +73,7 @@ public class BrowserPanel extends UiPart<Region> {
      * Gets configuration to be used when showing google maps
      */
     public static void getConfig() {
-        config = Oauth2Client.setupConfig();
+        config = Config.setupConfig();
     }
 
     /**

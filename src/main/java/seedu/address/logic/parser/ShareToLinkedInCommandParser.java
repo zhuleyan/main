@@ -6,7 +6,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.Oauth2Client;
 import seedu.address.logic.commands.ShareToLinkedInCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -25,7 +24,7 @@ public class ShareToLinkedInCommandParser implements Parser<ShareToLinkedInComma
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 ShareToLinkedInCommand.MESSAGE_USAGE));
         }
-        Logger logger = LogsCenter.getLogger(Oauth2Client.class);
+        Logger logger = LogsCenter.getLogger(ShareToLinkedInCommand.class);
         logger.info("SHARE TO LINKEDIN PARSER RUN" + args);
         return new ShareToLinkedInCommand(args);
 
