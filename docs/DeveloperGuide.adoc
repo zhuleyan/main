@@ -667,6 +667,8 @@ if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
 
 Finally we use the postSuccess value to determine if we send a success or failed message to the user.
 
+The following sequence diagram shows how the command works
+
 image::LinkedInShareSequenceDiagram.png[width="800"]
 
 ==== Design Considerations
@@ -692,6 +694,8 @@ To save a location in Google Maps, it does not matter whether CRM Book already h
 [source, java]
 Config initializedConfig = Config.setupConfig();
 initializedConfig.setUserLocation(address.toString());
+
+The following sequence diagram shows how the command works
 
 image::SaveGoogleLocationSequenceDiagram.png[width="800"]
 // end::settingGoogleLocation[]
