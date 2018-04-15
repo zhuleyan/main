@@ -28,7 +28,7 @@ The user interacts with CRM Book using a CLI, and it has a GUI created with Java
 ** Highlights: This enhancement involved learning more about Google Map's webservice, studying between the different APIs and other options that they provided, as well as research on how to use the config.json file in the CRM Book.
 ** Credits: Google Maps URLs
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/DavidTen.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/DavidTen.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/functional/davidten.md[Functional code]] [https://github.com/CS2103JAN2018-F11-B1/main/blob/master/collated/test/davidten.md[Test code]]
 
 * *Other contributions*:
 
