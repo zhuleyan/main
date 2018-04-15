@@ -67,6 +67,7 @@ public class Oauth2Client {
 
         String fxmlString = "LinkedInLoginWindow.fxml";
         bWindow = new BrowserWindow(urlString, fxmlString);
+        logger.info("Showing browserWindow for logging in to LinkedIn");
         bWindow.show();
     }
 
@@ -76,6 +77,7 @@ public class Oauth2Client {
     public static void saveConfig() {
         try {
             ConfigUtil.saveConfig(config, config.DEFAULT_CONFIG_FILE);
+            logger.info("Configuration saved");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,6 +93,7 @@ public class Oauth2Client {
             server.createContext("/test", new MyHandler());
             server.setExecutor(null);
             server.start();
+            logger.info("Server started at port 13370, listening for /test");
         } catch (IOException e) {
             logger.info("Server likely to have been started already " + e.toString());
         }
@@ -105,6 +108,7 @@ public class Oauth2Client {
             @Override
             public void run() {
                 bWindow.hide();
+                logger.info("Browser Closed");
             }
         });
     }
@@ -116,6 +120,7 @@ public class Oauth2Client {
         Decrypter a = new Decrypter();
         try {
             secret = a.getLinkedInS(encryptedByteCipher, encryptedKey);
+            logger.info("Secret obtained");
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -178,7 +183,6 @@ public class Oauth2Client {
         }
 
         JSONObject jsonObj = new JSONObject(responseStrBuilder.toString());
-
         return jsonObj.getString("access_token");
     }
 

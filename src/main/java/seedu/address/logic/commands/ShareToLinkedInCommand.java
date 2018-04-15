@@ -148,7 +148,7 @@ public class ShareToLinkedInCommand extends Command {
 
         String jsonToSend = getLinkedInJsonObject();
 
-        logger.info("SENDING TO THE SERVER: " + jsonToSend);
+        logger.info("Access token is valid, sending the json to server: " + jsonToSend);
 
         try {
             HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);
