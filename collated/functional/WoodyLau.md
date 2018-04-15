@@ -18,12 +18,12 @@
         department.setVisible(false);
         department.setManaged(false);
 
-        if (person.getCompany() == null) {
+        if (person.getCompany() == null || person.getCompany().equals("")) {
             company.setText("Company: Not Given");
         } else {
             company.setText("Company: " + person.getCompany());
         }
-        if (person.getIndustry() == null) {
+        if (person.getIndustry() == null || person.getIndustry().equals("")) {
             industry.setVisible(false);
             industry.setManaged(false);
         } else {
@@ -34,7 +34,7 @@
         } else {
             rating.setText("Rating: " + person.getRating() + "/5");
         }
-        if (person.getWebsite() == null) {
+        if (person.getWebsite() == null || person.getWebsite().equals("")) {
             website.setVisible(false);
             website.setManaged(false);
         } else {
@@ -50,12 +50,12 @@
         website.setVisible(false);
         website.setManaged(false);
 
-        if (person.getCompany() == null) {
+        if (person.getCompany() == null || person.getCompany().equals("")) {
             company.setText("Company: Not Given");
         } else {
             company.setText("Company: " + person.getCompany());
         }
-        if (person.getDepartment() == null) {
+        if (person.getDepartment() == null || person.getDepartment().equals("")) {
             department.setText("Department: Not Given");
         } else {
             department.setText("Department: " + person.getDepartment());
@@ -533,6 +533,10 @@ public class ConvertCommand extends UndoableCommand {
         if (oldLead.getCompany() != null) {
             contact.setCompany(new Account(oldLead.getCompany()));
         }
+        if (oldLead.getTitle() != null) {
+            contact.setTitle(oldLead.getTitle());
+        }
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         contact.setConvertedDate(dateFormat.format(date));

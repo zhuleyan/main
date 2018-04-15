@@ -18,9 +18,9 @@ public class ImportCommandParser {
         List<Lead> list = new ArrayList<>();
         int index = 1;
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(args));
+            Reader reader = new FileReader(args);
             if (!args.substring(args.length() - 4, args.length()).equalsIgnoreCase(".csv")) {
-                throw new ParseException("not a csv file");
+                throw new WrongFileFormatException("not a csv file");
             }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
@@ -43,6 +43,8 @@ public class ImportCommandParser {
             String indexMessage = "Error at the person of index " + index + ": ";
             String result = indexMessage.concat(errorMessage);
             throw new ParseException(result, ive);
+        } catch (WrongFileFormatException wffe) {
+            throw new ParseException("not a csv file");
         }
     }
 }
