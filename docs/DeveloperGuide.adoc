@@ -643,7 +643,30 @@ image::LinkedInLoginSequenceDiagram.png[width="800"]
 === Share to LinkedIn Feature
 ==== Current Implementation
 
-The when the linkedin_share feature is called
+When the linkedin_share command is executed, it will call the Config class to get a current copy of the configurations used by the Application. It will also set the boolean value of postSuccess to false. This boolean value will be used to determine if we managed to successfully post to LinkedIn.
+
+[source, java]
+public static void postToLinkedIn() {
+    Config config = Config.setupConfig();
+    postSuccess = false;
+
+Next, we create a JSON Object that LinkedIn requires, specifying the visibility (privacy) of the post, and the actual content of the post. By default, we set the visibility to be 'anyone', or in Facebook terms, 'Public'. An overview on LinkedIn's share API can be found at https://developer.linkedin.com/docs/share-on-linkedin
+
+With the JSON Object and the access_token taken from the user's configuration file, we create a HttpPost object and HttpClient Object, send it to LinkedIn, and analyze the response. In particular, if the response contains a updateUrl, it means that the post has been successfully posted, and we update the boolean value of postSuccess to true.
+
+[source, java]
+HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);
+HttpClient httpclient = getHttpClientObject();
+JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
+logger.info("LinkedIn Response is : " + linkedInResponse.toString());
+if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
+    //if has updateURL then it successfully got posted
+    logger.info("Post has been successfully posted");
+    postSuccess = true;
+}
+
+Finally we use the postSuccess value to determine if we send a success or failed message to the user.
+
 // end::linkedinlogin[]
 
 // tag::bulkimport[]
