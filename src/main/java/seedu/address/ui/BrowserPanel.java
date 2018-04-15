@@ -105,7 +105,7 @@ public class BrowserPanel extends UiPart<Region> {
             loadPersonPage(event.getNewSelection().person);
         } else {
             String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
-            logger.info("Office location set. URL IS " + url);
+            logger.info("Office location set, Load Google Maps. URL IS " + url);
             loadPage(url);
         }
     }

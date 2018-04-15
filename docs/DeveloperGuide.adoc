@@ -700,6 +700,34 @@ The following sequence diagram shows how the command works
 image::SaveGoogleLocationSequenceDiagram.png[width="800"]
 // end::settingGoogleLocation[]
 
+// tag::viewDirections[]
+=== View directions to a Client's office
+==== Current Implementation
+
+The current implementation of this feature is the same as when a person card is changed (Like the select command). The difference is that if the config file states that a user's office location has been set, then load Google maps instead of doing a Google Search.
+
+[source, java]
+@Subscribe
+private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+    getConfig();
+    logger.info(LogsCenter.getEventHandlingLogMessage(event));
+    //if person has no home location set
+    if (config.getUserLocation() == null || config.getUserLocation().length() == 0) {
+        logger.info("No office location set, doing Google search");
+        loadPersonPage(event.getNewSelection().person);
+    } else {
+        String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
+        logger.info("Office location set, Load Google Maps. URL IS " + url);
+        loadPage(url);
+    }
+}
+
+The following sequence diagram shows how this feature works. The select command is used only if the user activated it via commandline. However, clicking on another person card without using the select command will work as well.
+
+image::LoadGoogleMapsSequenceDiagram.png[width="800"]
+
+// end::viewDirections[]
+
 // tag::bulkimport[]
 === Bulk Import Feature
 ==== Current Implementation
