@@ -1938,3 +1938,13 @@ Website and industry will appear if provided
 .. If you have already set your office location, instead of doing a Google search of the person, the CRM Book will instead show you directions to your client's office, powered by Google Maps.
 
 .. If Google Maps does not recognize the address, you may have to manually change the address in the Google Maps prompt
+
+=== Change color theme of CRM Book
+
+. In the command box, type changetheme [theme] where theme can be one of the three themes available, namely light, dark, blue.
+
+.. For example, changetheme light
+
+.. If the current theme is not light, theme will be changed to light with a success message.
+
+.. If the current theme is light, CRM Book will give a message to notify the user that the current theme is light.
