@@ -652,7 +652,7 @@ public static void postToLinkedIn() {
 
 Next, we create a JSON Object that LinkedIn requires, specifying the visibility (privacy) of the post, and the actual content of the post. By default, we set the visibility to be 'anyone', or in Facebook terms, 'Public'. An overview on LinkedIn's share API can be found at https://developer.linkedin.com/docs/share-on-linkedin
 
-With the JSON Object and the access_token taken from the user's configuration file, we create a HttpPost object and HttpClient Object, send it to LinkedIn, and analyze the response. In particular, if the response contains a updateUrl, it means that the post has been successfully posted, and we update the boolean value of postSuccess to true.
+With the JSON Object and the access_token taken from the user's configuration file, we create a HttpPost Object and HttpClient Object, send it to LinkedIn, and analyze the response. In particular, if the response contains an updateUrl, it means that the post has been successfully posted, and we update the boolean value of postSuccess to true.
 
 [source, java]
 HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);
@@ -670,7 +670,7 @@ Finally we use the postSuccess value to determine if we send a success or failed
 image::LinkedInShareSequenceDiagram.png[width="800"]
 
 ==== Design Considerations
-===== Aspect: Allowing users to set privacy level
+===== Aspect: Allowing salesperson to set privacy level of their post
 
 * **Alternative 1 (current choice):** Only option is 'anyone'
 ** Pros: Salesperson always wants to share to as many people as possible. Reduces complexity of command and/or save on a command to set a default level of visibility.
