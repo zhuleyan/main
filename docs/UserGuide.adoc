@@ -12,7 +12,7 @@ ifdef::env-github[]
 :note-caption: :information_source:
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-F11-B1/main
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team F11-B1`      Since: `Jan 2018`      Licence: `MIT`
 
 == Introduction
 //tag::description[]
@@ -40,7 +40,7 @@ Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `crmbook.jar` link:https://github.com/CS2103JAN2018-F11-B1/main/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Copy the file to the folder you want to use as the home folder for your CRM Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
@@ -50,7 +50,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
 * *`list`* : lists all Leads and Contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a Lead named `John Doe` to the Address Book.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a Lead named `John Doe` to the CRM Book.
 * **`delete`**`3` : deletes the 3rd person shown in the current list
 * *`exit`* : exits the app
 
@@ -65,9 +65,9 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 * In v 1.4: Added Accounts. Made CRMBook look nicer.
 
-* In v 1.5: Able to find phone numbers. Able to change theme dynamically.
+* In v 1.5: Able to find phone numbers. Able to change theme dynamically. Able to set office location and view directions via Google Maps. There are multiple themes for user to choose from.
 
-* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Data enrichment. Google Maps integration to show a salesperson how to get to a Lead's office. There are multiple themes for user to choose from. Google Maps. Adds a parent company tag to Leads and Contacts if their company has a parent company. Example: Leads and Contacts from Skype and Nokia will have an additional tag called Microsoft.
+* Coming in v2.0: Functional CRM, with Leads, Contacts, and Accounts. Events (such as meetings) play a role in alerting salesperson if a person needs to be reached out to. Data enrichment. Adds a parent company tag to Leads and Contacts if their company has a parent company. Example: Leads and Contacts from Skype and Nokia will have an additional tag called Microsoft.
 
 ====
 *Command Format*
@@ -134,7 +134,7 @@ Format: `disp Lead`, `display Lead`, `disp Contact`, `display Contact`
 
 === Editing a person : `e`, `edit`
 
-Edits an existing Lead or Contact in the address book. +
+Edits an existing Lead or Contact in the CRM Book. +
 Format: `e INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`, `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
@@ -158,6 +158,7 @@ Edits the phone number and email address of the 1st person to be `99990000` and 
 
 Edits an existing person in the CRM Book. +
 For Leads, format: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
+
 For Contacts, format: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 
 ****
@@ -177,6 +178,7 @@ Sets the department of the 2nd person to be `IT` and sets the title to `Mr.`. Th
 
 Edits an existing person in the CRM Book. +
 For Leads, format: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
+
 For Contacts, format: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 
 ****
@@ -196,7 +198,7 @@ Edits the department of the 2nd person to be `IT` and sets the title to `Mr.`. T
 //tag::convert[]
 === Converting a person : `con`, `convert`
 
-Converts an existing Lead in the address book to a Contact. For further description of Leads and Contacts, see the Introduction +
+Converts an existing Lead in the CRM Book to a Contact. For further description of Leads and Contacts, see the Introduction +
 Format: `con INDEX`, `convert INDEX`
 
 ****
@@ -256,7 +258,7 @@ Returns the Lead or Contact with the email address `johntan@gmail.com`
 
 === Deleting a person : `d`, `delete`
 
-Deletes the specified person from the address book. +
+Deletes the specified person from the CRM Book. +
 Format: `d INDEX`, `delete INDEX`
 
 ****
@@ -331,7 +333,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 // tag::undoredo[]
 === Undoing previous command : `u`, `undo`
 
-Restores the address book to the state before the previous _undoable_ command was executed. +
+Restores the CRM Book to the state before the previous _undoable_ command was executed. +
 Format: `u`, `undo`
 
 [NOTE]
@@ -430,7 +432,7 @@ Example: `changetheme light`
 
 === Saving the data
 
-Address book data are saved in the hard disk automatically after any command that changes the data. +
+CRM Book data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
 // tag::setlocation[]
