@@ -156,8 +156,8 @@ Edits the phone number and email address of the 1st person to be `99990000` and 
 
 === Adding nonessential details of a person : `adddetails`
 
-Edits an existing person in the address book. +
-For Leads, format: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]`
+Edits an existing person in the CRM Book. +
+For Leads, format: `adddetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts, format: `adddetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 
 ****
@@ -175,15 +175,14 @@ Sets the department of the 2nd person to be `IT` and sets the title to `Mr.`. Th
 //tag::editdetails[]
 === Editing nonessential details of a person : `editdetails`
 
-Edits an existing person in the address book. +
-For Leads, format: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]`
+Edits an existing person in the CRM Book. +
+For Leads, format: `editdetails INDEX [c/COMPANY] [i/INDUSTRY] [r/RATING (number from 1 to 5)] [t/TITLE] [w/WEBSITE]` +
 For Contacts, format: `editdetails INDEX [c/COMPANY] [d/DEPARTMENT] [t/TITLE]`
 
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* Currently, only Title is shown in the UI, others are coming in V1.4
 ****
 
 Examples:
