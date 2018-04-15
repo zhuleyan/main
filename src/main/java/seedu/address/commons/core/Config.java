@@ -104,7 +104,8 @@ public class Config {
         //@@author
         return sb.toString();
     }
-    //@@author davidten-resued
+    //@@author davidten
+    //reused
     /**
      * Called to start reading the configuration file so that we get the most updated values
      */

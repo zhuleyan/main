@@ -1,4 +1,5 @@
-//@@author davidten-reused
+//@@author davidten
+//reused
 package seedu.address.ui;
 
 import java.util.logging.Logger;
