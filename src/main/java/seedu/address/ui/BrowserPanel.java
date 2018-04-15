@@ -15,7 +15,6 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.Oauth2Client;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.Person;
 
@@ -74,7 +73,7 @@ public class BrowserPanel extends UiPart<Region> {
      * Gets configuration to be used when showing google maps
      */
     public static void getConfig() {
-        config = Oauth2Client.setupConfig();
+        config = Config.setupConfig();
     }
 
     /**
@@ -102,12 +101,11 @@ public class BrowserPanel extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         //if person has no home location set
         if (config.getUserLocation() == null || config.getUserLocation().length() == 0) {
+            logger.info("No office location set, doing Google search");
             loadPersonPage(event.getNewSelection().person);
         } else {
-            //also need to check that URL is limited to 2048 characters
-            //person has home location set up
             String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
-            logger.info("URL IS " + url);
+            logger.info("Office location set, Load Google Maps. URL IS " + url);
             loadPage(url);
         }
     }

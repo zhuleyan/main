@@ -1,4 +1,4 @@
-//@@author davidten
+//@@author davidten-reused
 package seedu.address.ui;
 
 import java.util.logging.Logger;
@@ -13,7 +13,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class BrowserWindow extends UiPart<Stage> {
 
-    private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
+    private static final Logger logger = LogsCenter.getLogger(BrowserWindow.class);
     private static String FXML = "HelpWindow.fxml";
 
     @FXML

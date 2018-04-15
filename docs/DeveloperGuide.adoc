@@ -578,14 +578,14 @@ The MainWindow in turn will call the `OAuth2Client(Class)` which will fire up th
 [source, java]
 public void handleLinkedInAuthentication() {
     try {
-        Oauth2Client.authenticateWithLinkedIn(config);
+        Oauth2Client.authenticateWithLinkedIn();
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 
 [source, java]
-public static void authenticateWithLinkedIn(Config configuration) throws IOException {
+public static void authenticateWithLinkedIn() throws IOException {
     ...
     String urlString = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id="
         + clientId + "&redirect_uri=" + redirectUri + "&state=...";
@@ -595,7 +595,19 @@ public static void authenticateWithLinkedIn(Config configuration) throws IOExcep
 
 Once this has happened, we fire a `HideBrowserRequestEvent` in order to close the browser properly.
 
-The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision is explained more in the design considerations below.
+The `Decrypter` will then be fired so that we do not store the app secret in plain text. This decision to use a Decrypter class is in the comments section of the Decrypter class, and duplicated here for convenience to the reader.
+
+[source, java]
+ // Decrypts the s for use for OAuth
+ // While this is not an ideal situation, LinkedIn's OAuth API does not have a client-side authentication flow.
+ // This means that it will always require the app s for purposes of authentication.
+ // Because of this, building a native (desktop) app that authenticates with LinkedIn is not ideal.
+ // However, a number of sites have agreed that if you have to store the key in the code, then obscuring it to make
+ // it slightly more difficult for a potential hacker to get it is best. (They will need to run the app rather than
+ // just reading the plain text version)
+ // This is especially so because a LinkedIn S is not especially valuable, since anyone can create a LinkedIn app.
+ // Furthermore the chances of competitors abusing the secret to disable this application is minimal, since it is
+ // ultimately, a school project.
 
 [source, java]
 public void handleHideBrowser() {
@@ -622,8 +634,99 @@ image::LinkedInLoginSequenceDiagram.png[width="800"]
 * **Alternative 2:** Store the App Secret in another server, and requesting it with an authentication code
 ** Pros: Higher security, app secret not stored on GitHub
 ** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
-**Additional Info:** See comments on Decrypter class for full argument
+* **Alternative 3:** Store the App Secret in plain text
+** Pros: Much easier to code and implement
+** Cons: Bad security, secret will likely end up in a paste database somewhere in the internet
 // end::linkedinlogin[]
+
+// tag::linkedinshare[]
+=== Share to LinkedIn Feature
+==== Current Implementation
+
+When the linkedin_share command is executed, it will call the Config class to get a current copy of the configurations used by the Application. It will also set the boolean value of postSuccess to false. This boolean value will be used to determine if we managed to successfully post to LinkedIn.
+
+[source, java]
+public static void postToLinkedIn() {
+    Config config = Config.setupConfig();
+    postSuccess = false;
+
+Next, we create a JSON Object that LinkedIn requires, specifying the visibility (privacy) of the post, and the actual content of the post. By default, we set the visibility to be 'anyone', or in Facebook terms, 'Public'. An overview on LinkedIn's share API can be found at https://developer.linkedin.com/docs/share-on-linkedin
+
+With the JSON Object and the access_token taken from the user's configuration file, we create a HttpPost Object and HttpClient Object, send it to LinkedIn, and analyze the response. In particular, if the response contains an updateUrl, it means that the post has been successfully posted, and we update the boolean value of postSuccess to true.
+
+[source, java]
+HttpPost httppost = getHttpPostObject(jsonToSend, accessToken);
+HttpClient httpclient = getHttpClientObject();
+JSONObject linkedInResponse = sendHttpRequestToLinkedIn(httppost, httpclient);
+logger.info("LinkedIn Response is : " + linkedInResponse.toString());
+if (linkedInResponse.has("updateUrl") || linkedInResponse.has("updateURL")) {
+    //if has updateURL then it successfully got posted
+    logger.info("Post has been successfully posted");
+    postSuccess = true;
+}
+
+Finally we use the postSuccess value to determine if we send a success or failed message to the user.
+
+The following sequence diagram shows how the command works
+
+image::LinkedInShareSequenceDiagram.png[width="800"]
+
+==== Design Considerations
+===== Aspect: Allowing salesperson to set privacy level of their post
+
+* **Alternative 1 (current choice):** Only option is 'anyone'
+** Pros: Salesperson always wants to share to as many people as possible. Reduces complexity of command and/or save on a command to set a default level of visibility.
+** Cons: Salesperson is limited to only posting public posts using CRM Book
+* **Alternative 2:** Allow salesperson to set a default visibility option using another command
+** Pros: Salesperson has greater flexibility in setting the visibility type of their post.
+** Cons: Have to write a new command that may not be used.
+* **Alternative 3:** Allow salesperson to specify visibility in share command
+** Pros: Salesperson has the greatest level flexibility in setting the visibility type of their post.
+** Cons: Increases complexity of the command
+// end::linkedinshare[]
+
+// tag::settingGoogleLocation[]
+=== Saving a location for Google Maps
+==== Current Implementation
+
+To save a location in Google Maps, it does not matter whether CRM Book already has a pre-existing address. Rather, we always overwrite the config file to be updated with the latest address.
+
+[source, java]
+Config initializedConfig = Config.setupConfig();
+initializedConfig.setUserLocation(address.toString());
+
+The following sequence diagram shows how the command works
+
+image::SaveGoogleLocationSequenceDiagram.png[width="800"]
+// end::settingGoogleLocation[]
+
+// tag::viewDirections[]
+=== View directions to a Client's office
+==== Current Implementation
+
+The current implementation of this feature is the same as when a person card is changed (Like the select command). The difference is that if the config file states that a user's office location has been set, then load Google maps instead of doing a Google Search.
+
+[source, java]
+@Subscribe
+private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+    getConfig();
+    logger.info(LogsCenter.getEventHandlingLogMessage(event));
+    //if person has no home location set
+    if (config.getUserLocation() == null || config.getUserLocation().length() == 0) {
+        logger.info("No office location set, doing Google search");
+        loadPersonPage(event.getNewSelection().person);
+    } else {
+        String url = generateUrl(config.getUserLocation(), event.getNewSelection().person.getAddress().toString());
+        logger.info("Office location set, Load Google Maps. URL IS " + url);
+        loadPage(url);
+    }
+}
+
+The following sequence diagram shows how this feature works. The select command is used only if the user activated it via commandline. However, clicking on another person card without using the select command will work as well.
+
+image::LoadGoogleMapsSequenceDiagram.png[width="800"]
+
+// end::viewDirections[]
 
 // tag::bulkimport[]
 === Bulk Import Feature
@@ -745,7 +848,7 @@ The phone number and email address of a Lead will be checked in the list of all 
 If either the phone number of email address of the Lead to be added is found in the list,
 the CRM application will display a message that the lead is a duplicate and will reject this lead.
 
-The following action diagram shows how the operation of identifying a duplicate lead works:
+The following activity diagram shows how the operation of identifying a duplicate lead works:
 
 image::DetectDuplicateActivityDiagram.png[width="800"]
 
@@ -755,21 +858,21 @@ image::DetectDuplicateActivityDiagram.png[width="800"]
 ** Pros: Search will be performed in linear time, and enhances an existing portion of code.
 // end::duplicate[]
 
-// tag::groupparentcompany[]
+// tag::addparentcompanytag[]
 === Adding a Parent Company tag feature [Coming in v2.0]
 ==== Current Implementation
 It is possible that the user may want to keep track of the companies associated with the Leads and Contacts in the CRM Book.
 For example, Skype and Nokia are two different companies whose parent company is Microsoft.
-Hence, every Lead and Contact will have an additional tag named after the parent company of their current companies.
-The following action diagram illustrates how this will be implemented:
+Hence, every Lead and Contact will have an additional tag named after the parent company if their company has a parent company.
+The following activity diagram illustrates how this will be implemented:
 
-image::AddParentCompanyTag.png[width="800"]
+image::AddParentCompanyTagActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How adding a Parent Company tag feature works
 * **Alternative 1 (current choice):** If the user updated the Company of a Lead or Contact, the CRM Book determines if this company has a parent company using a Google search.
 If yes, it automatically adds a tag to this Lead or Contact labelled as the parent company of the company of the Lead or Contact.
-// end::groupparentcompany[]
+// end::addparentcompanytag[]
 
 // tag::display[]
 === Displaying Lead list and Contact list feature
@@ -792,9 +895,9 @@ public class DisplayCommand extends Command {
 }
 ----
 
-The following action diagram shows how the operation of displaying the Leads or Contacts list works:
+The following activity diagram shows how the operation of displaying the Leads or Contacts list works:
 
-image::DisplayListOfACertainTypeActionDiagram.png[width="800"]
+image::DisplayListOfACertainTypeActivityDiagram.png[width="800"]
 
 ==== Design Considerations
 ===== Aspect: How displaying Lead list and Contact list works
@@ -1520,7 +1623,7 @@ Use case ends.
 +
 Use case ends.
 
-// tag:displaylistusecase[]
+// tag::displaylistusecase[]
 === Use case: User seeks Lead list or Contact list
 
 *MSS*
@@ -1537,9 +1640,42 @@ Use case ends.
 ** 1a1. CRM Book displays an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end::displaylistusecase[]
 
-// tag:findphonenumberandemailaddressusecase[]
+
+// tag::addparentcompanytagusecase[]
+=== Use case: User seeks to add a company to a Lead or Contact [Coming in v2.0]
+
+*MSS*
+
+1. User enters command to update the company of Lead or Contact.
+2. CRM updates company of the Lead or Contact.
+3. User sees the updated company of the Lead or Contact.
+
+*Extensions*
+
+[none]
+* 1a. User enters command incorrectly.
+
+** 1a1. CRM Book displays an error message.
++
+Use case ends.
+
+* 1a. The keyword  that user entered has a parent company.
+
+** 1a1. CRM Book adds a tag named after the parent company to the Lead or Contact.
++
+Use case ends.
+
+* 1a. User enters a company (keyword) has no parent company.
+
+** 1a1. CRM Book does not add any to the Lead or Contact.
++
+Use case ends.
+// end::addparentcompanytagusecase[]
+
+
+// tag::findphonenumberandemailaddressusecase[]
 === Use case: User enters phone numbers and/or email addresses to find
 
 *MSS*
@@ -1562,7 +1698,7 @@ Use case ends.
 ** 2a1. User sees an empty list.
 +
 Use case ends.
-// end:displaylistusecase[]
+// end::findphonenumberandemailaddressusecase[]
 
 === Use case: User posts to LinkedIn
 
@@ -1696,23 +1832,6 @@ Windows, Linux, Unix, OS-X
 A contact detail that is not meant to be shared with others
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -1746,3 +1865,177 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: No Lead/Contact is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) +
    Expected: Similar to previous.
+
+// tag::testingfordisplaycommand[]
+=== Displaying Lead or Contact list
+
+. Finding Lead(s) or Contacts(s) based on phone numbers and email addresses.
+
+.. Prerequisites: Nil.
+.. Test case: `disp Lead`, `display Lead` +
+   Expected: All Leads in the CRM Book. Timestamp in the status bar is updated.
+.. Test case: `disp Contact`, `display Contact` +
+   Expected: All Contacts in the CRM Book. Timestamp in the status bar is updated.
+// end::testingfordisplaycommand[]
+
+
+// tag::testingforduplicatedetection[]
+=== Duplicate Detection
+
+. Detecting a duplicate Lead or Contacts.
+
+.. Prerequisites: There is at least 1 Lead or Contact.
+.. Test case: `a n/John Tan p/99991234 e/johntan@gmail.com a/33, Eunos Street 7, #5-67`, `add n/John Tan p/99991234 e/johntan@gmail.com a/33, Eunos Street 7, #5-67` +
+   Ensure the information entered has either a phone number or email address that is identical to any Lead or Contact in the CRM Book.
+   Expected: Duplicate Lead/Contact message shown. Timestamp in the status bar is updated.
+// end::testingforduplicatedetection[]
+
+// tag::testingforexecutingaliascommands[]
+=== Executing commands via alias
+
+. Executing commands via its alias
+
+.. Prerequisites: Read through the User Guide for commands that have aliases.
+.. Test case: `disp Lead`, `display Lead` +
+   Expected: All Leads in the CRM Book. Timestamp in the status bar is updated.
+.. Test case: `l`, `list` +
+   Expected: List all Leads and Contacts in the CRM Book. Timestamp in the status bar is updated.
+// end::testingforexecutingaliascommands[]
+
+// tag::testingforfindingphonenumberandemailaddresses[]
+=== Finding Lead(s) and Contact(s) via Phone Numbers and Email Addresses
+
+. Finding Lead(s) or Contacts(s) based on phone numbers and email addresses.
+
+.. Prerequisites: Nil.
+.. Test case: `f 99991234`, `find 99991234` +
+   Expected: Lead/Contact with the phone number `99991234` is shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `f johntan@gmail.com`, `find johntan@gmail.com` +
+   Expected: Lead/Contact with the email address `johntan@gmail.com` is shown in the status message. Timestamp in the status bar is updated.
+// end::testingforfindingphonenumberandemailaddresses[]
+
+=== Sorting all people
+
+. Sorting all people in list by name alphabetically
+
+.. Test case: `sort` +
+   Expected: All people in list are sorted by name in alphabetical order.
+.. Test case: `s` +
+   Expected: All people in list are sorted by name in alphabetical order.
+
+=== Adding/Editing/Removing a remark of a person
+
+. Adding/Editing/Removing a remark of person in list
+
+.. Test case: `remark 2 r/Likes to swim` +
+   Expected: The remark "Likes to swim" is added to the second person in list.
+.. Test case: `remark 2 r/Likes to read` +
+   Expected: The remark of the second person in list is now changed to "Likes to read"
+.. Test case: `rem 2 r/` +
+   Expected: The remark of the second person in list is now removed.
+.. Test case: `remark 0 r/aaa` +
+   Expected: No person is added with remark. Error details show in the status message. Status bar remains the same.
+.. Test case: `remark 1 Likes to swim` +
+   Expected: No person is added with remark. Error details show in the status message. Status bar remains the same.
+.. Test case: `remark r/Likes to swim` +
+   Expected: Similar to previous.
+
+=== Importing a CSV file
+
+. Importing a list of Leads to the CRM Book
+
+.. Prerequisites: We provide two sample csv files. Please download them and put them in the same folder as the jar file. If you choose to put them somewhere else, then you need to change the file path in the command accordingly.
+.. Test case: `import ./sample1.csv` +
+   Expected: The 200 Leads in the sample1.csv file are imported to the CRM Book.
+.. Test case: `import ./sample2.csv` +
+   Expected: Since the 16th person in this file has a wrong format of his phone, error details show in the status messages. Status bar remains the same.
+.. Test case: `import ./` +
+   Expected: It's an invalid file path. Error details "invalid file path" show in the status message. Status bar remains the same.
+.. Test case: `import x` (where x is any valid file path but not in CSV)+
+   Expected: Error details "not a csv file" show in the status message. Status bar remains the same.
+.. Test case: `import` +
+   Expected: Wrong command format. Error details show in the status message. Status bar remains the same.
+
+=== Converting a Lead to a Contact
+
+. Select a Lead to convert from the current list of people, and note their index number
+
+.. If a Contact is chosen, an error will appear in the next step
+
+. In the command bar, type `convert INDEX`
+. See that the person is now a Contact
+. Note that the fields Rating, and Website and Industry if they exist, disappear
+. Note that the field Department appears
+. Note that all other fields except the type remain the same
+
+=== Editing the non-essential details
+
+. Select a Lead or Contact from the current list of people, and note their index number. If Lead, read the `a.` sections. If Contact, read the `b.` sections.
+. In the command bar, type `editdetails INDEX ...` or `adddetails INDEX ...`, followed by type-specific data +
+At least one of the fields must be specified, or an error is given
+
+.. If a Lead, the fields are `c/COMPANY`, `i/INDUSTRY`, `r/RATING`, `t/TITLE`, and `w/WEBSITE`
+Company, industry and website are strings, and company must be alphanumeric +
+Rating is an integer from 1 to 5, and numbers that do not fall within this range will throw an error +
+Title is the honorific of the person, such as `Mr.`, `Mrs.`, `Dr.`, etc. +
+Note, company cannot be deleted, only changed, once it is provided
+.. If a Contact, the fields are `c/COMPANY`, `d/DEPARTMENT`, and `t/TITLE`
+Company and department are strings, and company must be alphanumeric +
+Title is the honorific of the person, such as `Mr.`, `Mrs.`, `Dr.`, etc. +
+Note, company cannot be deleted, only changed, once it is provided
+
+. See that the relevant changes are made
+
+.. The rating will change to the provided number +
+Website and industry will appear if provided
+
+=== Adding an Account to a Contact
+
+. Select a Contact from the current list of people, and note their index number
+
+.. If a Lead is chosen, an error will appear in the next step
+
+. In the command bar, type `account INDEX an/COMPANY`
+. Note that the Company field has changed to reflect the new company
+
+=== Logging in to LinkedIn
+
+. In the command box, type linkedin_login
+
+.. A browser window will appear. Enter your LinkedIn username and password, and accept the permissions requested
+
+.. The browser window should close and say 'Successfully logged in to LinkedIn'
+
+=== Sharing a Post to LinkedIn
+
+. In the command box, type linkedin_share [content] where [content] is what you want to share on your LinkedIn profile
+
+.. If you are already logged in to LinkedIn and did not revoke the app's permissions, CRM Book will say 'Post shared to your linkedIn account'
+
+.. To check if the post is there, go to your LinkedIn account, click on your name at the top right corner, click Posts & Activity. If the post is not there yet, wait awhile and refresh, sometimes it takes a while before the post appears in the feed.
+
+=== Setting your office location
+
+. In the command box, type set_office_address a/[address] where address is a valid address
+
+.. CRM book will say 'Office address set!'
+
+=== Getting directions to a client's location
+
+. In the command box, type select [index] where index is the index of a currently unselected person card
+
+.. For example, select 3
+
+.. If you have already set your office location, instead of doing a Google search of the person, the CRM Book will instead show you directions to your client's office, powered by Google Maps.
+
+.. If Google Maps does not recognize the address, you may have to manually change the address in the Google Maps prompt
+
+=== Change color theme of CRM Book
+
+. In the command box, type changetheme [theme] where theme can be one of the three themes available, namely light, dark, blue.
+
+.. For example, changetheme light
+
+.. If the current theme is not light, theme will be changed to light with a success message.
+
+.. If the current theme is light, CRM Book will give a message to notify the user that the current theme is light.

@@ -12,18 +12,16 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates a new GoogleSetLocationCommand object
  */
 public class GoogleSetLocationCommandParser implements Parser<GoogleSetLocationCommand> {
-
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
+     * Parses the given {@code String} of arguments in the context of the GoogleSetLocationCommand
      * and returns an GoogleSetLocationCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public GoogleSetLocationCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ADDRESS);
-
         if (!arePrefixesPresent(argMultimap, PREFIX_ADDRESS)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,

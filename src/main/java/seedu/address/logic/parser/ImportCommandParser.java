@@ -2,10 +2,9 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.apache.commons.csv.CSVRecord;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.WrongFileFormatException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Lead;
@@ -44,9 +44,9 @@ public class ImportCommandParser {
         List<Lead> list = new ArrayList<>();
         int index = 1;
         try {
-            Reader reader = Files.newBufferedReader(Paths.get(args));
+            Reader reader = new FileReader(args);
             if (!args.substring(args.length() - 4, args.length()).equalsIgnoreCase(".csv")) {
-                throw new ParseException("not a csv file");
+                throw new WrongFileFormatException("not a csv file");
             }
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
@@ -69,6 +69,8 @@ public class ImportCommandParser {
             String indexMessage = "Error at the person of index " + index + ": ";
             String result = indexMessage.concat(errorMessage);
             throw new ParseException(result, ive);
+        } catch (WrongFileFormatException wffe) {
+            throw new ParseException("not a csv file");
         }
     }
 }
