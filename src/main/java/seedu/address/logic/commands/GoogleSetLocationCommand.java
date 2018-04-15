@@ -39,6 +39,7 @@ public class GoogleSetLocationCommand extends Command {
         initializedConfig.setUserLocation(address.toString());
         try {
             ConfigUtil.saveConfig(initializedConfig, initializedConfig.DEFAULT_CONFIG_FILE);
+            logger.info("Successfully saved");
         } catch (IOException e) {
             e.printStackTrace();
         }

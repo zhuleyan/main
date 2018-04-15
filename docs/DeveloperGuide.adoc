@@ -683,6 +683,19 @@ image::LinkedInShareSequenceDiagram.png[width="800"]
 ** Cons: Increases complexity of the command
 // end::linkedinshare[]
 
+// tag::settingGoogleLocation[]
+=== Saving a location for Google Maps
+==== Current Implementation
+
+To save a location in Google Maps, it does not matter whether CRM Book already has a pre-existing address. Rather, we always overwrite the config file to be updated with the latest address.
+
+[source, java]
+Config initializedConfig = Config.setupConfig();
+initializedConfig.setUserLocation(address.toString());
+
+image::SaveGoogleLocationSequenceDiagram.png[width="800"]
+// end::settingGoogleLocation[]
+
 // tag::bulkimport[]
 === Bulk Import Feature
 ==== Current Implementation
