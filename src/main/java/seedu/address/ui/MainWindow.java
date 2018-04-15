@@ -191,6 +191,10 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     //@@author A0155428B
+    public String getThemeFilePath() {
+        return themeFilePath;
+    }
+
     /**
      * Changes the current theme
      */
