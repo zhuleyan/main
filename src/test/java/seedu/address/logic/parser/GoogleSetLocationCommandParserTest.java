@@ -18,9 +18,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 
 public class GoogleSetLocationCommandParserTest {
-    private GoogleSetLocationCommandParser parser = new GoogleSetLocationCommandParser();
-    String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+    private String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
             GoogleSetLocationCommand.MESSAGE_USAGE);
+    private GoogleSetLocationCommandParser parser = new GoogleSetLocationCommandParser();
+
     @Test
     public void parse_compulsoryFieldMissing_failure() {
         //missing address prefix
