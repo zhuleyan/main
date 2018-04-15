@@ -2,6 +2,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -17,7 +18,11 @@ import seedu.address.model.person.Address;
 public class GoogleSetLocationCommand extends Command {
     public static final String COMMAND_WORD = "set_office_address";
     public static final String COMMAND_ALIAS = "setA";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets your office address for Google Maps ";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets your office address for Google Maps "
+            + "Parameters: "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_ADDRESS + "6 College Avenue East, Singapore 138614";
     public static final String MESSAGE_SUCCESS = "Office address set!";
 
     private final Address address;
