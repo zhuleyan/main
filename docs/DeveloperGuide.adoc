@@ -634,7 +634,16 @@ image::LinkedInLoginSequenceDiagram.png[width="800"]
 * **Alternative 2:** Store the App Secret in another server, and requesting it with an authentication code
 ** Pros: Higher security, app secret not stored on GitHub
 ** Cons: Significantly harder to implement. Requires user to have a username and password for the server not stored on GitHub.
-**Additional Info:** See comments on Decrypter class for full argument
+* **Alternative 3:** Store the App Secret in plain text
+** Pros: Much easier to code and implement
+** Cons: Bad security, secret will likely end up in a paste database somewhere in the internet
+// end::linkedinlogin[]
+
+// tag::linkedinlogin[]
+=== Share to LinkedIn Feature
+==== Current Implementation
+
+The when the linkedin_share feature is called
 // end::linkedinlogin[]
 
 // tag::bulkimport[]

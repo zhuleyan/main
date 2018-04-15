@@ -59,7 +59,7 @@ public class ShareToLinkedInCommand extends Command {
     @Override
     public CommandResult execute() {
         //send event To Main to obtain the configuration file.
-        EventsCenter.getInstance().post(new ShareToLinkedInEvent());
+        postToLinkedIn();
         //post success
         logger.info("CHECKING POST SUCCESS NOW");
         if (postSuccess) {
